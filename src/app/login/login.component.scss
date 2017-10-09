@@ -1,0 +1,60 @@
+//SCSS variables
+$darkblue: #091540;
+$lightgreen: #b4e7ce;
+$lightgray: #e5e6e4;
+$lightbedge: #fbfbf2;
+$orange: #ff6f17;
+$font_nova: 'Nova Flat';
+$darkblue_button_border: 0.125rem solid $darkblue;
+$orange_button_border: 0.125rem solid $orange;
+$orange_border: 0.19rem solid $orange;
+$darkblue_border: 0.19rem solid $darkblue;
+
+.login-screen {
+    display: flex;
+    justify-content: center;
+}
+
+.app-login-form {
+    background: $lightgray;
+    border: $darkblue_border;
+    border-radius: 0.4rem;
+    padding: 1.25rem 1.25rem;
+    flex: 0.29; 
+}
+
+.loginTitle {
+    font-family: $font_nova;
+    margin: 1.9rem 0.625rem;
+    text-align: center;
+}
+
+.inputForm {
+    font-family: $font_nova;
+    margin: 1.25rem 1.25rem; 
+}
+// #inputUsername, #inputPassword {
+//     background: $lightbedge;
+// }
+
+.buttons {
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+.login-btn, .register-btn {
+    width: 35%;
+    margin: 1rem;   
+    padding: 0.5rem 1rem;
+    background-color: $darkblue;
+    color: $lightbedge;
+    font-weight: bold;
+    border-radius: 0.4rem;
+    border: $darkblue_button_border;
+}
+
+.login-btn:hover, .register-btn:hover {
+    cursor: pointer;
+    background-color: white;
+    color: $darkblue;
+}
