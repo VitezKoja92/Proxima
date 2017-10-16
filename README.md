@@ -20,11 +20,11 @@
     
 #### Pull Request 4
 * When dashboard-like page is accessed user is able to:
-- See all of the patients
-- Edit each of these patients (e.g. personal info, add a new therapy for an existing patient) 
-- Delete an existing patient
-- Add a new patient
-- Print the report about new patient, or new therapy for the specific patient
+  - See all of the patients
+  - Edit each of these patients (e.g. personal info, add a new therapy for an existing patient) 
+  - Delete an existing patient
+  - Add a new patient
+  - Print the report about new patient, or new therapy for the specific patient
     
 
 
