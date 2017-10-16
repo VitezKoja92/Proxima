@@ -5,12 +5,5 @@
 
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: 'AIzaSyBd2xplmwoyhIakK4cgDMaA9goMcCNcDwQ' ,
-    authDomain: 'proxima-platform.firebaseapp.com',
-    databaseURL: 'https://proxima-platform.firebaseio.com',
-    projectId: 'proxima-platform',
-    storageBucket: 'proxima-platform.appspot.com',
-    messagingSenderId: '346596349465'
-  }
+  couch_url: 'http://127.0.0.1:5984/'
 };

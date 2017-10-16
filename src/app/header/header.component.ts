@@ -1,8 +1,9 @@
+import { User } from './../api/models';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from '../api/Authentication_Service/Authentication.service';
-import { User } from '../api/Classes/user';
+import { AuthenticationService } from '../api/authentication-service/Authentication.service';
+
 
 @Component({
   selector: 'app-header',
@@ -13,20 +14,13 @@ export class HeaderComponent implements OnInit {
 
   currentUser: User;
 
-  constructor(private authentication: AuthenticationService,
-              private router: Router) { }
+  constructor(private AuthenticationService: AuthenticationService,
+              private Router: Router) { }
 
-  ngOnInit() {
-    // this.currentUser = this.authentication.getCurrentUser();
-  }
-
-  // showLogOut(): boolean {
-  //   return this.authentication.getUserLoggedIn();
-  // }
+  ngOnInit() {  }
 
   logout() {
     localStorage.removeItem('currentUser');
-    // this.authentication.setUserLoggedIn(false);
-    this.router.navigate(['login']);
+    this.Router.navigate(['login']);
   }
 }

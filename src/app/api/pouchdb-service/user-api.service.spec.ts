@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { PouchdbService } from './pouchdb.service';
+import { UserAPIService } from './user-api.service';
 
 describe('PouchdbService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PouchdbService]
+      providers: [UserAPIService]
     });
   });
 
-  it('should be created', inject([PouchdbService], (service: PouchdbService) => {
+  it('should be created', inject([UserAPIService], (service: UserAPIService) => {
     expect(service).toBeTruthy();
   }));
 });

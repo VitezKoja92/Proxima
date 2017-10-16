@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
-import { PouchDbBootService } from './PouchDB_Service/pouchdb-boot.service';
+import { PouchDbBootService } from './pouchdb-service/pouchdb-boot.service';
 
 @NgModule({
   providers: [PouchDbBootService],

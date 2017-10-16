@@ -13,16 +13,9 @@ import { LoginComponent } from './login/login.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 
 /* Services */
-import { AuthenticationService } from './api/Authentication_Service/Authentication.service';
-import { FirebaseService } from './api/Firebase_Service/firebase.service';
-import { PouchDBService } from './api/PouchDB_Service/pouchdb.service';
+import { AuthenticationService } from './api/authentication-service/Authentication.service';
+import { UserAPIService } from './api/pouchdb-service/user-api.service';
 
-/* AngularFire */
-import { AngularFireModule } from 'angularfire2';
-import { environment } from '../environments/environment';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ApiModule } from './api/api.module';
 
 
@@ -52,13 +45,9 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     HttpModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-    AngularFirestoreModule,
     ApiModule.forRoot()
   ],
-  providers: [AuthenticationGuard, AuthenticationService, FirebaseService, PouchDBService],
+  providers: [AuthenticationGuard, AuthenticationService, UserAPIService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

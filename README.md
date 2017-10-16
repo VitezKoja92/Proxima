@@ -1,28 +1,34 @@
-# Proxima
+# Enmacc Trainee Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.0.
+* Name: Proxima Medical Office
+* Trainee: Danilo
 
-## Development server
+## Module 1 - Requirements 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+    * App should have basic knowledge of who is currently "logged in"
+    * Anonymous users will be presented with LogIn screen and rest of app will be unavailable for them
+    * Authenticated User will be presented with dashboard-like page (empty)
+    
+    PR1
 
-## Code scaffolding
+    * In case of not having the account User is able to register a new account
+    * For storing data, the PouchDB should be used
+    * Data about all Users is stored in ‘User’ database
+    
+    PR2
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+    * Data about the current User should be stored in ‘Logs’ database
+    
+    PR3
 
-## Build
+    * When dashboard-like page is accessed user is able to:
+    * - See all of the patients
+    * - Edit each of these patients (e.g. personal info, add a new therapy for an existing patient) 
+    * - Delete an existing patient
+    * - Add a new patient
+    * - Print the report about new patient, or new therapy for the specific patient
+    
+    PR4
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
