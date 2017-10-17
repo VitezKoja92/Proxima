@@ -25,6 +25,11 @@
   - Delete an existing patient
   - Add a new patient
   - Print the report about new patient, or new therapy for the specific patient
+
+
+
+### Questions:
+
     
 
 

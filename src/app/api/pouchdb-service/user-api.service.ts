@@ -1,31 +1,33 @@
-import { IPouchDBPutResult, IPouchDBAllDocsResult, User } from './../models/index';
+import { IPouchDBPutResult, IPouchDBAllDocsResult, User, IPouchDBCreateIndexResult, IPouchDBFindUsersResult } from './../models/index';
 import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
+import { isNullOrUndefined } from 'util';
 
 
 
 @Injectable()
 export class UserAPIService {
 
-  private users_pouchdb;
+  private db;
   private dbName = 'users_proxima';
 
   constructor(protected PouchDbBootService: PouchDbBootService) {
 
     // Database creation
-    this.users_pouchdb = this.PouchDbBootService.useDatabase(
-      'users_proxima', // name of the database
+    this.db = this.PouchDbBootService.useDatabase(
+      'users_proxima',
       {
-        auto_compaction: true // save only most current revisions in storage (not all of them)
+        auto_compaction: true, // save only most current revisions in storage (not all of them)
+        revs_limit: 2
       }
     );
 
-    // Index creation
+
 
     // Database synchronization
-    this.users_pouchdb.sync(`${environment.couch_url}${this.dbName}`, {
+    this.db.sync(`${environment.couch_url}${this.dbName}`, {
       live: true,
       retry: true
     }).on('change', function (change) {
@@ -38,51 +40,57 @@ export class UserAPIService {
       console.log('Error: ', err);
     });
 
+    // Index creation
+    this.db.createIndex({
+      index: {
+        fields: ['username, password, name, surname, email, phoneNr']
+      }
+    }).then((result: IPouchDBCreateIndexResult) => {
+      // handle result
+    }).catch((err) => {
+      console.log(err);
+    });
+    // this.getUser('b');
   }
 
   public addUser(user: User): Promise<string> {
-    const promise = this.users_pouchdb.put(user)
+    return this.db.put(user)
       .then(
       (result: IPouchDBPutResult): string => {
-        console.log('added with id: ' + result.id);
         return result.id;
       }
       );
-
-    return promise;
   }
 
-  public userExists(username: string, password: string): Promise<boolean> {
-    const promise = this.users_pouchdb.allDocs({
-      include_docs: true,
-      startkey: 'user:',
-      endKey: 'user:\uffff'
-    }).then(
-      (result: IPouchDBAllDocsResult): boolean => {
-        const users = result.rows.map(
-          (row: any): User => {
-            return ({
-              _id: row.doc._id,
-              username: row.doc.username,
-              password: row.doc.password,
-              name: row.doc.name,
-              surname: row.doc.surname,
-              email: row.doc.email,
-              phoneNr: row.doc.phoneNr
-            });
-          }
-        );
-        const filteredUsers = users.filter((u) => {
-          return u.username === username && u.password === password;
-        });
-        return filteredUsers.length > 0 ? true : false;
-      }
-      );
-    return promise;
+  public getUser(username: string, password?: string): Promise<User> | null {
+
+    let userQuery;
+
+    if (isNullOrUndefined(password)) {
+      userQuery = {
+        selector: {
+          username: { $eq: username }
+        }
+      };
+    } else {
+      userQuery = {
+        selector: {
+          username: { $eq: username },
+          password: { $eq: password }
+        }
+      };
+    }
+    return this.db.find(userQuery)
+      .then((result: IPouchDBFindUsersResult): User | null => {
+        console.log('Result: ', result);
+        return result.docs.length ? result.docs[0] : null;
+      }).catch((error: Error) => {
+        console.log('Error: ', error);
+      });
   }
 
-  public getUsers(): Promise<User[]> {
-    const promise = this.users_pouchdb.allDocs({
+  public getAllUsers(): Promise<User[]> {
+    const promise = this.db.allDocs({
       include_docs: true,
       startkey: 'user:',
       endKey: 'user:\uffff'
