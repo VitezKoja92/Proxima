@@ -11,7 +11,7 @@ const publicRoutes: Routes = [
     {
       path: '',
       component: PublicComponent,
-      canActivate: [AnonymousGuard],
+    //   canActivate: [AnonymousGuard],
       children: [
           {
             path: 'login',

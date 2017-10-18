@@ -10,7 +10,7 @@ const privateRoutes: Routes = [
     {
       path: '',
       component: PrivateComponent,
-      canActivate: [AuthenticationGuard],
+    //   canActivate: [AuthenticationGuard],
       children: [
           {
             path: 'dashboard',

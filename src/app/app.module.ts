@@ -27,7 +27,7 @@ import { PublicModule } from './modules/public/public.module';
 const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/dashboard',
+    redirectTo: '/login',
     pathMatch: 'full'
   }
 ];
