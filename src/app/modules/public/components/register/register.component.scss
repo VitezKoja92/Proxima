@@ -13,6 +13,7 @@ $darkblue_border: 0.19rem solid $darkblue;
 .register-screen {
     display: flex;
     justify-content: center;
+    margin-top: 9rem;
 }
 
 .app-register-form {
@@ -40,7 +41,7 @@ $darkblue_border: 0.19rem solid $darkblue;
 }
 
 .registerAndLog-btn {
-    width: 50%;
+    width: 20vw;
     margin: 1rem;   
     padding: 0.5rem 1rem;
     background-color: $darkblue;
@@ -50,7 +51,7 @@ $darkblue_border: 0.19rem solid $darkblue;
     border: $darkblue_button_border;
 }
 .back-btn {
-    width: 20%;
+    width: 20vw;
     margin: 1rem;   
     padding: 0.5rem 1rem;
     background-color: $darkblue;

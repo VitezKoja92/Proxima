@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,11 +6,12 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './side-menu.component.html',
   styleUrls: ['./side-menu.component.scss']
 })
-export class SideMenuComponent implements OnInit {
+export class SideMenuComponent {
 
-  constructor() { }
+  constructor(private Router: Router) { }
 
-  ngOnInit() {
+  logout() {
+    localStorage.removeItem('currentUser');
+    this.Router.navigate(['login']);
   }
-
 }

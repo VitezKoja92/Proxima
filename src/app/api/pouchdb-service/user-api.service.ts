@@ -17,7 +17,7 @@ export class UserAPIService {
     this.db = this.PouchDbBootService.useDatabase(
       'users_proxima',
       {
-        auto_compaction: true, // save only most current revisions in storage (not all of them)
+        auto_compaction: true,
         revs_limit: 2
       }
     );
@@ -46,7 +46,6 @@ export class UserAPIService {
     }).catch((err) => {
       console.log(err);
     });
-    // this.getUser('b');
   }
 
   public addUser(user: User): Promise<string> {

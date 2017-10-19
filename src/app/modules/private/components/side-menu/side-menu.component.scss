@@ -19,14 +19,14 @@ $darkblue_border: 0.19rem solid $darkblue;
     left: 0;
     background-color: $darkblue;
     overflow-x: hidden;
-    padding-top: 1.9rem; 
+    padding-top: 1rem; 
 
 }
 
 .sidenav a {
     padding: 0.625rem;
     font-family: $font_nova;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: $lightbedge;
     font-weight: bold;
     display: block;
@@ -36,5 +36,11 @@ $darkblue_border: 0.19rem solid $darkblue;
 .sidenav a:hover {
     cursor: pointer;
     background-color: $lightgreen;
+    color: $darkblue;
+}
+
+#logOut-btn:hover {
+    cursor: pointer;
+    background-color: #808080;
     color: $darkblue;
 }

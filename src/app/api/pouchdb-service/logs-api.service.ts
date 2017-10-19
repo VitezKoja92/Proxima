@@ -5,6 +5,6 @@ import { PouchDbBootService } from './pouchdb-boot.service';
 export class LogsAPIService {
 
   constructor(protected PouchDbBootService: PouchDbBootService) {
-   }
+  }
 
 }

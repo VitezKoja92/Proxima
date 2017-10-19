@@ -10,9 +10,11 @@ $orange_button_border: 0.125rem solid $orange;
 $orange_border: 0.19rem solid $orange;
 $darkblue_border: 0.19rem solid $darkblue;
 
+
 .login-screen {
     display: flex;
     justify-content: center;
+    margin-top: 9rem;
 }
 
 .app-login-form {

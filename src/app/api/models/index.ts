@@ -60,4 +60,3 @@ export class User {
         this.phoneNr = phoneNr;
     }
 }
-
