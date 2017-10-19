@@ -1,3 +1,35 @@
+//SCSS variables
+$darkblue: #091540;
+$lightgreen: #b4e7ce;
+$lightgray: #e5e6e4;
+$lightbedge: #fbfbf2;
+$orange: #ff6f17;
+$font_nova: 'Nova Flat';
+$darkblue_button_border: 0.125rem solid $darkblue;
+$orange_button_border: 0.125rem solid $orange;
+$orange_border: 0.19rem solid $orange;
+$darkblue_border: 0.19rem solid $darkblue;
+
 .dashboardStatsScreen {
     margin-left: 12.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+.stats-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+.stats, .pageBtn {
+
+}
+
+.page-buttons-wrapper {
+    display: flex;
+    flex-direction: row;    
 }

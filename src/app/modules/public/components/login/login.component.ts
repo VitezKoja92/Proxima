@@ -10,7 +10,7 @@ import { AuthenticationService } from '../../../../services/authentication.servi
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   users: User[];
 
@@ -18,8 +18,6 @@ export class LoginComponent implements OnInit {
     private Router: Router,
     private UserAPIService: UserAPIService) {
    }
-
-  ngOnInit() {}
 
   login(username, password) {
     this.Router.navigate(['/dashboard']);
