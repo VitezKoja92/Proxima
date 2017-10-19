@@ -19,9 +19,12 @@ header {
 .header {
     display: flex;
     align-items: center;
+    height: 6.25rem;
+    font-weight: bold;
 }
 .title {
     flex: 3;
+    font-family: $font_nova;
 }
 
 .settings {
@@ -45,13 +48,11 @@ header {
 
 /* Title font - start */
 
-@import url(https://fonts.googleapis.com/css?family=Lato:900);
 *, *:before, *:after{
   box-sizing: border-box;
 }
 body{
-  font-family: 'Lato', sans-serif;
-    ;
+  font-family: $font_nova;
 }
 div.foo{
   width: 90%;
@@ -61,7 +62,7 @@ div.foo{
 .letter{
   display: inline-block;
   font-weight: 900;
-  font-size: 2.2rem;
+  font-size: 2.7rem;
   margin: 0.1rem;
   position: relative;
   color: $darkblue;

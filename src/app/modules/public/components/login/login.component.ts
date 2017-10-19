@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
     // this.AuthenticationService.login(username, password)
     //   .then((response: boolean): void => {
     //    if (response) {
-         
     //    } else {
     //      alert('Wrong Username and/or Password!');
     //    }
@@ -34,7 +33,6 @@ export class LoginComponent implements OnInit {
     //     console.log('Error: ', error);
     //   });
   }
-
 
   getUsers(): void {
     this.UserAPIService.getAllUsers()

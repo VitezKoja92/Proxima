@@ -23,6 +23,7 @@ import { ApiModule } from './api/api.module';
 import { ComponentsModule } from './component/components.module';
 import { PrivateModule } from './modules/private/private.module';
 import { PublicModule } from './modules/public/public.module';
+import { PagesModule } from './pages/pages.module';
 
 const appRoutes: Routes = [
   {
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
     ComponentsModule,
     PrivateModule,
     PublicModule,
+    PagesModule,
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     HttpModule,
