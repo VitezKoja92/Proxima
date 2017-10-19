@@ -6,9 +6,15 @@ import Configuration = PouchDB.Configuration;
 
 @Injectable()
 export class PouchDbBootService {
+
+  lib: any;
+
+  constructor() {
+    this.lib = PouchDBlib;
+    this.lib.default.plugin(PouchDBFind.default);
+  }
+
   useDatabase(dbName: string, options: Configuration.DatabaseConfiguration): PouchDB.Static {
-    const lib: any = PouchDBlib;
-    lib.default.plugin(PouchDBFind.default);
-    return new lib.default(dbName, options) as PouchDB.Static;
+    return new this.lib.default(dbName, options) as PouchDB.Static;
   }
 }

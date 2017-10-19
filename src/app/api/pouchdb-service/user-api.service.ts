@@ -5,8 +5,6 @@ import { Injectable } from '@angular/core';
 import { PouchDbBootService } from './pouchdb-boot.service';
 import { isNullOrUndefined } from 'util';
 
-
-
 @Injectable()
 export class UserAPIService {
 
@@ -23,8 +21,6 @@ export class UserAPIService {
         revs_limit: 2
       }
     );
-
-
 
     // Database synchronization
     this.db.sync(`${environment.couch_url}${this.dbName}`, {
