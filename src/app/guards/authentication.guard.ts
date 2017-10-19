@@ -10,6 +10,7 @@ export class AuthenticationGuard implements CanActivate {
   constructor(private AuthenticationService: AuthenticationService,
               private Router: Router) {
   }
+
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (this.AuthenticationService.isSessionValid()) {
       console.log('true in guard');
