@@ -4,8 +4,5 @@ import { Component, OnInit } from '@angular/core';
     selector: 'app-public',
     templateUrl: './public.component.html'
 })
-export class PublicComponent implements OnInit {
-    constructor() { }
-
-    ngOnInit() { }
+export class PublicComponent {
 }

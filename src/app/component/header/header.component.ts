@@ -9,13 +9,11 @@ import { AuthenticationService } from '../../services/authentication.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   currentUser: User;
 
   constructor(private Router: Router) { }
-
-  ngOnInit() {  }
 
   logout() {
     localStorage.removeItem('currentUser');

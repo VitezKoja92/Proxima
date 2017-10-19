@@ -9,15 +9,12 @@ import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
 
   constructor(
     private Router: Router,
     private UserAPIService: UserAPIService
-  ) { }
-
-  ngOnInit() {
-  }
+  ) {}
 
   addUser(e, username, password, name, surname, email, phoneNr) {
     const newUser = new User(username, password, name, surname, email, phoneNr);

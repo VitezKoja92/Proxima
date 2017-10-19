@@ -8,27 +8,27 @@ import { PublicComponent } from './public.component';
 import { AnonymousGuard } from '../../guards/anonymous.guard';
 
 const publicRoutes: Routes = [
-    {
-      path: '',
-      component: PublicComponent,
-    //   canActivate: [AnonymousGuard],
-      children: [
-          {
-            path: 'login',
-            component: LoginComponent
-          },
-          {
-            path: 'register',
-            component: RegisterComponent
-          },
-          {
-              path: '**',
-              redirectTo: 'dashboard',
-              pathMatch: 'full'
-          }
-      ]
-    }
-  ];
+  {
+    path: '',
+    component: PublicComponent,
+  //   canActivate: [AnonymousGuard],
+    children: [
+        {
+          path: 'login',
+          component: LoginComponent
+        },
+        {
+          path: 'register',
+          component: RegisterComponent
+        },
+        {
+            path: '**',
+            redirectTo: 'dashboard',
+            pathMatch: 'full'
+        }
+    ]
+  }
+];
 
 @NgModule({
     declarations: [LoginComponent, RegisterComponent, PublicComponent],
