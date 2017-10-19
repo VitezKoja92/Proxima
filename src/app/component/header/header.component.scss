@@ -1,0 +1,117 @@
+//SCSS variables
+$darkblue: #091540;
+$lightgreen: #b4e7ce;
+$lightgray: #e5e6e4;
+$lightbedge: #fbfbf2;
+$orange: #ff6f17;
+$font_nova: 'Nova Flat';
+$darkblue_button_border: 0.125rem solid $darkblue;
+$orange_button_border: 0.125rem solid $orange;
+
+header {
+    background-color: $lightgreen;
+    // color: $darkblue;
+    padding: 1rem 1.9rem;
+    margin-bottom: 1.9rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+}
+.title {
+    flex: 3;
+}
+
+.settings {
+    flex: 1;
+    text-align: right;
+}
+
+.logoutBtn {
+    padding: 0.5rem 1rem;
+    background-color: $lightbedge;
+    color: $darkblue;
+    font-weight: bold;
+    border-radius: 0.4rem;
+    border: $darkblue_button_border;
+}
+
+.logoutBtn:hover {
+    cursor: pointer;
+    background-color: $orange;
+}
+
+/* Title font - start */
+
+@import url(https://fonts.googleapis.com/css?family=Lato:900);
+*, *:before, *:after{
+  box-sizing: border-box;
+}
+body{
+  font-family: 'Lato', sans-serif;
+    ;
+}
+div.foo{
+  width: 90%;
+//   margin: 0 auto;
+  text-align: center;
+}
+.letter{
+  display: inline-block;
+  font-weight: 900;
+  font-size: 2.2rem;
+  margin: 0.1rem;
+  position: relative;
+  color: $darkblue;
+  transform-style: preserve-3d;
+  perspective: 400;
+  z-index: 1;
+}
+.letter:before, .letter:after{
+  position:absolute;
+  content: attr(data-letter);
+  transform-origin: top left;
+  top:0;
+  left:0;
+}
+.letter, .letter:before, .letter:after{
+  transition: all 0.3s ease-in-out;
+}
+.letter:before{
+  color: $lightbedge;
+  text-shadow: 
+    -1px 0px 1px rgba(255,255,255,.8),
+    1px 0px 1px rgba(0,0,0,.8);
+  z-index: 3;
+  transform:
+    rotateX(0deg)
+    rotateY(-15deg)
+    rotateZ(0deg);
+}
+.letter:after{
+  color: rgba(0,0,0,.11);
+  z-index:2;
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(0deg)
+    rotateZ(0deg)
+    skew(0deg,1deg);
+}
+.letter:hover:before{
+  color: $lightbedge;
+  transform:
+    rotateX(0deg)
+    rotateY(-40deg)
+    rotateZ(0deg);
+}
+.letter:hover:after{
+  transform:
+    scale(1.08,1)
+    rotateX(0deg)
+    rotateY(40deg)
+    rotateZ(0deg)
+    skew(0deg,22deg);
+}
+/* Title font - end */
