@@ -73,20 +73,22 @@ $darkblue_border: 0.19rem solid $darkblue;
         flex-direction: row;
         justify-content: space-around;
     }
-    
+
     .stats-wrapper, .page-buttons-wrapper{
         display: flex;
         flex-direction: column;
         justify-content: space-around;
     }
 
-    .stats, .pageBtn {
+    .stats, .pageBtn, .appointmentsStats {
         width: 33vw;
         height: 30vh;
         border: $darkblue_border;
         display: flex;
         justify-content: center;
-        align-items: center;
+        // align-items: center;
+        flex-direction: column;
+        padding-left: 1rem;
     }
 
     @media screen and (max-width: 700px) {
@@ -102,13 +104,15 @@ $darkblue_border: 0.19rem solid $darkblue;
             justify-content: space-around;
         }
 
-        .stats, .pageBtn {
+        .stats, .pageBtn, .appointmentsStats {
             width: 60vw;
             height: 12vh;
             border: $darkblue_border;
             display: flex;
             justify-content: center;
-            align-items: center;
+            // align-items: center;
+            flex-direction: column;
+            padding-left: 1rem;
         }
     }
 }
