@@ -4,10 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthenticationGuard } from './../../guards/authentication.guard';
 import { PrivateComponent } from './private.component';
-import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
-import { AddPatientComponent } from '../../pages/dashboard/components/add-patient/add-patient.component';
-import { FindPatientComponent } from '../../pages/dashboard/components/find-patient/find-patient.component';
+import { AddPatientComponent } from '../../pages/components/add-patient/add-patient.component';
+import { FindPatientComponent } from '../../pages/components/find-patient/find-patient.component';
+import { SetAppointmentComponent } from './../../pages/components/set-appointment/set-appointment.component';
+import { DashboardComponent } from '../../pages/components/dashboard/dashboard.component';
 
 
 const privateRoutes: Routes = [
@@ -27,6 +28,10 @@ const privateRoutes: Routes = [
           {
             path: 'find-patient',
             component: FindPatientComponent
+          },
+          {
+            path: 'set-appointment',
+            component: SetAppointmentComponent
           }
       ]
     }

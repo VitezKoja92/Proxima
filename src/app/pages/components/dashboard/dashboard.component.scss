@@ -18,24 +18,29 @@ $darkblue_border: 0.19rem solid $darkblue;
     justify-content: center;
     align-items: center;
 }
+
 .wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
+
 .stats-wrapper, .page-buttons-wrapper{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
 }
-.stats, .pageBtn {
+
+.stats, .pageBtn, .appointmentsStats {
     width: 20vw;
     height: 28vh;
     margin: 1rem;
     border: $darkblue_border;
     display: flex;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
+    flex-direction: column;
+    padding-left: 1rem;
 }
 
 .pageBtn {
@@ -44,9 +49,15 @@ $darkblue_border: 0.19rem solid $darkblue;
     font-style: italic;
     font-size: 1.8rem;
 }
+
 .pageBtn:hover {
     background: white;
     font-weight: bold;
+    cursor: pointer;
+}
+
+#numberInStats {
+    font-size: 2rem;
 }
 
 // .page-buttons-wrapper {
@@ -62,11 +73,13 @@ $darkblue_border: 0.19rem solid $darkblue;
         flex-direction: row;
         justify-content: space-around;
     }
+    
     .stats-wrapper, .page-buttons-wrapper{
         display: flex;
         flex-direction: column;
         justify-content: space-around;
     }
+
     .stats, .pageBtn {
         width: 33vw;
         height: 30vh;
@@ -82,11 +95,13 @@ $darkblue_border: 0.19rem solid $darkblue;
             flex-direction: column;
             justify-content: space-around;
         }
+
         .stats-wrapper, .page-buttons-wrapper{
             display: flex;
             flex-direction: column;
             justify-content: space-around;
         }
+
         .stats, .pageBtn {
             width: 60vw;
             height: 12vh;

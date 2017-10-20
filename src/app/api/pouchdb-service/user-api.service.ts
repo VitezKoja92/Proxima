@@ -15,7 +15,7 @@ export class UserAPIService {
 
     // Database creation
     this.db = this.PouchDbBootService.useDatabase(
-      'users_proxima',
+      this.dbName,
       {
         auto_compaction: true,
         revs_limit: 2

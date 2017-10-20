@@ -9,10 +9,4 @@ import { AuthenticationService } from '../../services/authentication.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
-
-  currentUser: User;
-
-  constructor(private Router: Router) { }
-
-}
+export class HeaderComponent {}

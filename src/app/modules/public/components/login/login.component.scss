@@ -10,7 +10,6 @@ $orange_button_border: 0.125rem solid $orange;
 $orange_border: 0.19rem solid $orange;
 $darkblue_border: 0.19rem solid $darkblue;
 
-
 .login-screen {
     display: flex;
     justify-content: center;
@@ -35,9 +34,6 @@ $darkblue_border: 0.19rem solid $darkblue;
     font-family: $font_nova;
     margin: 1.25rem 1.25rem; 
 }
-// #inputUsername, #inputPassword {
-//     background: $lightbedge;
-// }
 
 .buttons {
     margin-top: 2.5rem;

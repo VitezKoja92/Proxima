@@ -14,8 +14,6 @@ import { AuthenticationGuard } from './guards/authentication.guard';
 import { AnonymousGuard } from './guards/anonymous.guard';
 
 /* Services */
-import { UserAPIService } from './api/pouchdb-service/user-api.service';
-import { LogsAPIService } from './api/pouchdb-service/logs-api.service';
 import { AuthenticationService } from './services/authentication.service';
 
 /* Modules */
@@ -50,9 +48,7 @@ const appRoutes: Routes = [
   providers: [
     AuthenticationGuard,
     AnonymousGuard,
-    AuthenticationService,
-    UserAPIService,
-    LogsAPIService
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })
