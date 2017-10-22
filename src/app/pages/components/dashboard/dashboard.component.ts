@@ -64,11 +64,11 @@ export class DashboardComponent {
     const today = new Date();
     this.AppointmentAPIService.getAllAppointments()
       .then((appointments: Appointment[]): void => {
-        this.appointmentsToday = appointments.filter(appointment =>
-          appointment.dateAndTime.getDate() === today.getDate()
+        this.appointmentsToday = appointments.filter((appointment) => {
+          return appointment.dateAndTime.getDate() === today.getDate()
           && appointment.dateAndTime.getMonth() === today.getMonth()
-          && appointment.dateAndTime.getFullYear() === today.getFullYear()
-        ).sort(this.dateSort);
+          && appointment.dateAndTime.getFullYear() === today.getFullYear();
+        }).sort(this.dateSort);
       }, (error: Error): void => {
         console.log('Error: ', error);
       });

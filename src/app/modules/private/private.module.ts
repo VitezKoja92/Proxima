@@ -10,7 +10,6 @@ import { FindPatientComponent } from '../../pages/components/find-patient/find-p
 import { SetAppointmentComponent } from './../../pages/components/set-appointment/set-appointment.component';
 import { DashboardComponent } from '../../pages/components/dashboard/dashboard.component';
 
-
 const privateRoutes: Routes = [
     {
       path: '',

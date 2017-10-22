@@ -7,13 +7,25 @@ import { PouchDbBootService } from './pouchdb-service/pouchdb-boot.service';
 import { AppointmentAPIService } from './pouchdb-service/appointment-api.service';
 
 @NgModule({
-  providers: [ PouchDbBootService, AppointmentAPIService, PatientAPIService, UserAPIService, TreatmentsAPIService ],
+  providers: [
+    PouchDbBootService,
+    AppointmentAPIService,
+    PatientAPIService,
+    UserAPIService,
+    TreatmentsAPIService
+  ],
 })
 export class ApiModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: ApiModule,
-      providers: [ PouchDbBootService, AppointmentAPIService, PatientAPIService, UserAPIService, TreatmentsAPIService ]
+      providers: [
+        PouchDbBootService,
+        AppointmentAPIService,
+        PatientAPIService,
+        UserAPIService,
+        TreatmentsAPIService
+      ]
     };
   }
 }

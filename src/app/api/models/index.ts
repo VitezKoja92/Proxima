@@ -50,7 +50,7 @@ export class User {
     email: string;
     phoneNr: string;
 
-    constructor(username, passsword, name, surname, email, phoneNr) {
+    constructor(username: string, passsword: string, name: string, surname: string, email: string, phoneNr: string) {
         this._id = 'user:' + new Date().getTime();
         this.username = username;
         this.password = passsword;
@@ -76,11 +76,11 @@ export class Patient {
 export class PatientPersonalInfo {
     name: string;
     surname: string;
-    dateOfBirth: string;
+    dateOfBirth: Date;
     address: Address;
     profession: string;
 
-    constructor(name, surname, dateOfBirth, address, profession) {
+    constructor(name: string, surname: string, dateOfBirth: Date, address: Address, profession: string) {
         this.name = name;
         this.surname = surname;
         this.dateOfBirth = dateOfBirth;
@@ -99,7 +99,16 @@ export class MedicalHistoryItem {
     recommendedTherapy: Therapy;
     user: string;
 
-    constructor(date, anamnesis, diagnostics, statusLocalis, diagnosis, recommendedTherapy, user, _id?) {
+    constructor(
+        date: Date,
+        anamnesis: Anamnesis,
+        diagnostics: Diagnostics,
+        statusLocalis: string,
+        diagnosis: string,
+        recommendedTherapy: Therapy,
+        user: string,
+        _id?: string
+    ) {
         this._id = _id;
         this.date = date;
         this.anamnesis = anamnesis;
@@ -118,7 +127,7 @@ export class Address {
     street: string;
     streetNo: string;
 
-    constructor(country, city, postcode, street, streetNo) {
+    constructor(country: string, city: string, postcode: Number, street: string, streetNo: string) {
         this.country = country;
         this.city = city;
         this.postcode = postcode;
@@ -133,7 +142,7 @@ export class Anamnesis {
     anamnesisVitae: string;
     anamnesisFamiliae: string;
 
-    constructor(mainDifficulties, anamnesisMorbi, anamnesisVitae, anamnesisFamiliae) {
+    constructor(mainDifficulties: string, anamnesisMorbi: string, anamnesisVitae: string, anamnesisFamiliae: string) {
         this.mainDifficulties = mainDifficulties;
         this.anamnesisMorbi = anamnesisMorbi;
         this.anamnesisVitae = anamnesisVitae;
@@ -151,7 +160,12 @@ export class Diagnostics {
     EMNG: string;
     EMNG_date: Date;
 
-    constructor(labFindings, labFindings_date, RTG, RTG_date, NMR, NMR_date, EMNG, EMNG_date) {
+    constructor(
+        labFindings: string, labFindings_date: Date,
+        RTG: string, RTG_date: Date,
+        NMR: string, NMR_date: Date,
+        EMNG: string, EMNG_date: Date
+    ) {
         this.labFindings = labFindings;
         this.labFindings_date = labFindings_date;
         this.RTG = RTG;
@@ -168,7 +182,7 @@ export class Therapy {
     mediocentricTherapy: string;
     physicalTherapy: PhysicalTherapy;
 
-    constructor(recommendation, mediocentricTherapy, physicalTherapy) {
+    constructor(recommendation: string, mediocentricTherapy: string, physicalTherapy: PhysicalTherapy) {
         this.recommendation = recommendation;
         this.mediocentricTherapy = mediocentricTherapy;
         this.physicalTherapy = physicalTherapy;
@@ -182,7 +196,13 @@ export class PhysicalTherapy {
     IMP: boolean;
     ultrasound: boolean;
 
-    constructor(cryotherapy, IMP, ultrasound, laserTherapy?: LaserTherapyChoices[], electroTherapy?) {
+    constructor(
+        cryotherapy: boolean,
+        IMP: boolean,
+        ultrasound: boolean,
+        laserTherapy?: LaserTherapyChoices[],
+        electroTherapy?: ElectroTherapy
+    ) {
         this.laserTherapy = laserTherapy;
         this.electroTherapy = electroTherapy;
         this.cryotherapy = cryotherapy;
@@ -205,7 +225,7 @@ export class ElectroTherapy {
     GS: boolean;
     ES: boolean;
 
-    constructor(IFS, DD, GS, ES) {
+    constructor(IFS: boolean, DD: boolean, GS: boolean, ES: boolean) {
         this.IFS = IFS;
         this.DD = DD;
         this.GS = GS;
@@ -221,7 +241,7 @@ export class Appointment {
     dateAndTime: Date;
     description: string;
 
-    constructor(user, patient, patientName, dateAndTime, description) {
+    constructor(user: string, patient: string, patientName: string, dateAndTime: Date, description: string) {
         this.user = user;
         this.patient = patient;
         this.patientName = patientName;
