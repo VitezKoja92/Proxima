@@ -6,6 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PublicComponent } from './public.component';
 import { AnonymousGuard } from '../../guards/anonymous.guard';
+import { MaterialModule } from './../material.module';
 
 const publicRoutes: Routes = [
   {
@@ -34,6 +35,7 @@ const publicRoutes: Routes = [
     declarations: [LoginComponent, RegisterComponent, PublicComponent],
     imports: [
         CommonModule,
+        MaterialModule,
         RouterModule.forChild(publicRoutes)],
     exports: [LoginComponent, RegisterComponent, PublicComponent],
     providers: [],
