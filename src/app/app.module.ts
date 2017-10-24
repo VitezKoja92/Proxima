@@ -24,7 +24,6 @@ import { PrivateModule } from './modules/private/private.module';
 import { PublicModule } from './modules/public/public.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './modules/material.module';
 
 const appRoutes: Routes = [
   {
@@ -45,12 +44,9 @@ const appRoutes: Routes = [
     PagesModule,
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule,
     RouterModule.forRoot(appRoutes),
     HttpModule,
-    ApiModule.forRoot(),
-
-
+    ApiModule.forRoot()
   ],
   providers: [
     AuthenticationGuard,

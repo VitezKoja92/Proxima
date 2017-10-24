@@ -62,14 +62,14 @@ export class User {
 }
 
 export class Patient {
-    _id?: string;
+    _id: string;
     personalInfo: PatientPersonalInfo;
-    medicalHistory: MedicalHistoryItem[];
+    medicalHistory?: MedicalHistoryItem[];
 
-    constructor(patient: Patient) {
-        this._id = patient._id;
-        this.personalInfo = patient.personalInfo;
-        this.medicalHistory = patient.medicalHistory;
+    constructor(personalInfo: PatientPersonalInfo, medicalHistory?: MedicalHistoryItem[]) {
+        this._id = 'patient:' + new Date().getTime();
+        this.personalInfo = personalInfo;
+        this.medicalHistory = medicalHistory;
     }
 }
 

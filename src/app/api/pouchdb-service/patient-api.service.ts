@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { PouchDbBootService } from './pouchdb-boot.service';
 import { environment } from './../../../environments/environment';
 import { IPouchDBCreateIndexResult } from '../models/index';
-import { Patient, IPouchDBAllDocsResult } from './../models/index';
+import { Patient, IPouchDBAllDocsResult, IPouchDBPutResult } from './../models/index';
 
 @Injectable()
 export class PatientAPIService {
@@ -36,16 +36,16 @@ export class PatientAPIService {
       console.log('Error: ', err);
     });
 
-    // // Index creation
-    // this.db.createIndex({
-    //   index: {
-    //     fields: [ /* Add fields */ ]
-    //   }
-    // }).then((result: IPouchDBCreateIndexResult) => {
-    //   // handle result
-    // }).catch((err) => {
-    //   console.log(err);
-    // });
+    // Index creation
+    this.db.createIndex({
+      index: {
+        fields: ['name, surname, dateOfBirth, address.country, address.city, address.street, address.streetNo, profession']
+      }
+    }).then((result: IPouchDBCreateIndexResult) => {
+      // handle result
+    }).catch((err) => {
+      console.log(err);
+    });
 
    }
 
@@ -58,6 +58,15 @@ export class PatientAPIService {
       }
     );
     return promise;
+  }
+
+  public addPatient(patient: Patient): Promise<string> {
+    return this.db.put(patient)
+      .then(
+      (result: IPouchDBPutResult): string => {
+        return result.id;
+      }
+    );
   }
 
 }

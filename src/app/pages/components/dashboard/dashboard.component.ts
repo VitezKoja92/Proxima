@@ -31,9 +31,11 @@ export class DashboardComponent {
   goToAddPatient(): void {
     this.Router.navigate(['/add-patient']);
   }
+
   goToFindPatients(): void {
     this.Router.navigate(['/find-patient']);
   }
+
   goToSetAppointment(): void {
     this.Router.navigate(['/set-appointment']);
   }
