@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
+
 /* Components */
 import { AppComponent } from './app.component';
 import { PublicComponent } from './modules/public/public.component';
@@ -14,8 +15,6 @@ import { AuthenticationGuard } from './guards/authentication.guard';
 import { AnonymousGuard } from './guards/anonymous.guard';
 
 /* Services */
-import { UserAPIService } from './api/pouchdb-service/user-api.service';
-import { LogsAPIService } from './api/pouchdb-service/logs-api.service';
 import { AuthenticationService } from './services/authentication.service';
 
 /* Modules */
@@ -23,6 +22,9 @@ import { ApiModule } from './api/api.module';
 import { ComponentsModule } from './component/components.module';
 import { PrivateModule } from './modules/private/private.module';
 import { PublicModule } from './modules/public/public.module';
+import { PagesModule } from './pages/pages.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './modules/material.module';
 
 const appRoutes: Routes = [
   {
@@ -40,17 +42,20 @@ const appRoutes: Routes = [
     ComponentsModule,
     PrivateModule,
     PublicModule,
+    PagesModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     RouterModule.forRoot(appRoutes),
     HttpModule,
-    ApiModule.forRoot()
+    ApiModule.forRoot(),
+
+
   ],
   providers: [
     AuthenticationGuard,
     AnonymousGuard,
-    AuthenticationService,
-    UserAPIService,
-    LogsAPIService
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })

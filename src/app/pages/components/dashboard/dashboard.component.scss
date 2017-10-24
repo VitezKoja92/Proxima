@@ -1,0 +1,118 @@
+//SCSS variables
+$darkblue: #091540;
+$lightgreen: #b4e7ce;
+$lightgray: #e5e6e4;
+$lightbedge: #fbfbf2;
+$orange: #ff6f17;
+$font_nova: 'Nova Flat';
+$darkblue_button_border: 0.125rem solid $darkblue;
+$orange_button_border: 0.125rem solid $orange;
+$orange_border: 0.19rem solid $orange;
+$darkblue_border: 0.19rem solid $darkblue;
+
+.dashboardStatsScreen {
+    margin-left: 12.5rem;
+    margin-top: 8rem;
+    display: flex;
+    font-family: $font_nova;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.stats-wrapper, .page-buttons-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.stats, .pageBtn, .appointmentsStats {
+    width: 20vw;
+    height: 28vh;
+    margin: 1rem;
+    border: $darkblue_border;
+    display: flex;
+    justify-content: center;
+    // align-items: center;
+    flex-direction: column;
+    padding-left: 1rem;
+}
+
+.pageBtn {
+    background: $lightgray;
+    border: 0.25rem solid $darkblue;
+    font-style: italic;
+    font-size: 1.8rem;
+}
+
+.pageBtn:hover {
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#numberInStats {
+    font-size: 2rem;
+}
+
+// .page-buttons-wrapper {
+//     display: flex;
+//     flex-direction: row;  
+//     width: 70rem;
+//     justify-content: center;
+// }
+
+@media screen and (max-width: 900px) {
+    .wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .stats-wrapper, .page-buttons-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+
+    .stats, .pageBtn, .appointmentsStats {
+        width: 33vw;
+        height: 30vh;
+        border: $darkblue_border;
+        display: flex;
+        justify-content: center;
+        // align-items: center;
+        flex-direction: column;
+        padding-left: 1rem;
+    }
+
+    @media screen and (max-width: 700px) {
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .stats-wrapper, .page-buttons-wrapper{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .stats, .pageBtn, .appointmentsStats {
+            width: 60vw;
+            height: 12vh;
+            border: $darkblue_border;
+            display: flex;
+            justify-content: center;
+            // align-items: center;
+            flex-direction: column;
+            padding-left: 1rem;
+        }
+    }
+}

@@ -1,9 +1,9 @@
-import { IPouchDBPutResult, IPouchDBAllDocsResult, User, IPouchDBCreateIndexResult, IPouchDBFindUsersResult } from './../models/index';
-import { environment } from './../../../environments/environment';
 import { Injectable } from '@angular/core';
+import { isNullOrUndefined } from 'util';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
-import { isNullOrUndefined } from 'util';
+import { IPouchDBPutResult, IPouchDBAllDocsResult, User, IPouchDBCreateIndexResult, IPouchDBFindUsersResult } from './../models/index';
+import { environment } from './../../../environments/environment';
 
 @Injectable()
 export class UserAPIService {
@@ -15,7 +15,7 @@ export class UserAPIService {
 
     // Database creation
     this.db = this.PouchDbBootService.useDatabase(
-      'users_proxima',
+      this.dbName,
       {
         auto_compaction: true,
         revs_limit: 2

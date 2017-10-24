@@ -13,6 +13,7 @@ $darkblue_border: 0.19rem solid $darkblue;
 .register-screen {
     display: flex;
     justify-content: center;
+    margin-top: 9rem;
 }
 
 .app-register-form {
@@ -32,33 +33,34 @@ $darkblue_border: 0.19rem solid $darkblue;
 .inputForm {
     font-family: $font_nova;
     margin: 1.25rem 1.25rem; 
+    display: flex;
+    flex-direction: column;
 }
 
 .buttons {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
     text-align: center;
 }
 
-.registerAndLog-btn {
-    width: 50%;
+.registerAndLog-btn, .back-btn {
+    width: 20vw;
     margin: 1rem;   
-    padding: 0.5rem 1rem;
+    padding: 0rem 1rem;
     background-color: $darkblue;
     color: $lightbedge;
     font-weight: bold;
-    border-radius: 0.4rem;
+    font-family: $font_nova;
+    font-size: 1.1rem;
+    border-radius: 0.2rem;
     border: $darkblue_button_border;
 }
-.back-btn {
-    width: 20%;
-    margin: 1rem;   
-    padding: 0.5rem 1rem;
-    background-color: $darkblue;
-    color: $lightbedge;
-    font-weight: bold;
-    border-radius: 0.4rem;
-    border: $darkblue_button_border;
+mat-form-field {
+    margin-bottom: 0.5rem;
 }
+#last {
+    margin-bottom: 0rem;
+}
+
 
 .registerAndLog-btn:hover, .back-btn:hover{
     cursor: pointer;

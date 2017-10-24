@@ -4,7 +4,7 @@
     <h3 class="loginTitle">Log in</h3>
     
     <!--Log in-->
-    <form class="inputForm" (submit)="login(username.value, password.value)">
+    <!-- <form class="inputForm" (submit)="login(username.value, password.value)">
       <div class="form-group">
         <label for="inputUsername">Username</label>
         <input #username type="username" class="form-control" id="inputUsername" placeholder="Username" required>
@@ -17,6 +17,20 @@
           <button type="submit" class="btn btn-primary login-btn">Log in</button>
           <button type="button" routerLink="/register" class="btn btn-primary register-btn">Register</button>
       </div>
+    </form> -->
+
+    <form class="inputForm" (submit)="login(username.value, password.value)" ngNativeValidate>
+        <mat-form-field>
+          <input #username matInput placeholder="Username" required>
+        </mat-form-field>
+        <mat-form-field id="last">
+          <input #password matInput placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </mat-form-field>
+        <div class="buttons">
+            <button type="submit" mat-raised-button class="login-btn">Log in</button>
+            <button  mat-raised-button  routerLink="/register" class="register-btn">Register</button>
+        </div>
     </form>
 
   </div>

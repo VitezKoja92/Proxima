@@ -13,14 +13,21 @@ header {
     // color: $darkblue;
     padding: 1rem 1.9rem;
     margin-bottom: 1.9rem;
+    position: fixed;
+    width: 100%;
+    top: 0rem;
+    left: 0rem;
 }
 
 .header {
     display: flex;
     align-items: center;
+    height: 6.25rem;
+    font-weight: bold;
 }
 .title {
     flex: 3;
+    font-family: $font_nova;
 }
 
 .settings {
@@ -44,23 +51,24 @@ header {
 
 /* Title font - start */
 
-@import url(https://fonts.googleapis.com/css?family=Lato:900);
 *, *:before, *:after{
   box-sizing: border-box;
 }
+
 body{
-  font-family: 'Lato', sans-serif;
-    ;
+  font-family: $font_nova;
 }
+
 div.foo{
   width: 90%;
 //   margin: 0 auto;
   text-align: center;
 }
+
 .letter{
   display: inline-block;
   font-weight: 900;
-  font-size: 2.2rem;
+  font-size: 2.7rem;
   margin: 0.1rem;
   position: relative;
   color: $darkblue;
@@ -68,6 +76,7 @@ div.foo{
   perspective: 400;
   z-index: 1;
 }
+
 .letter:before, .letter:after{
   position:absolute;
   content: attr(data-letter);
@@ -75,9 +84,11 @@ div.foo{
   top:0;
   left:0;
 }
+
 .letter, .letter:before, .letter:after{
   transition: all 0.3s ease-in-out;
 }
+
 .letter:before{
   color: $lightbedge;
   text-shadow: 
@@ -89,6 +100,7 @@ div.foo{
     rotateY(-15deg)
     rotateZ(0deg);
 }
+
 .letter:after{
   color: rgba(0,0,0,.11);
   z-index:2;
@@ -99,6 +111,7 @@ div.foo{
     rotateZ(0deg)
     skew(0deg,1deg);
 }
+
 .letter:hover:before{
   color: $lightbedge;
   transform:
@@ -106,6 +119,7 @@ div.foo{
     rotateY(-40deg)
     rotateZ(0deg);
 }
+
 .letter:hover:after{
   transform:
     scale(1.08,1)

@@ -1,0 +1,46 @@
+//SCSS variables
+$darkblue: #091540;
+$lightgreen: #b4e7ce;
+$lightgray: #e5e6e4;
+$lightbedge: #fbfbf2;
+$orange: #ff6f17;
+$font_nova: 'Nova Flat';
+$darkblue_button_border: 0.125rem solid $darkblue;
+$orange_button_border: 0.125rem solid $orange;
+$orange_border: 0.19rem solid $orange;
+$darkblue_border: 0.19rem solid $darkblue;
+
+.sidenav {
+    position: fixed;
+    height: 100%;
+    width: 12.5rem;
+    z-index: 1;
+    top: 6.25rem;
+    left: 0;
+    background-color: $darkblue;
+    overflow-x: hidden;
+    padding-top: 1rem; 
+
+}
+
+.sidenav a {
+    padding: 0.625rem;
+    font-family: $font_nova;
+    font-size: 1.3rem;
+    color: $lightbedge;
+    font-weight: bold;
+    display: block;
+    text-decoration: none;
+}
+
+.sidenav a:hover {
+    cursor: pointer;
+    background-color: $lightgreen;
+    color: $darkblue;
+}
+
+#logOut-btn:hover {
+    cursor: pointer;
+    background-color: #808080;
+    color: $darkblue;
+}

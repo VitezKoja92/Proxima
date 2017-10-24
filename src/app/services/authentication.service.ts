@@ -26,12 +26,12 @@ export class AuthenticationService {
     });
   }
 
-  isSessionValid(): boolean {
-    return !isNullOrUndefined(this.currentUser) ;
-  }
-
   logout(): void {
     this.currentUser = null;
+  }
+
+  isSessionValid(): boolean {
+    return !isNullOrUndefined(this.currentUser) ;
   }
 
 }

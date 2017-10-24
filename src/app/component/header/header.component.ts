@@ -9,14 +9,4 @@ import { AuthenticationService } from '../../services/authentication.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
-
-  currentUser: User;
-
-  constructor(private Router: Router) { }
-
-  logout() {
-    localStorage.removeItem('currentUser');
-    this.Router.navigate(['login']);
-  }
-}
+export class HeaderComponent {}

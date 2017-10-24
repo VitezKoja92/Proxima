@@ -3,7 +3,7 @@
 
     <h3 class="registerTitle">Register</h3>
     <!--Sign up-->
-    <form class="inputForm" (submit) = "addUser($event, username.value, password.value, name.value, surname.value, email.value, phoneNr.value)">
+    <!-- <form class="inputForm" (submit) = "addUser($event, username.value, password.value, name.value, surname.value, email.value, phoneNr.value)">
       
         <div class="form-group">
           <label for="inputUsername">Username</label>
@@ -37,9 +37,36 @@
 
         <div class="buttons">
           <button type="submit" class="btn btn-primary registerAndLog-btn">Register and log in</button>
-          <button type="button" routerLink="/login" class="btn btn-primary back-btn">Back</button> <!--Go to Login on click-->
+          <button type="button" routerLink="/login" class="btn btn-primary back-btn">Back</button> 
         </div>
         
+      </form> -->
+      <form class="inputForm" (submit)="addUser($event, username.value, password.value, name.value, surname.value, email.value, phoneNr.value)" ngNativeValidate>
+        <mat-form-field>
+          <input #username matInput placeholder="Username" required>
+        </mat-form-field>
+        <mat-form-field>
+          <input #password matInput placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+          <input #name matInput placeholder="Name" required="true">
+        </mat-form-field>
+        <mat-form-field>
+          <input #surname matInput placeholder="Surname" required="true">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Email" [formControl]="email" required>
+          <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field id="last">
+          <input #username matInput placeholder="Phone number">
+        </mat-form-field>
+        
+        <div class="buttons">
+            <button type="submit" mat-raised-button class="registerAndLog-btn">Register and log in</button>
+            <button  mat-raised-button  routerLink="/login" class="back-btn">Back</button>
+        </div>
       </form>
 
   </div>
