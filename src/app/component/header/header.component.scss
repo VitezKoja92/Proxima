@@ -1,12 +1,4 @@
-//SCSS variables
-$darkblue: #091540;
-$lightgreen: #b4e7ce;
-$lightgray: #e5e6e4;
-$lightbedge: #fbfbf2;
-$orange: #ff6f17;
-$font_nova: 'Nova Flat';
-$darkblue_button_border: 0.125rem solid $darkblue;
-$orange_button_border: 0.125rem solid $orange;
+@import "~variables.scss";
 
 header {
     background-color: $lightgreen;
@@ -25,6 +17,7 @@ header {
     height: 6.25rem;
     font-weight: bold;
 }
+
 .title {
     flex: 3;
     font-family: $font_nova;
@@ -50,7 +43,6 @@ header {
 }
 
 /* Title font - start */
-
 *, *:before, *:after{
   box-sizing: border-box;
 }
