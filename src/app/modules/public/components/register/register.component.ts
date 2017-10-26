@@ -29,9 +29,10 @@ export class RegisterComponent {
     this.UserAPIService.addUser(newUser)
     .then((id: string): void => {
       console.log('New user added: ', id);
+      // localStorage.setItem('currentUser', id);
+      // login
     }, (error: Error): void => {
       console.log('Error: ', error);
     });
   }
-
 }

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { Component, OnInit } from '@angular/core';
 
@@ -23,14 +24,10 @@ import { UserAPIService } from './../../../api/pouchdb-service/user-api.service'
 })
 export class AddPatientComponent {
 
-  therapyVisible: boolean;
-
-  constructor(private PatientAPIService: PatientAPIService, private UserAPIService: UserAPIService) {
-    this.therapyVisible = false;
-  }
-
-  showTherapy() {
-    this.therapyVisible = true;
+  constructor(
+    private PatientAPIService: PatientAPIService,
+    private UserAPIService: UserAPIService,
+    private Router: Router) {
   }
 
   addPatient( e, name: string, surname: string, dateOfBirth: Date,
@@ -45,26 +42,10 @@ export class AddPatientComponent {
     this.PatientAPIService.addPatient(patient)
       .then((id: string): void => {
         console.log('New patient added: ', id);
+        this.Router.navigate(['/patient/' + id]);
       }, (error: Error): void => {
         console.log('Error: ', error);
     });
-
   }
-
-  // addTherapy(therapyDate?: Date, mainDifficulties?: string, anaMorbi?: string, anaVitae?: string, anaFamiliae?: string,
-  //   labFindings?: string, labFindingsDate?: Date, rtg?: string, rtgDate?: Date, nmr?: string, nmrDate?: Date, emng?: string,
-  //   emngDate?: Date, statusLocalis?: string, diagnosis?: string, recommendation?: string, mediocentric?: string,
-  //   laser?: LaserTherapyChoices[], ifs?: boolean, dd?: boolean, gs?: boolean, es?: boolean, cryo?: boolean, imp?: boolean,
-  //   ultrasound?: boolean): void {
-
-  //   const anamnesis: Anamnesis = new Anamnesis(mainDifficulties, anaMorbi, anaVitae, anaFamiliae);
-  //   const diagnostics: Diagnostics = new Diagnostics(labFindings, labFindingsDate, rtg, rtgDate, nmr, nmrDate, emng, emngDate);
-  //   const electroTherapy: ElectroTherapy = new ElectroTherapy(ifs, dd, gs, es);
-  //   const physicalTherapy: PhysicalTherapy = new PhysicalTherapy(cryo, imp, ultrasound, laser, electroTherapy);
-  //   const recommendedTherapy: Therapy = new Therapy(recommendation, mediocentric, physicalTherapy);
-  //   const medicalHistoryItem: MedicalHistoryItem = new MedicalHistoryItem(therapyDate, anamnesis, diagnostics,
-  //     statusLocalis, diagnosis, recommendedTherapy, localStorage.getItem('currentUser'));
-
-  //   }
 
 }

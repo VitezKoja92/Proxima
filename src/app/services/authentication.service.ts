@@ -20,6 +20,7 @@ export class AuthenticationService {
       console.log('user: ', user);
       if (!isNullOrUndefined(user)) {
         this.currentUser = user;
+        localStorage.setItem('currentUser', user._id);
         return true;
       }
       return false;
@@ -28,6 +29,7 @@ export class AuthenticationService {
 
   logout(): void {
     this.currentUser = null;
+    localStorage.removeItem('currentUser');
   }
 
   isSessionValid(): boolean {

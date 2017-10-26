@@ -1,9 +1,19 @@
+import { MedicalHistoryItem, PatientPersonalInfo } from './../models/index';
+// import { CanActivate } from '@angular/router';
+import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
 import { environment } from './../../../environments/environment';
 import { IPouchDBCreateIndexResult } from '../models/index';
-import { Patient, IPouchDBAllDocsResult, IPouchDBPutResult } from './../models/index';
+import {
+  Patient,
+  IPouchDBAllDocsResult,
+  IPouchDBPutResult,
+  IPouchDBFindUsersResult,
+  IPouchDBFindPatientsResult,
+  Address
+} from './../models/index';
 
 @Injectable()
 export class PatientAPIService {
@@ -39,7 +49,8 @@ export class PatientAPIService {
     // Index creation
     this.db.createIndex({
       index: {
-        fields: ['name, surname, dateOfBirth, address.country, address.city, address.street, address.streetNo, profession']
+        fields: ['personalInfo.name, personalInfo.surname, personalInfo.dateOfBirth,' +
+          'address.country, address.city, address.street, address.streetNo, profession']
       }
     }).then((result: IPouchDBCreateIndexResult) => {
       // handle result
@@ -47,7 +58,7 @@ export class PatientAPIService {
       console.log(err);
     });
 
-   }
+  }
 
   public getNumberOfPatients(): Promise<Number> {
     const promise = this.db.allDocs({
@@ -56,7 +67,7 @@ export class PatientAPIService {
       (result: IPouchDBAllDocsResult): Number => {
         return result.total_rows;
       }
-    );
+      );
     return promise;
   }
 
@@ -66,7 +77,67 @@ export class PatientAPIService {
       (result: IPouchDBPutResult): string => {
         return result.id;
       }
-    );
+      );
+  }
+
+  public getPatient(id: string): Promise<Patient> {
+
+    const query = {
+      selector: {
+        '_id': { $eq: id }
+      }
+    };
+
+    return this.db.find(query)
+      .then((result: IPouchDBFindPatientsResult): Patient => {
+        console.log('Result: ', result);
+        return result.docs.length ? result.docs[0] : null;
+      }).catch((error: Error) => {
+        console.log('Error: ', error);
+      });
+  }
+
+  public editPatientInfo(id: string, rev: string, name: string, surname: string,
+    address: Address, profession: string, dateOfBirth: Date, medicalHistory: MedicalHistoryItem[]): Promise<Patient> {
+    return this.db.get(id)
+      .then(
+      (doc: Patient): IPouchDBPutResult => {
+        return this.db.put({
+          _id: id,
+          _rev: rev,
+          personalInfo: {
+            name: name,
+            surname: surname,
+            dateOfBirth: dateOfBirth,
+            address: address,
+            profession: profession
+          },
+          medicalHistory: medicalHistory
+        });
+      }
+      ).then((res: string): void => {
+        console.log('Response from edit: ', res);
+      }).catch((error: Error): void => {
+        console.log('Error: ', error);
+      });
+  }
+
+  public addTherapy(id: string, rev: string, personalInfo: PatientPersonalInfo, medicalHistory: MedicalHistoryItem[]): Promise<Patient> {
+    return this.db.get(id)
+      .then(
+        (doc: Patient): IPouchDBPutResult => {
+          return this.db.put({
+            _id: id,
+            _rev: rev,
+            personalInfo: personalInfo,
+            medicalHistory: medicalHistory
+          });
+        }
+      ).then((res: string): void => {
+        console.log('Response form addTherapy: ', res);
+      }).catch((error: Error): void => {
+        console.log('Error: ', error);
+      });
   }
 
 }

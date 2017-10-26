@@ -1,0 +1,163 @@
+@import "~variables.scss";
+
+.patientScreen {
+    font-family: $font_nova;
+    margin-left: 12.5rem;
+    margin-top: 8rem;
+    display: flex;
+    justify-content: center;
+    color: $darkblue;
+    
+}
+
+.patient-panel {
+    border: $darkblue_border;
+    width: 65%;
+    border-radius: 0.4rem;
+    padding: 1.25rem 1.25rem;
+}
+
+.patientTitle {
+    margin: 1.9rem 0.625rem;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.mat-card-title {
+    font-size: 1.2rem;
+    font-family: $font_nova;
+    color: $gray;
+    margin-bottom: 2rem;
+}
+.mat-card-title > span {
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: $darkblue;
+}
+
+.mat-card-content {
+    font-family: $font-nova;
+}
+
+.therapy, .medHistory {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column; 
+ 
+}
+
+.showTherapyBtn {
+    background-color: $lightgreen;
+    font-size: 1.5rem;
+}
+
+p {
+    word-wrap: break-word;
+}
+
+.removeTherapyBtn {
+    background-color: $gray;
+    font-size: 1.5rem;
+}
+
+.addButtonDiv, .editBtnDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.addTherapyBtn, .editPersonalInfoBtn {
+    width: 35%;
+    margin: 2rem 1rem 1rem 1rem;   
+
+    padding: 0rem 1rem;
+    background-color: $darkblue;
+    color: $lightbedge;
+    font-weight: bold;
+    font-family: $font_nova;
+    font-size: 1.1rem;
+    border-radius: 0.2rem;
+    border: $darkblue_button_border;
+}
+
+.addTherapyBtn:hover, .editPersonalInfoBtn:hover {
+    cursor: pointer;
+    background-color: white;
+    color: $darkblue;
+}
+
+.radioTitle, .addTherapyLabel{
+    font-size: 0.9rem;
+    font-family: $font_nova;
+    margin-right: 1rem;
+}
+
+.laserTherapySection, .radioSection {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.dpInput {
+    width: 30%;
+}
+
+.buttonRow {
+    margin-right: 0.5rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.historyTitle, .addTherapyTitle {
+    margin: 2rem 0.5rem 1rem 0.5rem;
+}
+
+.cardSubtitle, .marks {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+mat-expansion-panel {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.8rem;
+}
+
+mat-form-field {
+    font-family: $font_nova;
+    margin-bottom: 1rem;
+}
+
+.mat-checkbox, .mat-radio-button {
+    font-family: $font_nova;
+}
+
+.laserCheckboxes {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+mat-expansion-panel-header{
+    font-family: $font_nova;
+    font-size: 1rem;
+}
+
+.laserTitle {
+    font-size: 0.9rem;
+    font-family: $font_nova;
+    margin-right: 1rem;
+}
+
+.mat-expansion-panel-header-title {
+    color: $darkblue;
+}
+
+.electroTherapy {
+    margin-left: 1rem;
+    margin-top: 0.5rem;
+}

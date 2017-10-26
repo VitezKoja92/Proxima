@@ -6,11 +6,27 @@ import { FindPatientComponent } from './components/find-patient/find-patient.com
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MaterialModule } from './../modules/material.module';
 import { PatientComponent } from './components/patient/patient.component';
+import { EditPatientDialogComponent } from './components/edit-patient-dialog/edit-patient-dialog.component';
 
 @NgModule({
-    declarations: [DashboardComponent, AddPatientComponent, FindPatientComponent, SetAppointmentComponent, PatientComponent],
+    declarations: [
+        DashboardComponent,
+        AddPatientComponent,
+        FindPatientComponent,
+        SetAppointmentComponent,
+        PatientComponent,
+        EditPatientDialogComponent
+    ],
     imports: [ CommonModule, MaterialModule ],
-    exports: [DashboardComponent, AddPatientComponent, FindPatientComponent, SetAppointmentComponent, PatientComponent],
+    exports: [
+        DashboardComponent,
+        AddPatientComponent,
+        FindPatientComponent,
+        SetAppointmentComponent,
+        PatientComponent,
+        EditPatientDialogComponent
+    ],
     providers: [],
+    entryComponents: [EditPatientDialogComponent]
 })
 export class PagesModule {}

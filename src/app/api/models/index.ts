@@ -41,6 +41,11 @@ export interface IPouchDBFindUsersResult {
     warning?: string;
 }
 
+export interface IPouchDBFindPatientsResult {
+    docs: Patient[];
+    warning?: string;
+}
+
 export class User {
     _id: string;
     username: string;
@@ -63,6 +68,7 @@ export class User {
 
 export class Patient {
     _id: string;
+    _rev: string;
     personalInfo: PatientPersonalInfo;
     medicalHistory?: MedicalHistoryItem[];
 
@@ -91,22 +97,20 @@ export class PatientPersonalInfo {
 
 export class MedicalHistoryItem {
     _id: string;
-    date: Date;
+    date: string;
     anamnesis: Anamnesis;
     diagnostics: Diagnostics;
     statusLocalis: string;
     diagnosis: string;
     recommendedTherapy: Therapy;
-    user: string;
 
     constructor(
-        date: Date,
+        date: string,
         anamnesis: Anamnesis,
         diagnostics: Diagnostics,
         statusLocalis: string,
         diagnosis: string,
         recommendedTherapy: Therapy,
-        user: string,
         _id?: string
     ) {
         this._id = _id;
@@ -116,8 +120,7 @@ export class MedicalHistoryItem {
         this.statusLocalis = statusLocalis;
         this.diagnosis  = diagnosis;
         this.recommendedTherapy = recommendedTherapy;
-        this.user = user;
-    }
+        }
 }
 
 export class Address {
@@ -152,19 +155,19 @@ export class Anamnesis {
 
 export class Diagnostics {
     labFindings: string;
-    labFindings_date: Date;
+    labFindings_date: string;
     RTG: string;
-    RTG_date: Date;
+    RTG_date: string;
     NMR: string;
-    NMR_date: Date;
+    NMR_date: string;
     EMNG: string;
-    EMNG_date: Date;
+    EMNG_date: string;
 
     constructor(
-        labFindings: string, labFindings_date: Date,
-        RTG: string, RTG_date: Date,
-        NMR: string, NMR_date: Date,
-        EMNG: string, EMNG_date: Date
+        labFindings: string, labFindings_date: string,
+        RTG: string, RTG_date: string,
+        NMR: string, NMR_date: string,
+        EMNG: string, EMNG_date: string
     ) {
         this.labFindings = labFindings;
         this.labFindings_date = labFindings_date;
@@ -190,7 +193,7 @@ export class Therapy {
 }
 
 export class PhysicalTherapy {
-    laserTherapy: LaserTherapyChoices[];
+    laserTherapy: string[];
     electroTherapy: ElectroTherapy;
     cryotherapy: boolean;
     IMP: boolean;
@@ -200,7 +203,7 @@ export class PhysicalTherapy {
         cryotherapy: boolean,
         IMP: boolean,
         ultrasound: boolean,
-        laserTherapy?: LaserTherapyChoices[],
+        laserTherapy?: string[],
         electroTherapy?: ElectroTherapy
     ) {
         this.laserTherapy = laserTherapy;
