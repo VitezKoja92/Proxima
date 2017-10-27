@@ -46,7 +46,10 @@ const privateRoutes: Routes = [
   ];
 
 @NgModule({
-    declarations: [PrivateComponent, SideMenuComponent],
+    declarations: [
+      PrivateComponent,
+      SideMenuComponent
+    ],
     imports: [
         RouterModule.forChild(privateRoutes),
         CommonModule

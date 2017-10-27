@@ -1,6 +1,73 @@
 @import "~variables.scss";
 
 .findPatientScreen {
+    font-family: $font_nova;
     margin-left: 12.5rem;
     margin-top: 8rem;
+    display: flex;
+    justify-content: center;
+    color: $darkblue;
+    
+}
+
+.find-patient-form {
+    border: $darkblue_border;
+    width: 80vw;
+    border-radius: 0.4rem;
+    padding: 1.25rem 1.25rem;
+}
+
+.findPatientTitle {
+    margin: 1.9rem 0.625rem;
+    text-align: center;
+
+}
+
+.search {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.searchInput {
+    width: 25vw;
+    margin: 2rem 0rem;
+    font-weight: bold;
+    font-family: $font_nova;
+    font-size: 1.1rem;
+}
+
+.listItem {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    border-bottom: 0.05rem dashed $lightgray;
+}
+
+.clear-btn {
+    width: 8vw;
+    margin: 0.5rem 0rem;   
+    padding: 0.2rem 0rem;
+    background-color: $darkblue;
+    color: $lightbedge;
+    font-weight: bold;
+    font-family: $font_nova;
+    font-size: 0.9rem;
+    border-radius: 0.2rem;
+    border: $darkblue_button_border;
+}
+
+.clear-btn:hover {
+    cursor: pointer;
+    background-color:white;
+    color: $darkblue;
+}
+
+.listItemTitle {
+    font-family: $font_nova;
+    font-weight: bold;
+    font-size: 1rem;
+    // margin-bottom: 2rem;
 }

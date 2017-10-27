@@ -140,4 +140,26 @@ export class PatientAPIService {
       });
   }
 
+
+  public getAllPatients(): Promise<Patient[]> {
+    return this.db.allDocs({
+      include_docs: true,
+      startkey: 'patient:',
+      endKey: 'patient:\uffff'
+    }).then(
+      (result: IPouchDBAllDocsResult): Patient[] => {
+        return result.rows.map(
+          (row: any): Patient => {
+            return ({
+              _id: row.doc._id,
+              _rev: row.doc._rev,
+              personalInfo: row.doc.personalInfo,
+              medicalHistory: row.doc.medicalHistory
+            });
+          }
+        );
+      }
+    );
+  }
+
 }
