@@ -11,7 +11,7 @@ export class SearchFilterPipe implements PipeTransform {
         return categories.filter((category: any) => {
             console.log(category);
           return category.personalInfo.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1 ||
-          category.personalInfo.surname.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
+            category.personalInfo.surname.toLowerCase().indexOf(searchText.toLowerCase()) > -1;
         });
       }
 }

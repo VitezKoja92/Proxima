@@ -16,7 +16,7 @@
             <div class="appointmentsStats">
                 <span>Appointments today:</span>
                 <br>
-                <span *ngFor="let appointment of appointmentsToday">{{appointment.dateAndTime.getHours()}}:{{appointment.dateAndTime.getMinutes()}} - {{appointment.patientName}}</span>
+                <span *ngFor="let appointment of appointmentsToday">{{appointment.hour}}:{{appointment.minute}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
             </div>
         </div>
         <div class="page-buttons-wrapper">

@@ -10,6 +10,7 @@ import { FindPatientComponent } from '../../pages/components/find-patient/find-p
 import { SetAppointmentComponent } from './../../pages/components/set-appointment/set-appointment.component';
 import { DashboardComponent } from '../../pages/components/dashboard/dashboard.component';
 import { PatientComponent } from './../../pages/components/patient/patient.component';
+import { AppointmentsListComponent } from './../../pages/components/appointments-list/appointments-list.component';
 
 const privateRoutes: Routes = [
     {
@@ -32,6 +33,10 @@ const privateRoutes: Routes = [
           {
             path: 'set-appointment',
             component: SetAppointmentComponent
+          },
+          {
+            path: 'appointments-list',
+            component: AppointmentsListComponent
           },
           {
             path: 'patient',

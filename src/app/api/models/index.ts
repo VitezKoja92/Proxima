@@ -238,17 +238,21 @@ export class ElectroTherapy {
 
 export class Appointment {
     _id: string;
-    user: string;
-    patient: string;
-    patientName: string;
-    dateAndTime: Date;
+    user: User;
+    patient: Patient;
+    date: Date;
+    hour: number;
+    minute: number;
     description: string;
 
-    constructor(user: string, patient: string, patientName: string, dateAndTime: Date, description: string) {
+    constructor(user: User, patient: Patient,
+        dateAndTime: Date, hour: number, minute: number, description: string) {
+        this._id = 'appointment:' + new Date().getTime();
         this.user = user;
         this.patient = patient;
-        this.patientName = patientName;
-        this.dateAndTime = dateAndTime;
+        this.date = dateAndTime;
+        this.hour = hour;
+        this.minute = minute;
         this.description = description;
     }
 }

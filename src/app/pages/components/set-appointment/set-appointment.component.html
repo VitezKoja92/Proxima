@@ -1,3 +1,53 @@
 <div class="setAppointmentScreen">
-    set-appiontment page!
+
+  <div class="setAppointmentForm">
+
+    <h3 class="setAppointmentTitle">Set Appointment</h3>
+
+    <div class="form">
+      <div class="formFields">
+        <mat-form-field>
+          <mat-select #userSelection placeholder="Doctor" required>
+            <mat-option *ngFor="let user of users" [value]="user">
+              {{ user?.name }} {{user?.surname}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select #patientSelection placeholder="Patient">
+            <mat-option *ngFor="let patient of patients" [value]="patient" required>
+              {{ patient?.personalInfo.name }} {{patient?.personalInfo.surname}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <textarea matInput #description placeholder="Description"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="calendar">
+        <div class="hourMinute">
+          <mat-form-field>
+            <input matInput #hour placeholder="Hour" [ngModel]="hours" (ngModelChange)="updateHours($event)" required>
+            <!-- <mat-error *ngIf="hoursWrong(hour.value)">Hours value needs to be between 0 and 23!</mat-error> -->
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput #minute placeholder="Minute" [ngModel]="minutes" (ngModelChange)="updateMinutes($event)" required>
+            
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+          <input matInput #datePicker [matDatepicker]="picker" placeholder="Choose a date" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <div class="buttons">
+          <button class="setAppointment-btn" (click)="setAppointment(userSelection.value, patientSelection.value, description.value, hour.value, minute.value, datePicker.value, picker)">Set appointment</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="appointmentHoursWrong">Hours value needs to be between 0 and 23!</div>
+    <div *ngIf="appointmentMinutesWrong">Minutes value needs to be between 0 and 59!</div>
+
   </div>
+
+</div>

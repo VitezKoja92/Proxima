@@ -67,9 +67,9 @@ export class DashboardComponent {
     this.AppointmentAPIService.getAllAppointments()
       .then((appointments: Appointment[]): void => {
         this.appointmentsToday = appointments.filter((appointment) => {
-          return appointment.dateAndTime.getDate() === today.getDate()
-          && appointment.dateAndTime.getMonth() === today.getMonth()
-          && appointment.dateAndTime.getFullYear() === today.getFullYear();
+          return appointment.date.getDate() === today.getDate()
+          && appointment.date.getMonth() === today.getMonth()
+          && appointment.date.getFullYear() === today.getFullYear();
         }).sort(this.dateSort);
       }, (error: Error): void => {
         console.log('Error: ', error);
@@ -77,8 +77,14 @@ export class DashboardComponent {
   }
 
   dateSort(a: Appointment, b: Appointment) {
-    if (a.dateAndTime < b.dateAndTime) {
+    if (a.hour < b.hour) {
       return -1;
+    } else if (a.hour === b.hour) {
+      if (a.minute <= b.minute) {
+        return -1;
+      } else {
+        return 1;
+      }
     } else {
       return 1;
     }

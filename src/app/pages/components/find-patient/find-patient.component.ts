@@ -19,15 +19,10 @@ export class FindPatientComponent {
     this.getAllPatients();
   }
 
-  // search items
-
-  // end
-
   getAllPatients(): void {
     this.PatientAPIService.getAllPatients()
       .then((patients: Patient[]): void => {
         this.patients = patients;
-        console.log('Patients from db: ', patients);
       }, (error: Error): void => {
         console.log('Error: ', error);
       });

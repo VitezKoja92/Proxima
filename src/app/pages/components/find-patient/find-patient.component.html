@@ -16,13 +16,11 @@
       <mat-list-item *ngFor="let patient of patients | search: key">
         <div class="listItem">
           <span class="listItemTitle">{{patient?.personalInfo?.name}} {{patient?.personalInfo?.surname}} - {{patient?.personalInfo?.profession}}</span>
-          <button class="btn clear-btn" (click)="openPatient(patient._id)">Open</button>
+          <button class="btn open-btn" (click)="openPatient(patient._id)">Open</button>
         </div>
       </mat-list-item>
 
     </mat-list>
-
-
 
   </div>
 
