@@ -12,7 +12,8 @@
 
 .patient-panel {
     border: $darkblue_border;
-    width: 65%;
+    width: 65vw;
+    min-width: 40rem;
     border-radius: 0.4rem;
     padding: 1.25rem 1.25rem;
 }
