@@ -53,11 +53,8 @@ export class AppointmentAPIService {
               minute: row.doc.minute,
               description: row.doc.description
             });
-          }
-        );
-      }
-    );
-
+          });
+      });
     return promise;
   }
 
@@ -65,8 +62,7 @@ export class AppointmentAPIService {
     return this.db.put(appointment)
       .then((result: IPouchDBPutResult): string => {
           return result.id;
-        }
-      );
+        });
   }
 
 }

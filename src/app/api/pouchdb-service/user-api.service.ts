@@ -47,7 +47,6 @@ export class UserAPIService {
   }
 
   public getUser(username: string, password?: string): Promise<User> | null {
-
     let userQuery;
 
     if (isNullOrUndefined(password)) {
@@ -87,9 +86,9 @@ export class UserAPIService {
               email: row.doc.email,
               phoneNr: row.doc.phoneNr
             });
-          }
-        );
+          });
       });
     return promise;
   }
+
 }
