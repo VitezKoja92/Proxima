@@ -14,7 +14,7 @@ import { Appointment, Patient } from '../../../api/models/index';
 export class DashboardComponent {
 
   numberOfPatients: Number;
-  numberOfTherapies: any = 0;
+  numberOfTherapies = 0;
   appointmentsToday: Appointment[];
 
   constructor(
