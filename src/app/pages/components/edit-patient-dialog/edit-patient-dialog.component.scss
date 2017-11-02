@@ -1,0 +1,43 @@
+@import "~variables.scss";
+
+.fields {
+    display: flex;
+    flex-direction: column;
+}
+
+.fields > mat-form-field {
+    font-family: $font_nova;
+    margin: 0.5rem 3rem;
+}
+
+.fields > mat-form-field:first-child {
+    margin-top: 2rem;
+}
+
+.fields > mat-form-field:last-child {
+    margin-bottom: 2rem;
+}
+
+.buttonRow {
+    display: flex;
+    justify-content: center;
+}
+
+.mat-button {
+    width: 20vw;
+    margin: 1rem 2rem;   
+    padding: 0 1rem;
+    background-color: $darkblue;
+    color: $lightbedge;
+    font-weight: bold;
+    font-family: $font_nova;
+    font-size: 1.1rem;
+    border-radius: 0.2rem;
+    border: $darkblue_button_border;
+}
+
+.mat-button:hover {
+    cursor: pointer;
+    background-color:rgb(255, 255, 255) !important;
+    color: $darkblue;
+}

@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+
+import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
+import { Patient } from './../../../api/models/index';
 
 @Component({
   selector: 'app-find-patient',
@@ -6,5 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./find-patient.component.scss']
 })
 export class FindPatientComponent {
+
+  patients: Patient[];
+
+  constructor(private Router: Router, private PatientAPIService: PatientAPIService) {
+    this.getAllPatients();
+  }
+
+  getAllPatients(): void {
+    this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]): void => {
+        this.patients = patients;
+      }, (error: Error): void => {
+        console.log('Error: ', error);
+      });
+  }
+
+  openPatient(id: string): void {
+    this.Router.navigate(['/patient/' + id]);
+  }
 
 }

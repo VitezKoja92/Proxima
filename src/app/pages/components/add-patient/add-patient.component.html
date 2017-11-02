@@ -1,3 +1,98 @@
 <div class="addPatientScreen">
-  add-patient page!
+
+  <div class="add-patient-form">
+
+    <h3 class="addPatientTitle">Add Patient</h3>
+
+    <!--Personal information-->
+    <form class="inputForm" #addPatientForm (submit)="addPatient($event, name.value, surname.value, dateOfBirth.value, city.value, country.value, postCode.value, street.value, number.value, profession.value); addPatientForm.reset()" ngNativeValidate>
+      <mat-expansion-panel>
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Personal data
+          </mat-panel-title>
+          <mat-panel-description>
+            Enter patient's personal information
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="fieldsWrapper">
+          <mat-form-field>
+            <input matInput #name placeholder="Name" required>
+          </mat-form-field>
+
+          <mat-form-field>
+            <input matInput #surname placeholder="Surname" required>
+          </mat-form-field>
+
+          <mat-form-field class="dpInput">
+            <input matInput #dateOfBirth [matDatepicker]="dbpicker" placeholder="Date of birth">
+            <mat-datepicker-toggle matSuffix [for]="dbpicker"></mat-datepicker-toggle>
+            <mat-datepicker #dbpicker></mat-datepicker>
+          </mat-form-field>
+
+          <!--Personal information - address-->
+          <mat-expansion-panel>
+
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Address
+              </mat-panel-title>
+              <mat-panel-description>
+                Enter patient's address
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <table class="example-full-width" cellspacing="0">
+              <tr>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput #city placeholder="City" required>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput #country placeholder="Country" required>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput #postCode maxlength="5" placeholder="Post Code">
+                    <mat-hint align="end">{{postCode.value.length}} / 5</mat-hint>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+
+            <table class="example-full-width" cellspacing="0">
+              <tr>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput #street placeholder="Street">
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="example-full-width">
+                    <input matInput #number placeholder="Number">
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+
+          </mat-expansion-panel>
+
+          <mat-form-field>
+            <input matInput #profession placeholder="Profession">
+          </mat-form-field>
+        </div>
+
+        <mat-action-row>
+            <button mat-button class="clear-btn" (click)="addPatientForm.reset()">Clear form</button>
+            <button mat-button type="submit" class="addPatient-btn">Add patient</button>
+        </mat-action-row>
+
+      </mat-expansion-panel>
+    </form>
+  </div>
 </div>

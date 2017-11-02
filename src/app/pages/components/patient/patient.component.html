@@ -1,0 +1,447 @@
+<div class="patientScreen">
+
+  <div class="patient-panel">
+
+    <h3 class="patientTitle">Patient card: {{currentPatient?.personalInfo.name}} {{currentPatient?.personalInfo.surname}}</h3>
+
+    <mat-card class="example-card">
+      <mat-card-header>
+        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+        <mat-card-title>Name:
+          <span>{{currentPatient?.personalInfo.name}}</span>
+        </mat-card-title>
+        <mat-card-title>Surname:
+          <span>{{currentPatient?.personalInfo.surname}}</span>
+        </mat-card-title>
+        <mat-card-title>Date of birth:
+          <span>{{currentPatient?.personalInfo.dateOfBirth}}</span>
+        </mat-card-title>
+        <mat-card-title>Address:
+          <span>{{currentPatient?.personalInfo.address.street}} {{currentPatient?.personalInfo.address.streetNo}}, {{currentPatient?.personalInfo.address.postcode}}
+            {{currentPatient?.personalInfo.address.city}}, {{currentPatient?.personalInfo.address.country}}</span>
+        </mat-card-title>
+        <mat-card-title>Profession:
+          <span>{{currentPatient?.personalInfo.profession}}</span>
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-actions class="editBtnDiv">
+        <button mat-button class="editPersonalInfoBtn" (click)="openDialog()">Edit</button>
+        <!--(click)="editPersonalInfo('Danilo', 'Krasic', 'Minhen', 'Germany', 80797, 'Lothstrasse', '86', 'Software developer')"-->
+        <!--do edit with dialog-->
+      </mat-card-actions>
+    </mat-card>
+
+    <h5 class="historyTitle">Medical history</h5>
+    <!-- Medical history - BEGIN -->
+    <div class="medHistory">
+      <mat-expansion-panel *ngFor="let item of currentPatient?.medicalHistory">
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{item.date}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{item.diagnosis}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="wrapper">
+          <mat-card class="therapyCard">
+            <mat-card-content>
+              <p>
+                <span class="cardSubtitle">Status localis: </span><br>
+                {{item.statusLocalis}}
+              </p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="therapyCard">
+            <mat-card-header>
+              <mat-card-title>Anamnesis:</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                <span class="cardSubtitle">Main difficulties: </span><br>
+                {{item.anamnesis.mainDifficulties}}
+              </p>
+              <p>
+                <span class="cardSubtitle">Anamnesis morbi: </span><br>
+                {{item.anamnesis.anamnesisMorbi}}
+              </p>
+              <p>
+                <span class="cardSubtitle">Anamnesis vitae: </span><br>
+                {{item.anamnesis.anamnesisVitae}}
+              </p>
+              <p>
+                <span class="cardSubtitle">Anamnesis familiae: </span><br>
+                {{item.anamnesis.anamnesisFamiliae}}
+              </p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="therapyCard">
+            <mat-card-header>
+              <mat-card-title>Diagnostics:</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                <span class="cardSubtitle">Lab findings ({{item.diagnostics.labFindings_date}}): </span><br>
+                {{item.diagnostics.labFindings}}
+              </p>
+              <p>
+                <span class="cardSubtitle">RTG ({{item.diagnostics.RTG_date}}): </span><br>
+                {{item.diagnostics.RTG}}
+              </p>
+              <p>
+                <span class="cardSubtitle">NMR ({{item.diagnostics.NMR_date}}): </span><br>
+                {{item.diagnostics.NMR}}
+              </p>
+              <p>
+                <span class="cardSubtitle">EMNG ({{item.diagnostics.EMNG_date}}): </span><br>
+                {{item.diagnostics.EMNG}}
+              </p>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card class="therapyCard">
+            <mat-card-header>
+              <mat-card-title>Recommended therapy:</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                <span class="cardSubtitle">Mediocentric therapy: </span><br>
+                {{item.recommendedTherapy.mediocentricTherapy}}
+              </p>
+              <p>
+                <span class="cardSubtitle">Laser therapy: </span><br>
+                {{item.recommendedTherapy.physicalTherapy.laserTherapy}}
+              </p>
+
+              <span class="cardSubtitle">Electro therapy: </span>
+              <div class="electroTherapy">
+                <p *ngIf="item.recommendedTherapy.physicalTherapy.electroTherapy.IFS; else elseIfs">
+                  IFS
+                  <span class="marks">&#10003;</span>
+                </p>
+                <ng-template #elseIfs>
+                  <p>IFS
+                    <span class="marks">&#10007;</span>
+                  </p>
+                </ng-template>
+                <p *ngIf="item.recommendedTherapy.physicalTherapy.electroTherapy.DD; else elseDd">
+                  DD
+                  <span class="marks">&#10003;</span>
+                </p>
+                <ng-template #elseDd>
+                  <p>DD
+                    <span class="marks">&#10007;</span>
+                  </p>
+                </ng-template>
+                <p *ngIf="item.recommendedTherapy.physicalTherapy.electroTherapy.GS; else elseGs">
+                  GS
+                  <span class="marks">&#10003;</span>
+                </p>
+                <ng-template #elseGs>
+                  <p>GS
+                    <span class="marks">&#10007;</span>
+                  </p>
+                </ng-template>
+                <p *ngIf="item.recommendedTherapy.physicalTherapy.electroTherapy.ES; else elseEs">
+                  ES
+                  <span class="marks">&#10003;</span>
+                </p>
+                <ng-template #elseEs>
+                  <p>ES
+                    <span class="marks">&#10007;</span>
+                  </p>
+                </ng-template>
+              </div>
+
+              <p>
+                <span class="cardSubtitle" *ngIf="item.recommendedTherapy.physicalTherapy.cryotherapy; else cryoElse">Cryotherapy &#10003;</span>
+                <ng-template #cryoElse>
+                  <span class="cardSubtitle">Cryotherapy &#10007;</span>
+                </ng-template>
+              </p>
+              <p>
+                <span class="cardSubtitle" *ngIf="item.recommendedTherapy.physicalTherapy.IMP; else impElse">IMP &#10003;</span>
+                <ng-template #impElse>
+                  <span class="cardSubtitle">IMP &#10007;</span>
+                </ng-template>
+              </p>
+              <p>
+                <span class="cardSubtitle" *ngIf="item.recommendedTherapy.physicalTherapy.ultrasound; else ultraElse">Ultrasound &#10003;</span>
+                <ng-template #ultraElse>
+                  <span class="cardSubtitle">Ultrasound &#10007;</span>
+                </ng-template>
+              </p>
+              <p>
+                <span class="cardSubtitle">Recommendation: </span><br>
+                {{item.recommendedTherapy.recommendation}}
+              </p>
+
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-expansion-panel>
+    </div>
+    <!-- Medical history - END -->
+
+    <h5 class="addTherapyTitle">Add new therapy</h5>
+    <!-- Insert therapy panel - BEGIN -->
+    <div class="therapy" *ngIf="therapyVisible">
+      <mat-expansion-panel>
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Therapy
+          </mat-panel-title>
+          <mat-panel-description>
+            Enter patient's therapy
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="wrapper">
+          <mat-form-field class="dpInput">
+            <input matInput #date [matDatepicker]="tdatePicker" placeholder="Date">
+            <mat-datepicker-toggle matSuffix [for]="tdatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #tdatePicker></mat-datepicker>
+          </mat-form-field>
+
+          <!--Therapy - anamnesis-->
+          <mat-expansion-panel>
+
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Anamnesis
+              </mat-panel-title>
+              <mat-panel-description>
+                Enter patient's anamnesis
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="wrapper">
+              <mat-form-field>
+                <textarea matInput #mainDifficulties placeholder="Main difficulties"></textarea>
+              </mat-form-field>
+              <mat-form-field>
+                <textarea matInput #anaMorbi placeholder="Anamnsesis Morbi"></textarea>
+              </mat-form-field>
+              <mat-form-field>
+                <textarea matInput #anaVitae placeholder="Anamnesis Vitae"></textarea>
+              </mat-form-field>
+              <mat-form-field>
+                <textarea matInput #anaFamiliae placeholder="Anamnesis Familiae"></textarea>
+              </mat-form-field>
+            </div>
+
+          </mat-expansion-panel>
+
+          <!--Therapy - diagnostics-->
+          <mat-expansion-panel>
+
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Diagnostics
+              </mat-panel-title>
+              <mat-panel-description>
+                Enter patient's diagnostics
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="wrapper">
+
+              <mat-form-field>
+                <textarea matInput #labFindings placeholder="Lab findings"></textarea>
+              </mat-form-field>
+              <mat-form-field class="dpInput">
+                <input matInput #labdate [matDatepicker]="labPicker" placeholder="Lab findings date">
+                <mat-datepicker-toggle matSuffix [for]="labPicker"></mat-datepicker-toggle>
+                <mat-datepicker #labPicker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field>
+                <textarea matInput #rtg placeholder="RTG"></textarea>
+              </mat-form-field>
+              <mat-form-field class="dpInput">
+                <input matInput #rtgdate [matDatepicker]="rtgPicker" placeholder="RTG date">
+                <mat-datepicker-toggle matSuffix [for]="rtgPicker"></mat-datepicker-toggle>
+                <mat-datepicker #rtgPicker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field>
+                <textarea matInput #nmr placeholder="NMR"></textarea>
+              </mat-form-field>
+              <mat-form-field class="dpInput">
+                <input matInput #nmrdate [matDatepicker]="nmrPicker" placeholder="NMR date">
+                <mat-datepicker-toggle matSuffix [for]="nmrPicker"></mat-datepicker-toggle>
+                <mat-datepicker #nmrPicker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field>
+                <textarea matInput #emng placeholder="EMNG"></textarea>
+              </mat-form-field>
+              <mat-form-field class="dpInput">
+                <input matInput #emngdate [matDatepicker]="emngPicker" placeholder="EMNG date">
+                <mat-datepicker-toggle matSuffix [for]="emngPicker"></mat-datepicker-toggle>
+                <mat-datepicker #emngPicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+          </mat-expansion-panel>
+
+          <mat-form-field>
+            <textarea matInput #statLoc placeholder="Status Localis"></textarea>
+          </mat-form-field>
+          <mat-form-field>
+            <textarea matInput #diagnosis placeholder="Diagnosis"></textarea>
+          </mat-form-field>
+
+          <!--Therapy - recommendedTherapy-->
+          <mat-expansion-panel>
+
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Recommended Therapy
+              </mat-panel-title>
+              <mat-panel-description>
+                Enter patient's recommended Therapy
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="wrapper">
+
+              <mat-form-field>
+                <textarea matInput #recommendation placeholder="Recommendation"></textarea>
+              </mat-form-field>
+
+              <mat-form-field>
+                <textarea matInput #mediocentric placeholder="Mediocentric therapy"></textarea>
+              </mat-form-field>
+
+              <!--Physical Therapy-->
+              <mat-expansion-panel>
+
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Physical Therapy
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Enter patient's physical therapy
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div class="wrapper ">
+
+                  <section class="laserTherapySection">
+                    <label class="laserTitle">Laser therapy</label>
+                    <br>
+                    <div class="laserCheckboxes">
+                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedOne">2500Hz - 6J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedTwo">80Hz - 8J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedThree">600Hz - 6J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedFour">80Hz - 8J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedFive">80Hz - 16J</mat-checkbox>
+                    </div>
+                  </section>
+
+                  <!--Electro therapy-->
+                  <mat-expansion-panel>
+
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Electro Therapy
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Enter patient's electro therapy
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="fieldsWrapper">
+
+                      <section class="radioSection ifsSection">
+                        <label class="radioTitle ifsMargin">IFS:</label>
+                        <mat-radio-group [(ngModel)]="ifsModel">
+                          <mat-radio-button class="ifsMargin" value=true>Yes</mat-radio-button>
+                          <mat-radio-button class="ifsMargin" value=false>No</mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+
+                      <section class="radioSection ddSection">
+                        <label class="radioTitle ddMargin">DD:</label>
+                        <mat-radio-group [(ngModel)]="ddModel">
+                          <mat-radio-button class="ddMargin" value=true>Yes</mat-radio-button>
+                          <mat-radio-button class="ddMargin" value=false>No</mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+
+                      <section class="radioSection gsSection">
+                        <label class="radioTitle gsMargin">GS:</label>
+                        <mat-radio-group [(ngModel)]="gsModel">
+                          <mat-radio-button class="gsMargin" value=true>Yes</mat-radio-button>
+                          <mat-radio-button class="gsMargin" value=false>No</mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+
+                      <section class="radioSection esSection">
+                        <label class="radioTitle esMargin">ES:</label>
+                        <mat-radio-group [(ngModel)]="esModel">
+                          <mat-radio-button class="esMargin" value=true>Yes</mat-radio-button>
+                          <mat-radio-button class="esMargin" value=false>No</mat-radio-button>
+                        </mat-radio-group>
+                      </section>
+
+                    </div>
+
+                  </mat-expansion-panel>
+
+                  <section class="radioSection cryotherapySection">
+                    <label class="radioTitle cryotherapyMargin">Cryotherapy:</label>
+                    <mat-radio-group [(ngModel)]="cryoModel">
+                      <mat-radio-button class="cryotherapyMargin" value=true>Yes</mat-radio-button>
+                      <mat-radio-button class="cryotherapyMargin" value=false>No</mat-radio-button>
+                    </mat-radio-group>
+                  </section>
+
+                  <section class="radioSection impSection">
+                    <label class="radioTitle impMargin">IMP:</label>
+                    <mat-radio-group [(ngModel)]="impModel">
+                      <mat-radio-button class="impMargin" value=true>Yes</mat-radio-button>
+                      <mat-radio-button class="impMargin" value=false>No</mat-radio-button>
+                    </mat-radio-group>
+                  </section>
+
+                  <section class="radioSection ultrasoundSection">
+                    <label class="radioTitle ultrasoundMargin">Ultrasound:</label>
+                    <mat-radio-group [(ngModel)]="ultraModel">
+                      <mat-radio-button class="ultrasoundMargin" value=true>Yes</mat-radio-button>
+                      <mat-radio-button class="ultrasoundMargin" value=false>No</mat-radio-button>
+                    </mat-radio-group>
+                  </section>
+                </div>
+
+              </mat-expansion-panel>
+
+            </div>
+
+          </mat-expansion-panel>
+
+        </div>
+        <div class="addButtonDiv">
+          <button mat-raised-button class="addTherapyBtn" (click)="addTherapy(date.value, mainDifficulties.value, anaMorbi.value, anaVitae.value, anaFamiliae.value, labFindings.value, labdate.value, rtg.value, rtgdate.value, nmr.value, nmrdate.value, emng.value, emngdate.value, statLoc.value, diagnosis.value, recommendation.value, mediocentric.value)">
+            Add therapy
+          </button>
+        </div>
+      </mat-expansion-panel>
+    </div>
+    <!-- Insert therapy panel - END -->
+
+    <div class="buttonRow">
+      <button class="showTherapyBtn" *ngIf="!therapyVisible" (click)="showTherapy()" mat-fab>+</button>
+      <button class="removeTherapyBtn" *ngIf="therapyVisible" (click)="showTherapy()" mat-fab>-</button>
+    </div>
+
+  </div>
+
+</div>

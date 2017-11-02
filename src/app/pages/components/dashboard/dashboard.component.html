@@ -1,31 +1,35 @@
 <div class="dashboardStatsScreen">
-        <div class="wrapper">
-            <div class="stats-wrapper">
-                <div class="stats">
-                    <span>Total number of patients: <br>
-                        <b id="numberInStats">{{numberOfPatients}}</b>
-                    </span>
-                </div>
-                <div class="stats">
-                        <span>Total number of treatments: <br>
-                            <b id="numberInStats">{{numberOfTreatments}}</b>
-                        </span>
-                </div>
-                <div class="appointmentsStats">
-                    <span>Appointments today:</span><br>
-                    <span *ngFor="let appointment of appointmentsToday">{{appointment.dateAndTime.getHours()}}:{{appointment.dateAndTime.getMinutes()}} - {{appointment.patientName}}</span>
-                </div>
+    <div class="wrapper">
+        <div class="stats-wrapper">
+            <div class="stats">
+                <span class="statsTitle">Total number of patients: </span>
+                <span>
+                    <b id="numberInStats">{{numberOfPatients}}</b>
+                </span>
             </div>
-            <div class="page-buttons-wrapper">
-                <div class="pageBtn" (click)="goToAddPatient()">
-                    <span>Add Patient</span>
-                </div>
-                <div class="pageBtn" (click)="goToFindPatients()">
-                    <span>Find Patient</span>
-                </div>
-                <div class="pageBtn" (click)="goToSetAppointment()">
-                    <span>Set Appointment</span>
-                </div>
+            <div class="stats">
+                <span class="statsTitle">Total number of therapies: </span>
+                <span>
+                    <b id="numberInStats">{{numberOfTherapies}}</b>
+                </span>
+            </div>
+            <div class="appointmentsStats">
+                <span class="statsTitle">Appointments today:</span>
+                <span *ngFor="let appointment of appointmentsToday">
+                    {{appointment.hour}}:{{appointment.minute}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}
+                </span>
+            </div>
+        </div>
+        <div class="page-buttons-wrapper">
+            <div class="pageBtn" (click)="goToAddPatient()">
+                <span>Add Patient</span>
+            </div>
+            <div class="pageBtn" (click)="goToFindPatients()">
+                <span>Find Patient</span>
+            </div>
+            <div class="pageBtn" (click)="goToSetAppointment()">
+                <span>Set Appointment</span>
             </div>
         </div>
     </div>
+</div>

@@ -9,6 +9,8 @@ import { AddPatientComponent } from '../../pages/components/add-patient/add-pati
 import { FindPatientComponent } from '../../pages/components/find-patient/find-patient.component';
 import { SetAppointmentComponent } from './../../pages/components/set-appointment/set-appointment.component';
 import { DashboardComponent } from '../../pages/components/dashboard/dashboard.component';
+import { PatientComponent } from './../../pages/components/patient/patient.component';
+import { AppointmentsListComponent } from './../../pages/components/appointments-list/appointments-list.component';
 
 const privateRoutes: Routes = [
     {
@@ -31,13 +33,28 @@ const privateRoutes: Routes = [
           {
             path: 'set-appointment',
             component: SetAppointmentComponent
+          },
+          {
+            path: 'appointments-list',
+            component: AppointmentsListComponent
+          },
+          {
+            path: 'patient',
+            component: PatientComponent
+          },
+          {
+            path: 'patient/:id',
+            component: PatientComponent
           }
       ]
     }
   ];
 
 @NgModule({
-    declarations: [PrivateComponent, SideMenuComponent],
+    declarations: [
+      PrivateComponent,
+      SideMenuComponent
+    ],
     imports: [
         RouterModule.forChild(privateRoutes),
         CommonModule

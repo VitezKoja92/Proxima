@@ -1,0 +1,42 @@
+<div class="appointmentListScreen">
+
+  <div class="appointmentListForm">
+
+    <h3 class="appointmentListTitle">List of Appointments</h3>
+
+    <!--Set new appointment button-->
+    <div class="buttons">
+      <button mat-button class="setAppointmentBtn" (click)="newAppointment()">New appointment</button>
+    </div>
+
+     <!-- Filter -->
+    <mat-form-field>
+      <mat-select placeholder="Period" [(ngModel)]="selectedPeriod" name="period" (change)="getAppointments(selectedPeriod)">
+        <mat-option *ngFor="let period of periods" [value]="period">
+          {{period}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- List -->
+    <table class="appointmentsTable" matSort (matSortChange)="sortData($event)">
+      <tr class="appointmentsHeader">
+        <th mat-sort-header="date">Date</th>
+        <th mat-sort-header="time">Time</th>
+        <th mat-sort-header="name">Name</th>
+        <th mat-sort-header="surname">Surname</th>
+        <th mat-sort-header="description">Description</th>
+      </tr>
+
+      <tr class="appointmentsRow" *ngFor="let appointment of sortedAppointments">
+        <td>{{ appointment?.date.getDate()}}-{{appointment?.date.getMonth()+1}}-{{appointment?.date.getFullYear() }}</td>
+        <td>{{ appointment?.hour}}:{{appointment?.minute }}</td>
+        <td>{{ appointment?.patient.personalInfo.name }}</td>
+        <td>{{ appointment?.patient.personalInfo.surname }}</td>
+        <td>{{ appointment?.description }}</td>
+      </tr>
+    </table>
+
+  </div>
+
+</div>

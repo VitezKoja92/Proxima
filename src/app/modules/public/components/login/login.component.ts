@@ -24,6 +24,7 @@ export class LoginComponent {
     // this.AuthenticationService.login(username, password)
     //   .then((response: boolean): void => {
     //    if (response) {
+    //     this.Router.navigate(['/dashboard']);
     //    } else {
     //      alert('Wrong Username and/or Password!');
     //    }
@@ -36,10 +37,8 @@ export class LoginComponent {
     this.UserAPIService.getAllUsers()
       .then((users: User[]): void => {
         this.users = users;
-        console.log('Users from pouchDB: ', this.users);
       }, (error: Error): void => {
         console.log('Error: ', error);
     });
-    console.log('this.users: ', this.users);
   }
 }

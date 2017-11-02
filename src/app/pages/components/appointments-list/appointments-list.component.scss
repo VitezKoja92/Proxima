@@ -1,0 +1,81 @@
+@import "~variables.scss";
+
+.appointmentListScreen {
+    font-family: $font_nova;
+    margin-left: 12.5rem;
+    margin-top: 8rem;
+    display: flex;
+    justify-content: center;
+    color: $darkblue;
+    
+}
+
+.appointmentListForm {
+    border: $darkblue_border;
+    width: 60vw;
+    border-radius: 0.4rem;
+    padding: 1.25rem 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.appointmentListTitle {
+    margin: 1.9rem 0.625rem;
+    text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    border: 0.125rem solid $lightgreen;
+    width: 100%;
+}
+
+th {
+    border: 0.125rem solid $darkblue;
+    padding: 0.5rem 1rem;
+    background-color: $lightgreen;
+}
+
+td {
+    border: 0.125rem solid $lightgreen;
+    padding: 0.5rem 1rem;
+}
+
+tr>th:hover {
+     background-color: $darkblue;
+     color: $lightbedge;
+     cursor: pointer;
+}
+
+tr:nth-child(even) {
+    background-color: $lightgray;
+}
+
+.buttons {
+    margin-right: 0.5rem;
+    width: 100%;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.setAppointmentBtn {
+    width: 20vw;
+    margin: 1.5rem 0.5rem;   
+    padding: 0 0.5rem;
+    background-color: $darkblue;
+    color: $lightbedge;
+    font-family: $font_nova;
+    font-size: 1rem;
+    border-radius: 0.2rem;
+    border: $darkblue_button_border;
+}
+
+.setAppointmentBtn:hover {
+    cursor: pointer;
+    background-color: white;
+    color: $darkblue;
+
+}

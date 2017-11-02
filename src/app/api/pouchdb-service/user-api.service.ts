@@ -26,14 +26,6 @@ export class UserAPIService {
     this.db.sync(`${environment.couch_url}${this.dbName}`, {
       live: true,
       retry: true
-    }).on('change', function (change) {
-      console.log('Something is changed: ', change);
-    }).on('paused', function (info) {
-      console.log('Paused: ', info);
-    }).on('active', function (info) {
-      console.log('Active(resumed): ', info);
-    }).on('error', function (err) {
-      console.log('Error: ', err);
     });
 
     // Index creation
@@ -42,7 +34,6 @@ export class UserAPIService {
         fields: ['username, password, name, surname, email, phoneNr']
       }
     }).then((result: IPouchDBCreateIndexResult) => {
-      // handle result
     }).catch((err) => {
       console.log(err);
     });
@@ -50,11 +41,9 @@ export class UserAPIService {
 
   public addUser(user: User): Promise<string> {
     return this.db.put(user)
-      .then(
-      (result: IPouchDBPutResult): string => {
+      .then((result: IPouchDBPutResult): string => {
         return result.id;
-      }
-      );
+      });
   }
 
   public getUser(username: string, password?: string): Promise<User> | null {
@@ -77,7 +66,6 @@ export class UserAPIService {
     }
     return this.db.find(userQuery)
       .then((result: IPouchDBFindUsersResult): User | null => {
-        console.log('Result: ', result);
         return result.docs.length ? result.docs[0] : null;
       }).catch((error: Error) => {
         console.log('Error: ', error);
@@ -87,12 +75,9 @@ export class UserAPIService {
   public getAllUsers(): Promise<User[]> {
     const promise = this.db.allDocs({
       include_docs: true,
-      startkey: 'user:',
-      endKey: 'user:\uffff'
-    }).then(
-      (result: IPouchDBAllDocsResult): User[] => {
-        return result.rows.map(
-          (row: any): User => {
+      startkey: 'user:'
+    }).then((result: IPouchDBAllDocsResult): User[] => {
+        return result.rows.map((row: any): User => {
             return ({
               _id: row.doc._id,
               username: row.doc.username,
@@ -104,8 +89,7 @@ export class UserAPIService {
             });
           }
         );
-      }
-      );
+      });
     return promise;
   }
 }

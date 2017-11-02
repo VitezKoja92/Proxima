@@ -1,4 +1,105 @@
+@import "~variables.scss";
+
 .addPatientScreen {
+    font-family: $font_nova;
     margin-left: 12.5rem;
     margin-top: 8rem;
+    display: flex;
+    justify-content: center;
+    color: $darkblue;
+    
+}
+
+.add-patient-form {
+    border: $darkblue_border;
+    border-radius: 0.4rem;
+    padding: 1.25rem 1.25rem;
+}
+
+.addPatientTitle {
+    margin: 1.9rem 0.625rem;
+    text-align: center;
+}
+
+.fieldsWrapper {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+mat-expansion-panel {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.8rem;
+}
+
+mat-form-field {
+    font-family: $font_nova;
+    margin-bottom: 1rem;
+}
+
+mat-expansion-panel-header{
+    font-family: $font_nova;
+    font-size: 1rem;
+}
+
+.mat-expansion-panel-header-title {
+    color: $darkblue;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.addPatient-btn, .clear-btn {
+    width: 20vw;
+    margin: 1rem;   
+    padding: 0 1rem;
+    background-color: $darkblue;
+    color: $lightbedge;
+    font-weight: bold;
+    font-family: $font_nova;
+    font-size: 1.1rem;
+    border-radius: 0.2rem;
+    border: $darkblue_button_border;
+}
+
+.addPatient-btn:hover, .clear-btn:hover{
+    cursor: pointer;
+    background-color:rgb(255, 255, 255);
+    color: $darkblue;
+}
+
+.laserTitle {
+    font-family: $font_nova;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.therapy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+
+.addTherapyBtn {
+    background-color: $lightgreen;
+    font-size: 1.5rem;
+}
+
+.radioTitle, .addTherapyLabel{
+    font-size: 0.9rem;
+    font-family: $font_nova;
+    margin-right: 1rem;
+}
+
+.laserTherapySection, .radioSection {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.dpInput {
+    width: 30%;
 }

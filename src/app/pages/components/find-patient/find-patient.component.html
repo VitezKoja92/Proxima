@@ -1,3 +1,27 @@
 <div class="findPatientScreen">
-  find-patient page!
+
+  <div class="find-patient-form">
+
+    <h3 class="findPatientTitle">Find Patient</h3>
+
+    <!-- Search -->
+    <div class="search">
+      <mat-form-field class="searchInput">
+        <input #searchInput [(ngModel)]="key" matInput placeholder="Enter patient's name or surname">
+      </mat-form-field>
+    </div>
+
+    <!-- List -->
+    <mat-list>
+      <mat-list-item *ngFor="let patient of patients | search: key">
+        <div class="listItem">
+          <span class="listItemTitle">{{patient?.personalInfo?.name}} {{patient?.personalInfo?.surname}} - {{patient?.personalInfo?.profession}}</span>
+          <button class="btn open-btn" (click)="openPatient(patient._id)">Open</button>
+        </div>
+      </mat-list-item>
+
+    </mat-list>
+
+  </div>
+
 </div>

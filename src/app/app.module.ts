@@ -2,13 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
-
 
 /* Components */
 import { AppComponent } from './app.component';
-import { PublicComponent } from './modules/public/public.component';
-import { PrivateComponent } from './modules/private/private.component';
 
 /* Guards */
 import { AuthenticationGuard } from './guards/authentication.guard';
@@ -24,7 +20,6 @@ import { PrivateModule } from './modules/private/private.module';
 import { PublicModule } from './modules/public/public.module';
 import { PagesModule } from './pages/pages.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './modules/material.module';
 
 const appRoutes: Routes = [
   {
@@ -45,12 +40,9 @@ const appRoutes: Routes = [
     PagesModule,
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialModule,
     RouterModule.forRoot(appRoutes),
     HttpModule,
-    ApiModule.forRoot(),
-
-
+    ApiModule.forRoot()
   ],
   providers: [
     AuthenticationGuard,

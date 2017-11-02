@@ -13,7 +13,7 @@ export class AnonymousGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.AuthenticationService.isSessionValid()) {
-      console.log('anonymous guard', 'true in guard');
+      // console.log('anonymous guard', 'true in guard');
       return true;
     } else {
       this.Router.navigate(['/login']);

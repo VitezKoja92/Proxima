@@ -1,4 +1,75 @@
+@import "~variables.scss";
+
 .setAppointmentScreen {
+    font-family: $font_nova;
     margin-left: 12.5rem;
     margin-top: 8rem;
+    display: flex;
+    justify-content: center;
+    color: $darkblue;
+    
+}
+
+.setAppointmentForm {
+    border: $darkblue_border;
+    width: 60vw;
+    min-width: 40rem;
+    border-radius: 0.4rem;
+    padding: 1.25rem 1.25rem;
+}
+
+.setAppointmentTitle {
+    margin: 1.9rem 0.625rem;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.formFields {
+    flex: 1;
+    margin: 1rem 0.8rem;
+}
+
+mat-form-field {
+    display: block;
+}
+
+.calendar {
+    flex: 1;
+    margin: 1rem 0.8rem;
+}
+
+.hourMinute {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.hourInputField {
+    margin: 0 .5rem 0 0;
+}
+
+.minuteInputField {
+    margin: 0 0 0 .5rem;
+}
+
+.setAppointment-btn {
+    // width: 15vw;
+    margin-top: 2rem;   
+    background-color: $darkblue;
+    color: $lightbedge;
+    font-weight: bold;
+    font-family: $font_nova;
+    font-size: 1rem;
+    border-radius: 0.2rem;
+    border: $darkblue_button_border;
+}
+
+.setAppointment-btn:hover{
+    cursor: pointer;
+    background-color:rgb(255, 255, 255) !important;
+    color: $darkblue;
 }
