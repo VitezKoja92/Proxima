@@ -1,20 +1,10 @@
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Address } from '../../../api/models/index';
-import {
-  Anamnesis,
-  Diagnostics,
-  ElectroTherapy,
-  PhysicalTherapy,
-  LaserTherapyChoices,
-  Therapy,
-  MedicalHistoryItem,
-  Patient,
-  PatientPersonalInfo
-} from './../../../api/models/index';
+import { Patient, PatientPersonalInfo } from './../../../api/models/index';
 import { UserAPIService } from './../../../api/pouchdb-service/user-api.service';
 
 @Component({
@@ -41,7 +31,6 @@ export class AddPatientComponent {
 
     this.PatientAPIService.addPatient(patient)
       .then((id: string): void => {
-        console.log('New patient added: ', id);
         this.Router.navigate(['/patient/' + id]);
       }, (error: Error): void => {
         console.log('Error: ', error);

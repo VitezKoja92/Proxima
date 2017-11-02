@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { UserAPIService } from './../../../api/pouchdb-service/user-api.service';
@@ -18,7 +18,6 @@ export class SetAppointmentComponent {
   appointments: Appointment[];
   appointmentHoursWrong: boolean;
   appointmentMinutesWrong: boolean;
-  // hours: any;
 
   constructor(
     private UserAPIService: UserAPIService,
@@ -92,12 +91,10 @@ export class SetAppointmentComponent {
 
     this.AppointmentAPIService.addAppointment(appointment)
       .then((result: string): void => {
-        console.log('Result: ', result);
         this.Router.navigate(['/appointments-list']);
       }, (error: Error): void => {
         console.log('Error: ', error);
       });
-
   }
 
 }

@@ -1,10 +1,10 @@
+import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
-import { TreatmentsAPIService } from './../../../api/pouchdb-service/treatments-api.service';
-import { Appointment } from '../../../api/models/index';
+import { Appointment, Patient } from '../../../api/models/index';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,17 +14,16 @@ import { Appointment } from '../../../api/models/index';
 export class DashboardComponent {
 
   numberOfPatients: Number;
-  numberOfTreatments: Number;
+  numberOfTherapies: any = 0;
   appointmentsToday: Appointment[];
 
   constructor(
     private Router: Router,
     private PatientAPIService: PatientAPIService,
-    private TreatmentsAPIService: TreatmentsAPIService,
     private AppointmentAPIService: AppointmentAPIService
   ) {
       this.getNumberOfPatients();
-      this.getNumberOfTreatments();
+      this.getNumberOfTherapies();
       this.getAppointmentsToday();
   }
 
@@ -51,10 +50,14 @@ export class DashboardComponent {
     );
   }
 
-  getNumberOfTreatments(): void {
-    this.TreatmentsAPIService.getNumberOfTreatments()
-      .then((numberOfTreatments: Number): void => {
-        this.numberOfTreatments = numberOfTreatments;
+  getNumberOfTherapies(): void {
+    this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]): void => {
+        for (let patient of patients) {
+          if (!isNullOrUndefined(patient.medicalHistory)) {
+            this.numberOfTherapies += patient.medicalHistory.length;
+          }
+        }
       },
       (error: Error): void => {
         console.log('Error: ', error);

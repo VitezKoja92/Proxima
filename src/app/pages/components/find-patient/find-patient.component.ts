@@ -1,10 +1,8 @@
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Patient } from './../../../api/models/index';
-import { SearchFilterPipe } from './../../../api/models/search-filter-pipe';
 
 @Component({
   selector: 'app-find-patient',

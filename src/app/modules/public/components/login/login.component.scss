@@ -11,7 +11,7 @@
     border: $darkblue_border;
     border-radius: 0.4rem;
     padding: 1.25rem 1.25rem;
-    flex: 0.29; 
+    width: 35vw; 
 }
 
 .loginTitle {
@@ -23,19 +23,23 @@
 .inputForm {
     font-family: $font_nova;
     margin: 1.25rem 1.25rem; 
-    display: flex;
-    flex-direction: column;
+}
+
+mat-form-field {
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
 .buttons {
     margin-top: 2rem;
     text-align: center;
+    display: block;
 }
 
 .login-btn, .register-btn {
     width: 35%;
     margin: 1rem;   
-    padding: 0rem 1rem;
+    padding: 0 1rem;
     background-color: $darkblue;
     color: $lightbedge;
     font-weight: bold;
@@ -45,11 +49,9 @@
     border: $darkblue_button_border;
 }
 
-mat-form-field {
-    margin-bottom: 0.5rem;
-}
+
 #last {
-    margin-bottom: 0rem;
+    margin-bottom: 0;
 }
 
 .login-btn:hover, .register-btn:hover {

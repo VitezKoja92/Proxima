@@ -1,12 +1,11 @@
 import { isNullOrUndefined } from 'util';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Patient } from '../../../api/models/index';
-import { MatDialog } from '@angular/material';
 import {
-  Address,
   LaserTherapyChoices,
   Anamnesis, Diagnostics,
   ElectroTherapy, PhysicalTherapy,
@@ -44,7 +43,6 @@ export class PatientComponent {
     private dialog: MatDialog,
     private Router: Router
   ) {
-    // this.getPatient('Danilo', 'Krasic');
     this.ActivatedRoute.params.subscribe(
       (params) => {
         this.getPatient(params.id);
@@ -57,7 +55,6 @@ export class PatientComponent {
     this.PatientAPIService.getPatient(id)
       .then((patient: Patient): void => {
         this.currentPatient = patient;
-        console.log('Patient: ', patient);
       }, (error: Error): void => {
         console.log('Error: ', error);
       });
@@ -132,11 +129,10 @@ export class PatientComponent {
             this.getPatient(params.id);
           }
         );
-
       }, (error: Error): void => {
         console.log('Error: ', error);
       });
 
-    }
+  }
 
 }

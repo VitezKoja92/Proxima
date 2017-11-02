@@ -1,6 +1,6 @@
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Sort } from '@angular/material';
 
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
@@ -22,20 +22,7 @@ export class AppointmentsListComponent {
     this.getAppointments();
   }
 
-  periods = [
-    {
-      value: 'All'
-    },
-    {
-      value: 'Week'
-    },
-    {
-      value: 'Month'
-    },
-    {
-      value: 'Year'
-    }
-  ];
+  periods = ['All', 'Today', 'Week', 'Month', 'Year'];
 
   getAppointments(period?: string): void {
     const today = new Date();
@@ -49,8 +36,12 @@ export class AppointmentsListComponent {
 
             let todayDate;
             let futureDate;
-
-            if (period === 'Week') {
+            if (period === 'Today') {
+              todayDate = new Date();
+              return appointment.date.getDate() === today.getDate()
+              && appointment.date.getMonth() === today.getMonth()
+              && appointment.date.getFullYear() === today.getFullYear();
+            } else if (period === 'Week') {
               todayDate = new Date();
               futureDate = new Date(today.getTime() + (1000 * 60 * 60 * 24 * 7));
             } else if (period === 'Month') {

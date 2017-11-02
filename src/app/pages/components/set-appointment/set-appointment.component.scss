@@ -13,6 +13,7 @@
 .setAppointmentForm {
     border: $darkblue_border;
     width: 60vw;
+    min-width: 40rem;
     border-radius: 0.4rem;
     padding: 1.25rem 1.25rem;
 }
@@ -25,20 +26,20 @@
 .form {
     display: flex;
     flex-direction: row;
-    width: 100%;
     justify-content: space-between;
 }
 .formFields {
-    display: flex;
-    flex-direction: column;
-    width: 45%;
+    flex: 1;
+    margin: 1rem 0.8rem;
+}
+
+mat-form-field {
+    display: block;
 }
 
 .calendar {
-    width: 45%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex: 1;
+    margin: 1rem 0.8rem;
 }
 
 .hourMinute {
@@ -47,22 +48,16 @@
     justify-content: flex-start;
 }
 
-.hourMinute > mat-form-field:first-child {
-    margin: 0rem 1rem 0rem 0rem;
-    width: 30%;
+.hourInputField {
+    margin: 0 .5rem 0 0;
 }
 
-.hourMinute > mat-form-field:last-child {
-    margin: 0rem 0rem 0rem 1rem;
-    width: 30%;
+.minuteInputField {
+    margin: 0 0 0 .5rem;
 }
-.buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-}
+
 .setAppointment-btn {
-    width: 15vw;
+    // width: 15vw;
     margin-top: 2rem;   
     background-color: $darkblue;
     color: $lightbedge;

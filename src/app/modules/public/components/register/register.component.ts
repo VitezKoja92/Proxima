@@ -28,7 +28,6 @@ export class RegisterComponent {
     const newUser = new User(username, password, name, surname, email, phoneNr);
     this.UserAPIService.addUser(newUser)
     .then((id: string): void => {
-      console.log('New user added: ', id);
       // localStorage.setItem('currentUser', id);
       // login
     }, (error: Error): void => {

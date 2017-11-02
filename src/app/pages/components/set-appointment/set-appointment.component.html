@@ -26,13 +26,11 @@
       </div>
       <div class="calendar">
         <div class="hourMinute">
-          <mat-form-field>
+          <mat-form-field class="hourInputField">
             <input matInput #hour placeholder="Hour" [ngModel]="hours" (ngModelChange)="updateHours($event)" required>
-            <!-- <mat-error *ngIf="hoursWrong(hour.value)">Hours value needs to be between 0 and 23!</mat-error> -->
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field class="minuteInputField">
             <input matInput #minute placeholder="Minute" [ngModel]="minutes" (ngModelChange)="updateMinutes($event)" required>
-            
           </mat-form-field>
         </div>
         <mat-form-field>

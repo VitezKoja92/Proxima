@@ -1,16 +1,14 @@
-import { MedicalHistoryItem, PatientPersonalInfo } from './../models/index';
-// import { CanActivate } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
+import { MedicalHistoryItem, PatientPersonalInfo } from './../models/index';
 import { environment } from './../../../environments/environment';
 import { IPouchDBCreateIndexResult } from '../models/index';
 import {
   Patient,
   IPouchDBAllDocsResult,
   IPouchDBPutResult,
-  IPouchDBFindUsersResult,
   IPouchDBFindPatientsResult,
   Address
 } from './../models/index';
@@ -36,14 +34,6 @@ export class PatientAPIService {
     this.db.sync(`${environment.couch_url}${this.dbName}`, {
       live: true,
       retry: true
-    }).on('change', function (change) {
-      console.log('Something is changed: ', change);
-    }).on('paused', function (info) {
-      console.log('Paused: ', info);
-    }).on('active', function (info) {
-      console.log('Active(resumed): ', info);
-    }).on('error', function (err) {
-      console.log('Error: ', err);
     });
 
     // Index creation
@@ -53,7 +43,6 @@ export class PatientAPIService {
           'address.country, address.city, address.street, address.streetNo, profession']
       }
     }).then((result: IPouchDBCreateIndexResult) => {
-      // handle result
     }).catch((err) => {
       console.log(err);
     });
@@ -62,19 +51,18 @@ export class PatientAPIService {
 
   public getNumberOfPatients(): Promise<Number> {
     const promise = this.db.allDocs({
-      include_docs: true
-    }).then(
-      (result: IPouchDBAllDocsResult): Number => {
-        return result.total_rows;
-      }
+      include_docs: true,
+      startkey: 'patient:'
+    }).then((result: IPouchDBAllDocsResult): Number => {
+      return result.rows.length;
+    }
       );
     return promise;
   }
 
   public addPatient(patient: Patient): Promise<string> {
     return this.db.put(patient)
-      .then(
-      (result: IPouchDBPutResult): string => {
+      .then((result: IPouchDBPutResult): string => {
         return result.id;
       }
       );
@@ -90,7 +78,6 @@ export class PatientAPIService {
 
     return this.db.find(query)
       .then((result: IPouchDBFindPatientsResult): Patient => {
-        console.log('Result: ', result);
         return result.docs.length ? result.docs[0] : null;
       }).catch((error: Error) => {
         console.log('Error: ', error);
@@ -100,8 +87,7 @@ export class PatientAPIService {
   public editPatientInfo(id: string, rev: string, name: string, surname: string,
     address: Address, profession: string, dateOfBirth: Date, medicalHistory: MedicalHistoryItem[]): Promise<Patient> {
     return this.db.get(id)
-      .then(
-      (doc: Patient): IPouchDBPutResult => {
+      .then((doc: Patient): IPouchDBPutResult => {
         return this.db.put({
           _id: id,
           _rev: rev,
@@ -116,7 +102,6 @@ export class PatientAPIService {
         });
       }
       ).then((res: string): void => {
-        console.log('Response from edit: ', res);
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
@@ -124,17 +109,15 @@ export class PatientAPIService {
 
   public addTherapy(id: string, rev: string, personalInfo: PatientPersonalInfo, medicalHistory: MedicalHistoryItem[]): Promise<Patient> {
     return this.db.get(id)
-      .then(
-        (doc: Patient): IPouchDBPutResult => {
-          return this.db.put({
-            _id: id,
-            _rev: rev,
-            personalInfo: personalInfo,
-            medicalHistory: medicalHistory
-          });
-        }
+      .then((doc: Patient): IPouchDBPutResult => {
+        return this.db.put({
+          _id: id,
+          _rev: rev,
+          personalInfo: personalInfo,
+          medicalHistory: medicalHistory
+        });
+      }
       ).then((res: string): void => {
-        console.log('Response form addTherapy: ', res);
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
@@ -144,22 +127,19 @@ export class PatientAPIService {
   public getAllPatients(): Promise<Patient[]> {
     return this.db.allDocs({
       include_docs: true,
-      startkey: 'patient:',
-      endKey: 'patient:\uffff'
-    }).then(
-      (result: IPouchDBAllDocsResult): Patient[] => {
-        return result.rows.map(
-          (row: any): Patient => {
-            return ({
-              _id: row.doc._id,
-              _rev: row.doc._rev,
-              personalInfo: row.doc.personalInfo,
-              medicalHistory: row.doc.medicalHistory
-            });
-          }
+      startkey: 'patient:'
+    }).then((result: IPouchDBAllDocsResult): Patient[] => {
+        return result.rows.map((row: any): Patient => {
+          return ({
+            _id: row.doc._id,
+            _rev: row.doc._rev,
+            personalInfo: row.doc.personalInfo,
+            medicalHistory: row.doc.medicalHistory
+          });
+        }
         );
       }
-    );
+      );
   }
 
 }

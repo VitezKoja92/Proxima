@@ -31,7 +31,7 @@
 
 .searchInput {
     width: 25vw;
-    margin: 2rem 0rem;
+    margin: 2rem 0;
     font-weight: bold;
     font-family: $font_nova;
     font-size: 1.1rem;
@@ -48,8 +48,8 @@
 
 .open-btn {
     width: 8vw;
-    margin: 0.5rem 0rem;   
-    padding: 0.2rem 0rem;
+    margin: 0.5rem 0;   
+    padding: 0.2rem 0;
     background-color: $darkblue;
     color: $lightbedge;
     font-weight: bold;
@@ -69,5 +69,4 @@
     font-family: $font_nova;
     font-weight: bold;
     font-size: 1rem;
-    // margin-bottom: 2rem;
 }

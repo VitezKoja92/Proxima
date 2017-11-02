@@ -12,8 +12,8 @@
      <!-- Filter -->
     <mat-form-field>
       <mat-select placeholder="Period" [(ngModel)]="selectedPeriod" name="period" (change)="getAppointments(selectedPeriod)">
-        <mat-option *ngFor="let period of periods" [value]="period.value">
-          {{period.value}}
+        <mat-option *ngFor="let period of periods" [value]="period">
+          {{period}}
         </mat-option>
       </mat-select>
     </mat-form-field>

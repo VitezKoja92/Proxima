@@ -27,15 +27,19 @@
     margin: 1rem;
     border: $darkblue_border;
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
     padding: 1rem 1rem;
+}
+
+.statsTitle {
+    margin-bottom: 0.8rem;
 }
 
 .pageBtn {
     background: $lightgray;
     border: 0.25rem solid $darkblue;
     font-style: italic;
+    justify-content: center;
     font-size: 1.8rem;
 }
 
@@ -68,7 +72,6 @@
         border: $darkblue_border;
         display: flex;
         justify-content: center;
-        // align-items: center;
         flex-direction: column;
         padding-left: 1rem;
     }
@@ -92,7 +95,6 @@
             border: $darkblue_border;
             display: flex;
             justify-content: center;
-            // align-items: center;
             flex-direction: column;
             padding-left: 1rem;
         }

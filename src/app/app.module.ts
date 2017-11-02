@@ -2,13 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
-
 
 /* Components */
 import { AppComponent } from './app.component';
-import { PublicComponent } from './modules/public/public.component';
-import { PrivateComponent } from './modules/private/private.component';
 
 /* Guards */
 import { AuthenticationGuard } from './guards/authentication.guard';
