@@ -24,18 +24,18 @@ export class PatientComponent {
   currentPatient: Patient;
   therapyVisible: boolean;
 
-  ifsModel: any;
-  ddModel: any;
-  gsModel: any;
-  esModel: any;
-  cryoModel: any;
-  ultraModel: any;
-  impModel: any;
-  checkedOne: any;
-  checkedTwo: any;
-  checkedThree: any;
-  checkedFour: any;
-  checkedFive: any;
+  ifsModel: boolean;
+  ddModel: boolean;
+  gsModel: boolean;
+  esModel: boolean;
+  cryoModel: boolean;
+  ultraModel: boolean;
+  impModel: boolean;
+  checkedOne: boolean;
+  checkedTwo: boolean;
+  checkedThree: boolean;
+  checkedFour: boolean;
+  checkedFive: boolean;
 
   constructor(
     private PatientAPIService: PatientAPIService,
