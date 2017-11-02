@@ -43,8 +43,7 @@ export class UserAPIService {
     return this.db.put(user)
       .then((result: IPouchDBPutResult): string => {
         return result.id;
-      }
-      );
+      });
   }
 
   public getUser(username: string, password?: string): Promise<User> | null {
@@ -90,8 +89,7 @@ export class UserAPIService {
             });
           }
         );
-      }
-      );
+      });
     return promise;
   }
 }

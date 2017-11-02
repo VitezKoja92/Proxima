@@ -46,7 +46,6 @@ export class PatientAPIService {
     }).catch((err) => {
       console.log(err);
     });
-
   }
 
   public getNumberOfPatients(): Promise<Number> {
@@ -55,8 +54,7 @@ export class PatientAPIService {
       startkey: 'patient:'
     }).then((result: IPouchDBAllDocsResult): Number => {
       return result.rows.length;
-    }
-      );
+    });
     return promise;
   }
 
@@ -64,8 +62,7 @@ export class PatientAPIService {
     return this.db.put(patient)
       .then((result: IPouchDBPutResult): string => {
         return result.id;
-      }
-      );
+      });
   }
 
   public getPatient(id: string): Promise<Patient> {
@@ -136,10 +133,7 @@ export class PatientAPIService {
             personalInfo: row.doc.personalInfo,
             medicalHistory: row.doc.medicalHistory
           });
-        }
-        );
-      }
-      );
+        });
+      });
   }
-
 }
