@@ -24,7 +24,12 @@ import { AppointmentsListComponent } from './components/appointments-list/appoin
         SearchFilterPipe,
         AppointmentsListComponent
     ],
-    imports: [ CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
+    imports: [ 
+      CommonModule, 
+      MaterialModule, 
+      FormsModule, 
+      ReactiveFormsModule
+    ],
     exports: [
         DashboardComponent,
         AddPatientComponent,
