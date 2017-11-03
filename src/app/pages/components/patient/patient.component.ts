@@ -26,8 +26,6 @@ export class PatientComponent {
   therapyVisible: boolean;
   form: FormGroup;
 
-  
-
   constructor(
     private PatientAPIService: PatientAPIService,
     private ActivatedRoute: ActivatedRoute,
@@ -155,7 +153,5 @@ export class PatientComponent {
       }, (error: Error): void => {
         console.log('Error: ', error);
       });
-
   }
-
 }

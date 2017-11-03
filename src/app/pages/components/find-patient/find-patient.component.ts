@@ -52,5 +52,4 @@ export class FindPatientComponent implements OnInit{
   openPatient(id: string): void {
     this.Router.navigate(['/patient/' + id]);
   }
-
 }
