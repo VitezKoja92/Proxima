@@ -48,16 +48,6 @@ export class PatientAPIService {
     });
   }
 
-  public getNumberOfPatients(): Promise<Number> {
-    const promise = this.db.allDocs({
-      include_docs: true,
-      startkey: 'patient:'
-    }).then((result: IPouchDBAllDocsResult): Number => {
-      return result.rows.length;
-    });
-    return promise;
-  }
-
   public addPatient(patient: Patient): Promise<string> {
     return this.db.put(patient)
       .then((result: IPouchDBPutResult): string => {
@@ -97,8 +87,7 @@ export class PatientAPIService {
           },
           medicalHistory: medicalHistory
         });
-      }
-      ).then((res: string): void => {
+      }).then((res: string): void => {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
@@ -113,8 +102,7 @@ export class PatientAPIService {
           personalInfo: personalInfo,
           medicalHistory: medicalHistory
         });
-      }
-      ).then((res: string): void => {
+      }).then((res: string): void => {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });

@@ -40,14 +40,13 @@ export class DashboardComponent {
   }
 
   getNumberOfPatients(): void {
-    this.PatientAPIService.getNumberOfPatients()
-      .then((numberOfPatients: Number): void => {
-          this.numberOfPatients = numberOfPatients;
+    this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]): void => {
+          this.numberOfPatients = patients.length;
       },
       (error: Error): void => {
         console.log('Error: ', error);
-      }
-    );
+      });
   }
 
   getNumberOfTherapies(): void {
@@ -61,8 +60,7 @@ export class DashboardComponent {
       },
       (error: Error): void => {
         console.log('Error: ', error);
-      }
-    );
+      });
   }
 
   getAppointmentsToday(): void {
