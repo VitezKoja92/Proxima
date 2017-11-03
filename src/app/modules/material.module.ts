@@ -10,7 +10,6 @@ import {
   MatDialogModule,
   MatExpansionModule,
   MatFormFieldModule,
-  MatFormFieldControl,
   MatGridListModule,
   MatIconModule,
   MatInputModule,
@@ -34,12 +33,9 @@ import {
   MatTooltipModule,
   MatStepperModule,
 } from '@angular/material';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
 
 @NgModule({
     imports: [
-        // Material Modules
         MatAutocompleteModule,
         MatButtonModule,
         MatButtonToggleModule,
@@ -72,11 +68,8 @@ import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
         MatTooltipModule,
         MatNativeDateModule,
         MatStepperModule,
-        FormsModule,
-        ReactiveFormsModule
         ],
     exports: [
-      // Material Modules
       MatAutocompleteModule,
       MatButtonModule,
       MatButtonToggleModule,
@@ -109,11 +102,6 @@ import {MATERIAL_COMPATIBILITY_MODE} from '@angular/material';
       MatTooltipModule,
       MatNativeDateModule,
       MatStepperModule,
-      FormsModule,
-      ReactiveFormsModule
-      ],
-    providers: [
-      {provide: MATERIAL_COMPATIBILITY_MODE, useValue: true},
-    ],
+      ]
   })
   export class MaterialModule {}
