@@ -4,47 +4,54 @@
 
     <h3 class="setAppointmentTitle">Set Appointment</h3>
 
-    <div class="form">
+    <form class="form" [formGroup]="form" (ngSubmit)="setAppointment(form.value)">
       <div class="formFields">
         <mat-form-field>
-          <mat-select #userSelection placeholder="Doctor" required>
+          <mat-select #userSelection placeholder="Doctor" formControlName="doctor">
             <mat-option *ngFor="let user of users" [value]="user">
               {{ user?.name }} {{user?.surname}}
             </mat-option>
           </mat-select>
+          <mat-error *ngIf="form.controls['doctor'].hasError('required')">You must enter a value</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-select #patientSelection placeholder="Patient">
-            <mat-option *ngFor="let patient of patients" [value]="patient" required>
+          <mat-select #patientSelection placeholder="Patient" formControlName="patient">
+            <mat-option *ngFor="let patient of patients" [value]="patient">
               {{ patient?.personalInfo.name }} {{patient?.personalInfo.surname}}
             </mat-option>
           </mat-select>
+          <mat-error *ngIf="form.controls['patient'].hasError('required')">You must enter a value</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <textarea matInput #description placeholder="Description"></textarea>
+          <textarea matInput #description placeholder="Description" formControlName="description"></textarea>
         </mat-form-field>
       </div>
       <div class="calendar">
         <div class="hourMinute">
           <mat-form-field class="hourInputField">
-            <input matInput #hour placeholder="Hour" [ngModel]="hours" (ngModelChange)="updateHours($event)" required>
+            <input matInput #hour placeholder="Hour" type="number" formControlName="hour">
+            <mat-error *ngIf="form.controls['hour'].hasError('required')">You must enter a value</mat-error>
+            <mat-error *ngIf="form.controls['hour'].hasError('max')">Value must be lower than 24</mat-error>
+            <mat-error *ngIf="form.controls['hour'].hasError('min')">Value must be higher or equal to 0</mat-error>
           </mat-form-field>
           <mat-form-field class="minuteInputField">
-            <input matInput #minute placeholder="Minute" [ngModel]="minutes" (ngModelChange)="updateMinutes($event)" required>
+            <input matInput #minute placeholder="Minute" type="number" formControlName="minute">
+            <mat-error *ngIf="form.controls['minute'].hasError('required')">You must enter a value</mat-error>
+            <mat-error *ngIf="form.controls['minute'].hasError('max')">Value must be lower than 60</mat-error>
+            <mat-error *ngIf="form.controls['minute'].hasError('min')">Value must be higher or equal to 0</mat-error>
           </mat-form-field>
         </div>
         <mat-form-field>
-          <input matInput #datePicker [matDatepicker]="picker" placeholder="Choose a date" required>
+          <input matInput #datePicker [matDatepicker]="picker" placeholder="Choose a date" formControlName="date">
+          <mat-error *ngIf="form.controls['date'].hasError('required')">You must enter a value</mat-error>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <div class="buttons">
-          <button class="setAppointment-btn" (click)="setAppointment(userSelection.value, patientSelection.value, description.value, hour.value, minute.value, datePicker.value, picker)">Set appointment</button>
+          <button class="setAppointment-btn" type="submit">Set appointment</button>
         </div>
       </div>
-    </div>
-    <div *ngIf="appointmentHoursWrong">Hours value needs to be between 0 and 23!</div>
-    <div *ngIf="appointmentMinutesWrong">Minutes value needs to be between 0 and 59!</div>
+    </form>
 
   </div>
 

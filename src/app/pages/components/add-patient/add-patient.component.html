@@ -5,7 +5,7 @@
     <h3 class="addPatientTitle">Add Patient</h3>
 
     <!--Personal information-->
-    <form class="inputForm" #addPatientForm (submit)="addPatient($event, name.value, surname.value, dateOfBirth.value, city.value, country.value, postCode.value, street.value, number.value, profession.value); addPatientForm.reset()" ngNativeValidate>
+    <form class="inputForm" #addPatientForm [formGroup]="form" (submit)="addPatient(form.value); addPatientForm.reset()">
       <mat-expansion-panel>
 
         <mat-expansion-panel-header>
@@ -19,15 +19,18 @@
 
         <div class="fieldsWrapper">
           <mat-form-field>
-            <input matInput #name placeholder="Name" required>
+            <input matInput #name placeholder="Name" formControlName="name">
+            <mat-error *ngIf="form.controls['name'].hasError('required')">You must enter a value</mat-error>
           </mat-form-field>
 
           <mat-form-field>
-            <input matInput #surname placeholder="Surname" required>
+            <input matInput #surname placeholder="Surname" formControlName="surname">
+            <mat-error *ngIf="form.controls['surname'].hasError('required')">You must enter a value</mat-error>
           </mat-form-field>
 
           <mat-form-field class="dpInput">
-            <input matInput #dateOfBirth [matDatepicker]="dbpicker" placeholder="Date of birth">
+            <input matInput #dateOfBirth [matDatepicker]="dbpicker" placeholder="Date of birth" formControlName="date">
+            <mat-error *ngIf="form.controls['date'].hasError('required')">You must enter a value</mat-error>
             <mat-datepicker-toggle matSuffix [for]="dbpicker"></mat-datepicker-toggle>
             <mat-datepicker #dbpicker></mat-datepicker>
           </mat-form-field>
@@ -48,17 +51,19 @@
               <tr>
                 <td>
                   <mat-form-field class="example-full-width">
-                    <input matInput #city placeholder="City" required>
+                    <input matInput #city placeholder="City" formControlName="city">
+                    <mat-error *ngIf="form.controls['city'].hasError('required')">You must enter a value</mat-error>
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field class="example-full-width">
-                    <input matInput #country placeholder="Country" required>
+                    <input matInput #country placeholder="Country" formControlName="country">
+                    <mat-error *ngIf="form.controls['country'].hasError('required')">You must enter a value</mat-error>
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field class="example-full-width">
-                    <input matInput #postCode maxlength="5" placeholder="Post Code">
+                    <input matInput #postCode maxlength="5" placeholder="Post Code" formControlName="postCode">
                     <mat-hint align="end">{{postCode.value.length}} / 5</mat-hint>
                   </mat-form-field>
                 </td>
@@ -69,12 +74,12 @@
               <tr>
                 <td>
                   <mat-form-field class="example-full-width">
-                    <input matInput #street placeholder="Street">
+                    <input matInput #street placeholder="Street" formControlName="street">
                   </mat-form-field>
                 </td>
                 <td>
                   <mat-form-field class="example-full-width">
-                    <input matInput #number placeholder="Number">
+                    <input matInput #number placeholder="Number" formControlName="streetNr">
                   </mat-form-field>
                 </td>
               </tr>
@@ -83,7 +88,7 @@
           </mat-expansion-panel>
 
           <mat-form-field>
-            <input matInput #profession placeholder="Profession">
+            <input matInput #profession placeholder="Profession" formControlName="profession">
           </mat-form-field>
         </div>
 

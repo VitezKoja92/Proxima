@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
@@ -16,21 +17,28 @@ export class SetAppointmentComponent {
   users: User[];
   patients: Patient[];
   appointments: Appointment[];
-  appointmentHoursWrong: boolean;
-  appointmentMinutesWrong: boolean;
+  form: FormGroup;
 
   constructor(
     private UserAPIService: UserAPIService,
     private PatientAPIService: PatientAPIService,
     private AppointmentAPIService: AppointmentAPIService,
-    private Router: Router
+    private Router: Router,
+    private FormBuilder: FormBuilder
   ) {
     this.getAppointments();
     this.getAllPatients();
     this.getAllUsers();
 
-    this.appointmentHoursWrong = false;
-    this.appointmentMinutesWrong = false;
+    this.form = this.FormBuilder.group({
+      'doctor': [null, Validators.required],
+      'patient': [null, Validators.required],
+      'hour': [null, Validators.compose([Validators.required, Validators.max(23), Validators.min(0)])],
+      'minute': [null, Validators.compose([Validators.required, Validators.max(59), Validators.min(0)])],
+      'description': [null],
+      'date': [null, Validators.required]
+    });
+
   }
 
   getAppointments(): void {
@@ -67,22 +75,6 @@ export class SetAppointmentComponent {
       }, (error: Error): void => {
         console.log('Error: ', error);
       });
-  }
-
-  updateHours(value: Number): void {
-    if (value > 23) {
-      this.appointmentHoursWrong = true;
-    } else {
-      this.appointmentHoursWrong = false;
-    }
-  }
-
-  updateMinutes(value: Number): void {
-    if (value > 59) {
-      this.appointmentMinutesWrong = true;
-    } else {
-      this.appointmentMinutesWrong = false;
-    }
   }
 
   setAppointment(doctor: User, patient: Patient, description: string, hour: number, minute: number, datePicker: string) {

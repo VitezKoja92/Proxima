@@ -25,7 +25,8 @@ export class RegisterComponent {
       'password': [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
       'name': [null, Validators.required],
       'surname': [null, Validators.required],
-      'email': [null, Validators.compose([Validators.required, Validators.email])]
+      'email': [null, Validators.compose([Validators.required, Validators.email])],
+      'phoneNr': [null]
     });
   }
 
