@@ -1,21 +1,40 @@
 <div class="login-screen">
   <div class="app-login-form">
-        
+
     <h3 class="loginTitle">Log in</h3>
 
-    <form class="inputForm" (submit)="login(username.value, password.value)" ngNativeValidate>
-        <mat-form-field>
-          <input #username matInput placeholder="Username" required>
-        </mat-form-field>
-        <mat-form-field id="last">
-          <input #password matInput placeholder="Password" [type]="hide ? 'password' : 'text'" required>
-          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-        </mat-form-field>
-        <div class="buttons">
-            <button type="submit" mat-raised-button class="login-btn">Log in</button>
-            <button  mat-raised-button  routerLink="/register" class="register-btn">Register</button>
-        </div>
+    <form [formGroup]="form" (ngSubmit)="login(form.value)">
+      <mat-form-field>
+        <input #username matInput placeholder="Username" formControlName="username">
+        <mat-error *ngIf="form.controls['username'].hasError('required')">You must enter a value</mat-error>
+      </mat-form-field>
+      <mat-form-field id="last">
+        <input #password matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password">
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        <mat-error *ngIf="form.controls['password'].hasError('required')">You must enter a value</mat-error>
+      </mat-form-field>
+
+      <div class="buttons">
+        <button type="submit" mat-raised-button class="login-btn" [disabled]="!form.valid">Log in</button>
+        <button mat-raised-button routerLink="/register" class="register-btn">Register</button>
+      </div>
     </form>
+
+
+
+    <!-- <form class="inputForm" (submit)="login(username.value, password.value)" ngNativeValidate>
+      <mat-form-field>
+        <input #username matInput placeholder="Username" required>
+      </mat-form-field>
+      <mat-form-field id="last">
+        <input #password matInput placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+      </mat-form-field>
+      <div class="buttons">
+        <button type="submit" mat-raised-button class="login-btn">Log in</button>
+        <button mat-raised-button routerLink="/register" class="register-btn">Register</button>
+      </div>
+    </form> -->
 
   </div>
 </div>

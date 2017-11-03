@@ -10,8 +10,8 @@
     background: $lightgray;
     border: $darkblue_border;
     border-radius: 0.4rem;
-    padding: 1.25rem 1.25rem;
-    width: 35vw; 
+    padding: 1.25rem 2.5rem;
+    width: 33vw; 
 }
 
 .loginTitle {
@@ -58,4 +58,8 @@ mat-form-field {
     cursor: pointer;
     background-color: white;
     color: $darkblue;
+}
+
+.disabled-btn, .disabled {
+ color:red;
 }

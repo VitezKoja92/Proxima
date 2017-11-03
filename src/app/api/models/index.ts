@@ -53,9 +53,9 @@ export class User {
     name: string;
     surname: string;
     email: string;
-    phoneNr: string;
+    phoneNr?: string;
 
-    constructor(username: string, passsword: string, name: string, surname: string, email: string, phoneNr: string) {
+    constructor(username: string, passsword: string, name: string, surname: string, email: string, phoneNr?: string) {
         this._id = 'user:' + new Date().getTime();
         this.username = username;
         this.password = passsword;

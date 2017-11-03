@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 import { User } from '../../../../api/models/index';
 import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service';
@@ -13,13 +15,19 @@ import { AuthenticationService } from '../../../../services/authentication.servi
 export class LoginComponent {
 
   users: User[];
+  form: FormGroup;
 
   constructor(public AuthenticationService: AuthenticationService,
     private Router: Router,
-    private UserAPIService: UserAPIService) {
+    private UserAPIService: UserAPIService,
+    private FormBuilder: FormBuilder) {
+      this.form = FormBuilder.group({
+        'username': [null, Validators.required],
+        'password': [null, Validators.required]
+      });
    }
 
-  login(username, password) {
+  login(data: any) {
     this.Router.navigate(['/dashboard']);
     // this.AuthenticationService.login(username, password)
     //   .then((response: boolean): void => {
