@@ -49,7 +49,6 @@ mat-form-field {
     border: $darkblue_button_border;
 }
 
-
 #last {
     margin-bottom: 0;
 }
@@ -58,8 +57,4 @@ mat-form-field {
     cursor: pointer;
     background-color: white;
     color: $darkblue;
-}
-
-.disabled-btn, .disabled {
- color:red;
 }
