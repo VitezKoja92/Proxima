@@ -9,7 +9,7 @@ describe('PouchdbService', () => {
     });
   });
 
-  it('should be created', inject([UserAPIService], (service: UserAPIService) => {
-    expect(service).toBeTruthy();
-  }));
+  // it('should be created', inject([UserAPIService], (service: UserAPIService) => {
+  //   expect(service).toBeTruthy();
+  // }));
 });
