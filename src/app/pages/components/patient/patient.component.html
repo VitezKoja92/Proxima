@@ -190,7 +190,7 @@
 
     <h5 class="addTherapyTitle">Add new therapy</h5>
     <!-- Insert therapy panel - BEGIN -->
-    <div class="therapy" *ngIf="therapyVisible">
+    <form class="therapy" *ngIf="therapyVisible" [formGroup]="form" (submit)="addTherapy(form.value)">
       <mat-expansion-panel>
 
         <mat-expansion-panel-header>
@@ -204,7 +204,8 @@
 
         <div class="wrapper">
           <mat-form-field class="dpInput">
-            <input matInput #date [matDatepicker]="tdatePicker" placeholder="Date">
+            <input matInput #date [matDatepicker]="tdatePicker" placeholder="Date" formControlName="therapyDate">
+            <mat-error *ngIf="form.controls['therapyDate'].hasError('required')">You must enter a value</mat-error>
             <mat-datepicker-toggle matSuffix [for]="tdatePicker"></mat-datepicker-toggle>
             <mat-datepicker #tdatePicker></mat-datepicker>
           </mat-form-field>
@@ -223,16 +224,16 @@
 
             <div class="wrapper">
               <mat-form-field>
-                <textarea matInput #mainDifficulties placeholder="Main difficulties"></textarea>
+                <textarea matInput #mainDifficulties placeholder="Main difficulties" formControlName="mainDifficulties"></textarea>
               </mat-form-field>
               <mat-form-field>
-                <textarea matInput #anaMorbi placeholder="Anamnsesis Morbi"></textarea>
+                <textarea matInput #anaMorbi placeholder="Anamnsesis Morbi" formControlName="anaMorbi"></textarea>
               </mat-form-field>
               <mat-form-field>
-                <textarea matInput #anaVitae placeholder="Anamnesis Vitae"></textarea>
+                <textarea matInput #anaVitae placeholder="Anamnesis Vitae" formControlName="anaVitae"></textarea>
               </mat-form-field>
               <mat-form-field>
-                <textarea matInput #anaFamiliae placeholder="Anamnesis Familiae"></textarea>
+                <textarea matInput #anaFamiliae placeholder="Anamnesis Familiae" formControlName="anaFamiliae"></textarea>
               </mat-form-field>
             </div>
 
@@ -253,37 +254,37 @@
             <div class="wrapper">
 
               <mat-form-field>
-                <textarea matInput #labFindings placeholder="Lab findings"></textarea>
+                <textarea matInput #labFindings placeholder="Lab findings" formControlName="labFindings"></textarea>
               </mat-form-field>
               <mat-form-field class="dpInput">
-                <input matInput #labdate [matDatepicker]="labPicker" placeholder="Lab findings date">
+                <input matInput #labdate [matDatepicker]="labPicker" placeholder="Lab findings date" formControlName="labFindingsDate">
                 <mat-datepicker-toggle matSuffix [for]="labPicker"></mat-datepicker-toggle>
                 <mat-datepicker #labPicker></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field>
-                <textarea matInput #rtg placeholder="RTG"></textarea>
+                <textarea matInput #rtg placeholder="RTG" formControlName="rtg"></textarea>
               </mat-form-field>
               <mat-form-field class="dpInput">
-                <input matInput #rtgdate [matDatepicker]="rtgPicker" placeholder="RTG date">
+                <input matInput #rtgdate [matDatepicker]="rtgPicker" placeholder="RTG date" formControlName="rtgDate">
                 <mat-datepicker-toggle matSuffix [for]="rtgPicker"></mat-datepicker-toggle>
                 <mat-datepicker #rtgPicker></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field>
-                <textarea matInput #nmr placeholder="NMR"></textarea>
+                <textarea matInput #nmr placeholder="NMR" formControlName="nmr"></textarea>
               </mat-form-field>
               <mat-form-field class="dpInput">
-                <input matInput #nmrdate [matDatepicker]="nmrPicker" placeholder="NMR date">
+                <input matInput #nmrdate [matDatepicker]="nmrPicker" placeholder="NMR date" formControlName="nmrDate">
                 <mat-datepicker-toggle matSuffix [for]="nmrPicker"></mat-datepicker-toggle>
                 <mat-datepicker #nmrPicker></mat-datepicker>
               </mat-form-field>
 
               <mat-form-field>
-                <textarea matInput #emng placeholder="EMNG"></textarea>
+                <textarea matInput #emng placeholder="EMNG" formControlName="emng"></textarea>
               </mat-form-field>
               <mat-form-field class="dpInput">
-                <input matInput #emngdate [matDatepicker]="emngPicker" placeholder="EMNG date">
+                <input matInput #emngdate [matDatepicker]="emngPicker" placeholder="EMNG date" formControlName="emngDate">
                 <mat-datepicker-toggle matSuffix [for]="emngPicker"></mat-datepicker-toggle>
                 <mat-datepicker #emngPicker></mat-datepicker>
               </mat-form-field>
@@ -292,10 +293,11 @@
           </mat-expansion-panel>
 
           <mat-form-field>
-            <textarea matInput #statLoc placeholder="Status Localis"></textarea>
+            <textarea matInput #statLoc placeholder="Status Localis" formControlName="statusLocalis"></textarea>
           </mat-form-field>
           <mat-form-field>
-            <textarea matInput #diagnosis placeholder="Diagnosis"></textarea>
+            <textarea matInput #diagnosis placeholder="Diagnosis" formControlName="diagnosis"></textarea>
+            <mat-error *ngIf="form.controls['diagnosis'].hasError('required')">You must enter a value</mat-error>
           </mat-form-field>
 
           <!--Therapy - recommendedTherapy-->
@@ -313,11 +315,11 @@
             <div class="wrapper">
 
               <mat-form-field>
-                <textarea matInput #recommendation placeholder="Recommendation"></textarea>
+                <textarea matInput #recommendation placeholder="Recommendation" formControlName="recommendation"></textarea>
               </mat-form-field>
 
               <mat-form-field>
-                <textarea matInput #mediocentric placeholder="Mediocentric therapy"></textarea>
+                <textarea matInput #mediocentric placeholder="Mediocentric therapy" formControlName="mediocentric"></textarea>
               </mat-form-field>
 
               <!--Physical Therapy-->
@@ -338,11 +340,11 @@
                     <label class="laserTitle">Laser therapy</label>
                     <br>
                     <div class="laserCheckboxes">
-                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedOne">2500Hz - 6J</mat-checkbox>
-                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedTwo">80Hz - 8J</mat-checkbox>
-                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedThree">600Hz - 6J</mat-checkbox>
-                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedFour">80Hz - 8J</mat-checkbox>
-                      <mat-checkbox class="laserTherapyChoice" [(ngModel)]="checkedFive">80Hz - 16J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" formControlName="checkedOne">2500Hz - 6J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" formControlName="checkedTwo">80Hz - 8J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" formControlName="checkedThree">600Hz - 6J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" formControlName="checkedFour">80Hz - 8J</mat-checkbox>
+                      <mat-checkbox class="laserTherapyChoice" formControlName="checkedFive">80Hz - 16J</mat-checkbox>
                     </div>
                   </section>
 
@@ -362,7 +364,7 @@
 
                       <section class="radioSection ifsSection">
                         <label class="radioTitle ifsMargin">IFS:</label>
-                        <mat-radio-group [(ngModel)]="ifsModel">
+                        <mat-radio-group formControlName="ifsModel">
                           <mat-radio-button class="ifsMargin" value=true>Yes</mat-radio-button>
                           <mat-radio-button class="ifsMargin" value=false>No</mat-radio-button>
                         </mat-radio-group>
@@ -370,7 +372,7 @@
 
                       <section class="radioSection ddSection">
                         <label class="radioTitle ddMargin">DD:</label>
-                        <mat-radio-group [(ngModel)]="ddModel">
+                        <mat-radio-group formControlName="ddModel">
                           <mat-radio-button class="ddMargin" value=true>Yes</mat-radio-button>
                           <mat-radio-button class="ddMargin" value=false>No</mat-radio-button>
                         </mat-radio-group>
@@ -378,7 +380,7 @@
 
                       <section class="radioSection gsSection">
                         <label class="radioTitle gsMargin">GS:</label>
-                        <mat-radio-group [(ngModel)]="gsModel">
+                        <mat-radio-group formControlName="gsModel">
                           <mat-radio-button class="gsMargin" value=true>Yes</mat-radio-button>
                           <mat-radio-button class="gsMargin" value=false>No</mat-radio-button>
                         </mat-radio-group>
@@ -386,7 +388,7 @@
 
                       <section class="radioSection esSection">
                         <label class="radioTitle esMargin">ES:</label>
-                        <mat-radio-group [(ngModel)]="esModel">
+                        <mat-radio-group formControlName="esModel">
                           <mat-radio-button class="esMargin" value=true>Yes</mat-radio-button>
                           <mat-radio-button class="esMargin" value=false>No</mat-radio-button>
                         </mat-radio-group>
@@ -398,7 +400,7 @@
 
                   <section class="radioSection cryotherapySection">
                     <label class="radioTitle cryotherapyMargin">Cryotherapy:</label>
-                    <mat-radio-group [(ngModel)]="cryoModel">
+                    <mat-radio-group formControlName="cryoModel">
                       <mat-radio-button class="cryotherapyMargin" value=true>Yes</mat-radio-button>
                       <mat-radio-button class="cryotherapyMargin" value=false>No</mat-radio-button>
                     </mat-radio-group>
@@ -406,7 +408,7 @@
 
                   <section class="radioSection impSection">
                     <label class="radioTitle impMargin">IMP:</label>
-                    <mat-radio-group [(ngModel)]="impModel">
+                    <mat-radio-group formControlName="impModel">
                       <mat-radio-button class="impMargin" value=true>Yes</mat-radio-button>
                       <mat-radio-button class="impMargin" value=false>No</mat-radio-button>
                     </mat-radio-group>
@@ -414,7 +416,7 @@
 
                   <section class="radioSection ultrasoundSection">
                     <label class="radioTitle ultrasoundMargin">Ultrasound:</label>
-                    <mat-radio-group [(ngModel)]="ultraModel">
+                    <mat-radio-group formControlName="ultraModel">
                       <mat-radio-button class="ultrasoundMargin" value=true>Yes</mat-radio-button>
                       <mat-radio-button class="ultrasoundMargin" value=false>No</mat-radio-button>
                     </mat-radio-group>
@@ -429,12 +431,12 @@
 
         </div>
         <div class="addButtonDiv">
-          <button mat-raised-button class="addTherapyBtn" (click)="addTherapy(date.value, mainDifficulties.value, anaMorbi.value, anaVitae.value, anaFamiliae.value, labFindings.value, labdate.value, rtg.value, rtgdate.value, nmr.value, nmrdate.value, emng.value, emngdate.value, statLoc.value, diagnosis.value, recommendation.value, mediocentric.value)">
+          <button mat-raised-button class="addTherapyBtn" type="submit">
             Add therapy
           </button>
         </div>
       </mat-expansion-panel>
-    </div>
+    </form>
     <!-- Insert therapy panel - END -->
 
     <div class="buttonRow">

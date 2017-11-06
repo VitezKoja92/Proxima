@@ -9,7 +9,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MaterialModule } from '../modules/material.module';
 import { PatientComponent } from './components/patient/patient.component';
 import { EditPatientDialogComponent } from './components/edit-patient-dialog/edit-patient-dialog.component';
-import { SearchFilterPipe } from '../api/models/search-filter-pipe';
 import { AppointmentsListComponent } from './components/appointments-list/appointments-list.component';
 
 
@@ -21,13 +20,12 @@ import { AppointmentsListComponent } from './components/appointments-list/appoin
         SetAppointmentComponent,
         PatientComponent,
         EditPatientDialogComponent,
-        SearchFilterPipe,
         AppointmentsListComponent
     ],
-    imports: [ 
-      CommonModule, 
-      MaterialModule, 
-      FormsModule, 
+    imports: [
+      CommonModule,
+      MaterialModule,
+      FormsModule,
       ReactiveFormsModule
     ],
     exports: [

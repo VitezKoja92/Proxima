@@ -5,15 +5,15 @@
     <h3 class="findPatientTitle">Find Patient</h3>
 
     <!-- Search -->
-    <div class="search">
+    <form class="search" [formGroup]="form">
       <mat-form-field class="searchInput">
-        <input #searchInput [(ngModel)]="key" matInput placeholder="Enter patient's name or surname">
+        <input #searchInput [(ngModel)]="key" matInput placeholder="Enter patient's name or surname" formControlName="search">
       </mat-form-field>
-    </div>
+    </form>
 
     <!-- List -->
     <mat-list>
-      <mat-list-item *ngFor="let patient of patients | search: key">
+      <mat-list-item *ngFor="let patient of filteredPatients">
         <div class="listItem">
           <span class="listItemTitle">{{patient?.personalInfo?.name}} {{patient?.personalInfo?.surname}} - {{patient?.personalInfo?.profession}}</span>
           <button class="btn open-btn" (click)="openPatient(patient._id)">Open</button>

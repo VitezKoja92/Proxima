@@ -3,30 +3,39 @@
 
     <h3 class="registerTitle">Register</h3>
    
-      <form class="inputForm" (submit)="addUser($event, username.value, password.value, name.value, surname.value, email.value, phoneNr.value)" ngNativeValidate>
+      <form class="inputForm" [formGroup]="form" (ngSubmit)="addUser(form.value)">
         <mat-form-field>
-          <input #username matInput placeholder="Username" required>
+          <input #username matInput placeholder="Username" formControlName="username">
+          <mat-error *ngIf="form.controls['username'].hasError('required')">You must enter a value</mat-error>
+          <mat-error *ngIf="form.controls['username'].hasError('minlength')">You must enter a value that is minimum 5 characters long</mat-error>
+          <mat-error *ngIf="form.controls['username'].hasError('maxlength')">You must enter a value that is maximum 20 characters long</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input #password matInput placeholder="Password" [type]="hide ? 'password' : 'text'" required>
+          <input #password matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password">
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+          <mat-error *ngIf="form.controls['password'].hasError('required')">You must enter a value</mat-error>
+          <mat-error *ngIf="form.controls['password'].hasError('minlength')">You must enter a value that is minimum 5 characters long</mat-error>
+          <mat-error *ngIf="form.controls['password'].hasError('maxlength')">You must enter a value that is maximum 20 characters long</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input #name matInput placeholder="Name" required="true">
+          <input #name matInput placeholder="Name" formControlName="name">
+          <mat-error *ngIf="form.controls['name'].hasError('required')">You must enter a value</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input #surname matInput placeholder="Surname" required="true">
+          <input #surname matInput placeholder="Surname" formControlName="surname">
+          <mat-error *ngIf="form.controls['surname'].hasError('required')">You must enter a value</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Email" [formControl]="email" required>
-          <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+          <input matInput placeholder="Email" formControlName="email">
+          <mat-error *ngIf="form.controls['email'].hasError('required')">You must enter a value</mat-error>
+          <mat-error *ngIf="form.controls['email'].hasError('email')">Not a valid email</mat-error>
         </mat-form-field>
         <mat-form-field id="last">
-          <input #username matInput placeholder="Phone number">
+          <input #phoneNr matInput placeholder="Phone number" formControlName="phoneNr">
         </mat-form-field>
         
         <div class="buttons">
-            <button type="submit" mat-raised-button class="registerAndLog-btn">Register and log in</button>
+            <button type="submit" mat-raised-button class="registerAndLog-btn" [disabled]="!form.valid">Register and log in</button>
             <button  mat-raised-button  routerLink="/login" class="back-btn">Back</button>
         </div>
       </form>

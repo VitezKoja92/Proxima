@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 import { Component } from '@angular/core';
@@ -14,19 +15,29 @@ import { UserAPIService } from './../../../api/pouchdb-service/user-api.service'
 })
 export class AddPatientComponent {
 
+  form: FormGroup;
+
   constructor(
     private PatientAPIService: PatientAPIService,
     private UserAPIService: UserAPIService,
-    private Router: Router) {
+    private Router: Router,
+    private FormBuilder: FormBuilder) {
+      this.form = FormBuilder.group({
+        'name': [null, Validators.required],
+        'surname': [null, Validators.required],
+        'date': [null, Validators.required],
+        'city': [null, Validators.required],
+        'country': [null, Validators.required],
+        'postCode': [null],
+        'street': [null],
+        'streetNr': [null],
+        'profession': [null]
+      });
   }
 
-  addPatient( e, name: string, surname: string, dateOfBirth: Date,
-              city: string, country: string, postCode: Number, street: string, number: string,
-              profession: string,
-              ): void {
-
-    const address: Address = new Address(country, city, postCode, street, number);
-    const personalInfo: PatientPersonalInfo = new PatientPersonalInfo(name, surname, dateOfBirth, address, profession);
+  addPatient(data): void {
+    const address: Address = new Address(data.country, data.city, data.postCode, data.street, data.streetNr);
+    const personalInfo: PatientPersonalInfo = new PatientPersonalInfo(data.name, data.surname, data.date, address, data.profession);
     const patient = new Patient(personalInfo);
 
     this.PatientAPIService.addPatient(patient)

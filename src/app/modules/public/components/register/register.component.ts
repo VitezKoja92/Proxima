@@ -1,7 +1,8 @@
+import { isNullOrUndefined } from 'util';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../../api/models/index';
 import { Router } from '@angular/router';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service';
 
@@ -12,20 +13,25 @@ import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service
 })
 export class RegisterComponent {
 
-  email = new FormControl('', [Validators.required, Validators.email]);
+  form: FormGroup;
 
   constructor(
     private Router: Router,
-    private UserAPIService: UserAPIService
-  ) {}
-
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'You must enter a value' :
-        this.email.hasError('email') ? 'Not a valid email' : '';
+    private UserAPIService: UserAPIService,
+    private FormBuilder: FormBuilder
+  ) {
+    this.form = this.FormBuilder.group({
+      'username': [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
+      'password': [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
+      'name': [null, Validators.required],
+      'surname': [null, Validators.required],
+      'email': [null, Validators.compose([Validators.required, Validators.email])],
+      'phoneNr': [null]
+    });
   }
 
-  addUser(e, username, password, name, surname, email, phoneNr) {
-    const newUser = new User(username, password, name, surname, email, phoneNr);
+  addUser(data: any) {
+    const newUser = new User(data.username, data.password, data.name, data.surname, data.email, data.phoneNr);
     this.UserAPIService.addUser(newUser)
     .then((id: string): void => {
       // localStorage.setItem('currentUser', id);
