@@ -43,7 +43,7 @@ describe('LoginComponent', () => {
   // - login(data: any) - provides AuthenticationService with the data and calls its
   //   login(username, password) method - check if it calls that method
 
-  it('calls the getAllUsers method from UserAPIService', inject([UserAPIService], (UserAPIService: UserAPIService) => {
+  it('should call getAllUsers method from the UserAPIService', inject([UserAPIService], (UserAPIService: UserAPIService) => {
     spyOn(UserAPIService, 'getAllUsers').and.callThrough();
     component.getUsers();
     expect(UserAPIService.getAllUsers).toHaveBeenCalled();

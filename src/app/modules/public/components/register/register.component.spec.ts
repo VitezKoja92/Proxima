@@ -67,7 +67,7 @@ describe('RegisterComponent', () => {
     expect(titleEl.textContent).toContain('Register');
   });
 
-  it('calls the addUser function from service', inject([UserAPIService], (UserAPIService: UserAPIService) => {
+  it('should call addUser method from the UserAPIService', inject([UserAPIService], (UserAPIService: UserAPIService) => {
     spyOn(UserAPIService, 'addUser').and.callThrough();
     component.addUser(data);
     expect(UserAPIService.addUser).toHaveBeenCalled();
