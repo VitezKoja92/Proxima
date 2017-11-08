@@ -1,25 +1,65 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { DashboardComponent } from './dashboard.component';
+import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
+import { MaterialModule } from '../../../modules/material.module';
+import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
+import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
+  class PatientAPIServiceMock {
+    public getAllPatients() {
+      return {
+        then: () => null
+      };
+    }
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      providers: [
+        { provide: PatientAPIService, useClass: PatientAPIServiceMock },
+        AppointmentAPIService,
+        PouchDbBootService
+      ],
+      imports: [ReactiveFormsModule, MaterialModule, RouterTestingModule, BrowserAnimationsModule, FormsModule],
+      declarations: [DashboardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  afterEach(() => {
+    component = null;
+  });
+
+  // ***** Methods to test: *****
+  // - getNumberOfPatients() - calls the getAllPatients method from PatientAPIService - check if it calls that method
+  // - getNumberOfThearpies() - calls the getAllPatients method from PatientAPIService - check if it calls that method
+
+  it('should call getAllPatients method from the PatientAPIService in getNumberOfPatients method',
+    inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
+      spyOn(PatientAPIService, 'getAllPatients').and.callThrough();
+      component.getNumberOfPatients();
+      expect(PatientAPIService.getAllPatients).toHaveBeenCalled();
+    }));
+
+  it('should call getAllPatients method from the PatientAPIService in getNumberOfTherapies method',
+    inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
+      spyOn(PatientAPIService, 'getAllPatients').and.callThrough();
+      component.getNumberOfTherapies();
+      expect(PatientAPIService.getAllPatients).toHaveBeenCalled();
+    }));
+
+
 });

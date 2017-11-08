@@ -51,6 +51,10 @@ describe('AddPatientComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterEach(() => {
+    component = null;
+  });
+
   // ***** Methods to test: *****
   // - addPatient(data: any) - calls the addPateint method from PatientAPIService - check if it calls that method
 

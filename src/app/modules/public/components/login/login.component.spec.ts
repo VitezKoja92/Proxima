@@ -38,6 +38,10 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
   });
 
+  afterEach(() => {
+    component = null;
+  });
+
   // ***** Methods to test: *****
   // - getUsers() - calls the getAllUsers method from UserAPIService - check if it calls that method
   // - login(data: any) - provides AuthenticationService with the data and calls its
