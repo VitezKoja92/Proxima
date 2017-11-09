@@ -33,14 +33,13 @@ export class AppointmentsListComponent {
           this.sortedAppointments = this.appointments.slice();
         } else {
           this.appointments = appointments.sort(this.dateSort).filter((appointment: Appointment) => {
-
             let todayDate;
             let futureDate;
             if (period === 'Today') {
               todayDate = new Date();
               return appointment.date.getDate() === today.getDate()
-              && appointment.date.getMonth() === today.getMonth()
-              && appointment.date.getFullYear() === today.getFullYear();
+                && appointment.date.getMonth() === today.getMonth()
+                && appointment.date.getFullYear() === today.getFullYear();
             } else if (period === 'Week') {
               todayDate = new Date();
               futureDate = new Date(today.getTime() + (1000 * 60 * 60 * 24 * 7));
@@ -61,8 +60,11 @@ export class AppointmentsListComponent {
       });
   }
 
-  deleteAppointment(appointment: Appointment) {
-    console.log(appointment);
+  deleteAppointment(appointment: Appointment): void {
+    this.AppointmentAPIService.deleteAppointment(appointment._id)
+      .then(() => {
+        this.getAppointments();
+      });
   }
 
   dateSort(a: Appointment, b: Appointment) {

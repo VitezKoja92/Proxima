@@ -65,11 +65,13 @@ export class AppointmentAPIService {
         });
   }
 
-  // public deleteAppointment(id: string, rev: string): IPouchDBRemoveResult {
-  //   return this.db.get(id)
-  //     .then((doc: Appointment) => {
-  //       return this.db.remove(doc._id)
-  //     })
-  // }
+  public deleteAppointment(id: string): Promise<IPouchDBRemoveResult> {
+    return this.db.get(id)
+      .then((doc: Appointment) => {
+        return this.db.remove(doc);
+      }).catch((error: Error) => {
+        console.log('Error: ', error);
+      });
+  }
 
 }
