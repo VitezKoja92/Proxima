@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { environment } from '../../../environments/environment';
 import { PouchDbBootService } from './pouchdb-boot.service';
-import { Appointment, IPouchDBAllDocsResult, IPouchDBCreateIndexResult, IPouchDBPutResult } from './../models/index';
+import { Appointment, IPouchDBAllDocsResult, IPouchDBCreateIndexResult, IPouchDBPutResult, IPouchDBRemoveResult } from './../models/index';
 
 @Injectable()
 export class AppointmentAPIService {
@@ -64,5 +64,12 @@ export class AppointmentAPIService {
           return result.id;
         });
   }
+
+  // public deleteAppointment(id: string, rev: string): IPouchDBRemoveResult {
+  //   return this.db.get(id)
+  //     .then((doc: Appointment) => {
+  //       return this.db.remove(doc._id)
+  //     })
+  // }
 
 }

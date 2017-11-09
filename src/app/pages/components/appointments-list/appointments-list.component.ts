@@ -61,6 +61,10 @@ export class AppointmentsListComponent {
       });
   }
 
+  deleteAppointment(appointment: Appointment) {
+    console.log(appointment);
+  }
+
   dateSort(a: Appointment, b: Appointment) {
     if (a.date < b.date) {
       return -1;
