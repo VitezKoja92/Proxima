@@ -1,10 +1,11 @@
 import { isNullOrUndefined } from 'util';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { Sort } from '@angular/material';
+import { Sort, MatDialog } from '@angular/material';
 
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { Appointment } from './../../../api/models/index';
+import { EditAppointmentDialogComponent } from '../edit-appointment-dialog/edit-appointment-dialog.component';
 
 @Component({
   selector: 'app-appointments-list',
@@ -17,7 +18,12 @@ export class AppointmentsListComponent {
   sortedAppointments: Appointment[];
   selectedPeriod: string;
 
-  constructor(private AppointmentAPIService: AppointmentAPIService, private Router: Router) {
+  constructor(
+    private AppointmentAPIService: AppointmentAPIService,
+    private Router: Router,
+    private dialog: MatDialog,
+    private ActivatedRoute: ActivatedRoute
+  ) {
     this.selectedPeriod = '';
     this.getAppointments();
   }
@@ -64,6 +70,23 @@ export class AppointmentsListComponent {
     this.AppointmentAPIService.deleteAppointment(appointment._id)
       .then(() => {
         this.getAppointments();
+      });
+  }
+
+  openDialog(appointment: Appointment): void {
+    const dialogRef = this.dialog.open(EditAppointmentDialogComponent, {
+      width: '60%',
+      data: {
+        appointment: appointment
+      }
+    });
+    dialogRef.afterClosed().subscribe(
+      (result) => {
+        this.ActivatedRoute.params.subscribe(
+          () => {
+            this.getAppointments();
+          }
+        );
       });
   }
 

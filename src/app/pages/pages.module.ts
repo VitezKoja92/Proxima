@@ -10,6 +10,7 @@ import { MaterialModule } from '../modules/material.module';
 import { PatientComponent } from './components/patient/patient.component';
 import { EditPatientDialogComponent } from './components/edit-patient-dialog/edit-patient-dialog.component';
 import { AppointmentsListComponent } from './components/appointments-list/appointments-list.component';
+import { EditAppointmentDialogComponent } from './components/edit-appointment-dialog/edit-appointment-dialog.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AppointmentsListComponent } from './components/appointments-list/appoin
         SetAppointmentComponent,
         PatientComponent,
         EditPatientDialogComponent,
-        AppointmentsListComponent
+        AppointmentsListComponent,
+        EditAppointmentDialogComponent
     ],
     imports: [
       CommonModule,
@@ -35,9 +37,10 @@ import { AppointmentsListComponent } from './components/appointments-list/appoin
         SetAppointmentComponent,
         PatientComponent,
         EditPatientDialogComponent,
-        AppointmentsListComponent
+        AppointmentsListComponent,
+        EditAppointmentDialogComponent
     ],
     providers: [],
-    entryComponents: [EditPatientDialogComponent]
+    entryComponents: [EditPatientDialogComponent, EditAppointmentDialogComponent]
 })
 export class PagesModule {}
