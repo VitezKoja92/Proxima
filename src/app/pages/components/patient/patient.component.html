@@ -26,7 +26,7 @@
       </mat-card-header>
 
       <mat-card-actions class="editBtnDiv">
-        <button mat-button class="editPersonalInfoBtn" (click)="openDialog()">Edit</button>
+        <button mat-raised-button class="editPersonalInfoBtn" (click)="openDialog()">Edit</button>
         <!--(click)="editPersonalInfo('Danilo', 'Krasic', 'Minhen', 'Germany', 80797, 'Lothstrasse', '86', 'Software developer')"-->
         <!--do edit with dialog-->
       </mat-card-actions>
@@ -431,7 +431,7 @@
 
         </div>
         <div class="addButtonDiv">
-          <button mat-raised-button class="addTherapyBtn" type="submit">
+          <button mat-raised-button class="addTherapyBtn" [disabled]="!form.valid" type="submit">
             Add therapy
           </button>
         </div>

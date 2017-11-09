@@ -49,12 +49,17 @@ mat-form-field {
     border: $darkblue_button_border;
 }
 
-#last {
-    margin-bottom: 0;
-}
-
 .login-btn:hover, .register-btn:hover {
     cursor: pointer;
     background-color: white;
     color: $darkblue;
+}
+
+.login-btn:disabled, .register-btn:disabled {
+    background-color: $gray;
+    border-color: $gray;
+}
+
+#last {
+    margin-bottom: 0;
 }

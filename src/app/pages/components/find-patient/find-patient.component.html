@@ -16,7 +16,7 @@
       <mat-list-item *ngFor="let patient of filteredPatients">
         <div class="listItem">
           <span class="listItemTitle">{{patient?.personalInfo?.name}} {{patient?.personalInfo?.surname}} - {{patient?.personalInfo?.profession}}</span>
-          <button class="btn open-btn" (click)="openPatient(patient._id)">Open</button>
+          <button mat-raised-btn class="btn open-btn" (click)="openPatient(patient._id)">Open</button>
         </div>
       </mat-list-item>
 
