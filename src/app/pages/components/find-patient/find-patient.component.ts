@@ -22,7 +22,6 @@ export class FindPatientComponent implements OnInit{
     private PatientAPIService: PatientAPIService,
     private FormBuilder: FormBuilder
   ) {
-    this.getAllPatients();
       this.form = this.FormBuilder.group({
         'search': []
       });

@@ -116,8 +116,10 @@ export class PatientComponent {
   }
 
   deletePatient() {
-    this.PatientAPIService.deletePatient(this.currentPatient._id, this.currentPatient._rev);
-    this.Router.navigate(['/find-patient']);
+    this.PatientAPIService.deletePatient(this.currentPatient._id, this.currentPatient._rev)
+    .then(() => {
+      this.Router.navigate(['/find-patient']);
+    });
   }
 
   addTherapy(data: any): void {

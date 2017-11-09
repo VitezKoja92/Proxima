@@ -95,7 +95,7 @@ export class PatientAPIService {
       });
   }
 
-  public deletePatient(id: string, rev: string): IPouchDBRemoveResult {
+  public deletePatient(id: string, rev: string): Promise<IPouchDBRemoveResult> {
     return this.db.get(id)
       .then((doc: Patient) => {
         return this.db.remove(doc);
