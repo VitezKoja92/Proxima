@@ -115,6 +115,11 @@ export class PatientComponent {
       });
   }
 
+  deletePatient() {
+    this.PatientAPIService.deletePatient(this.currentPatient._id, this.currentPatient._rev);
+    this.Router.navigate(['/find-patient']);
+  }
+
   addTherapy(data: any): void {
 
     const anamnesis: Anamnesis = new Anamnesis(data.mainDifficulties, data.anaMorbi, data.anaVitae, data.anaFamiliae);

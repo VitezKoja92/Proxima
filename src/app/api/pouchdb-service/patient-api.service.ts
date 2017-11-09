@@ -2,7 +2,6 @@ import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
-import { MedicalHistoryItem, PatientPersonalInfo } from './../models/index';
 import { environment } from './../../../environments/environment';
 import { IPouchDBCreateIndexResult } from '../models/index';
 import {
@@ -10,7 +9,10 @@ import {
   IPouchDBAllDocsResult,
   IPouchDBPutResult,
   IPouchDBFindPatientsResult,
-  Address
+  Address,
+  IPouchDBRemoveResult,
+  PatientPersonalInfo,
+  MedicalHistoryItem
 } from './../models/index';
 
 @Injectable()
@@ -89,6 +91,15 @@ export class PatientAPIService {
         });
       }).then((res: string): void => {
       }).catch((error: Error): void => {
+        console.log('Error: ', error);
+      });
+  }
+
+  public deletePatient(id: string, rev: string): IPouchDBRemoveResult {
+    return this.db.get(id)
+      .then((doc: Patient) => {
+        return this.db.remove(doc);
+      }).catch((error: Error) => {
         console.log('Error: ', error);
       });
   }

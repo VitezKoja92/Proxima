@@ -1,6 +1,6 @@
 import { isNullOrUndefined } from 'util';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
@@ -20,7 +20,9 @@ export class FindPatientComponent implements OnInit{
   constructor(
     private Router: Router,
     private PatientAPIService: PatientAPIService,
-    private FormBuilder: FormBuilder) {
+    private FormBuilder: FormBuilder
+  ) {
+    this.getAllPatients();
       this.form = this.FormBuilder.group({
         'search': []
       });
