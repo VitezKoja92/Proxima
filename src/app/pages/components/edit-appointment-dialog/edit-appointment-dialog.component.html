@@ -1,7 +1,7 @@
 <form class="form" [formGroup]="form" (ngSubmit)="editAppointment(form.value)">
   <div class="formFields">
     <mat-form-field>
-      <mat-select #userSelection placeholder="Doctor" formControlName="doctor">
+      <mat-select #userSelection placeholder="Doctor" formControlName="doctor" [(ngModel)]="selectedUser">
         <mat-option *ngFor="let user of users" [value]="user">
           {{ user?.name }} {{user?.surname}}
         </mat-option>
@@ -9,7 +9,7 @@
       <mat-error *ngIf="form.controls['doctor'].hasError('required')">You must enter a value</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <mat-select #patientSelection placeholder="Patient" formControlName="patient">
+      <mat-select #patientSelection placeholder="Patient" formControlName="patient" [(ngModel)]="selectedPatient">
         <mat-option *ngFor="let patient of patients" [value]="patient">
           {{ patient?.personalInfo.name }} {{patient?.personalInfo.surname }}
         </mat-option>

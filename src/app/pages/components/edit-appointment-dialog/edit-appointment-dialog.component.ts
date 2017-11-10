@@ -1,32 +1,57 @@
-import { UserAPIService } from './../../../api/pouchdb-service/user-api.service';
-import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Appointment, Patient, User } from './../../../api/models/index';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Router } from '@angular/router';
 
 import { AppointmentsListComponent } from '../appointments-list/appointments-list.component';
+import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
+import { UserAPIService } from './../../../api/pouchdb-service/user-api.service';
+import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
+import { Appointment, Patient, User } from './../../../api/models/index';
 
 @Component({
   selector: 'app-edit-appointment-dialog',
   templateUrl: './edit-appointment-dialog.component.html',
   styleUrls: ['./edit-appointment-dialog.component.scss']
 })
-export class EditAppointmentDialogComponent {
+export class EditAppointmentDialogComponent implements OnInit {
 
   appointment: Appointment;
   form: FormGroup;
   users: User[];
   patients: Patient[];
+  selectedUser: User;
+  selectedPatient: Patient;
 
   constructor(
     private FormBuilder: FormBuilder,
     private PatientAPIService: PatientAPIService,
     private UserAPIService: UserAPIService,
+    private AppointmentAPIService: AppointmentAPIService,
+    private Router: Router,
     public dialogRef: MatDialogRef<AppointmentsListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.appointment = data.appointment;
+    this.UserAPIService.getAllUsers()
+      .then((users: User[]) => {
+        this.users = users;
+        // this.selectedUser = users[0];
+        this.selectedUser = users.find((user: User) => {
+          return user._id === this.appointment.user._id;
+        });
+      });
+    this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]) => {
+        this.patients = patients;
+        this.selectedPatient = patients.find((patient: Patient) => {
+          return patient._id === this.appointment.patient._id;
+        });
+      });
+  }
+
+  ngOnInit(): void {
+
     this.form = this.FormBuilder.group({
       'doctor': [null, Validators.required],
       'patient': [null, Validators.required],
@@ -35,50 +60,18 @@ export class EditAppointmentDialogComponent {
       'description': [null],
       'date': [null, Validators.required]
     });
-
-    this.getAllPatients();
-    this.getAllUsers();
-  }
-
-  getAllPatients(): void {
-    this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]): void => {
-        this.patients = patients;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
-      });
-  }
-
-  getAllUsers(): void {
-    this.UserAPIService.getAllUsers()
-      .then((users: User[]): void => {
-        this.users = users;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
-      });
   }
 
   editAppointment(data: any) {
-    console.log(data);
+    this.AppointmentAPIService.editAppointment(this.appointment._id, this.appointment._rev,
+      data.date, data.description, data.patient, data.doctor, data.hour, data.minute)
+      .then((appointment: Appointment): void => {
+        this.Router.navigate(['/appointments-list']);
+      }, (error: Error) => {
+        console.log('Error: ', error);
+      });
+      this.dialogRef.close();
   }
-
-
-  // editPersonalInfo(name: string, surname: string, city: string, country: string, postcode: Number,
-  //   street: string, streetNo: string, profession: string) {
-
-  //   const address = new Address(country, city, postcode, street, streetNo);
-
-  //   this.PatientAPIService.editPatientInfo(this.currentPatient._id, this.currentPatient._rev, name, surname,
-  //     address, profession, this.currentPatient.personalInfo.dateOfBirth, this.currentPatient.medicalHistory)
-  //     .then((patient: Patient): void => {
-  //       this.currentPatient = patient;
-  //     }, (error: Error): void => {
-  //       console.log('Error: ', error);
-  //     });
-
-  //     this.dialogRef.close();
-  //     this.Router.navigate(['/patient/' + this.currentPatient._id]);
-  // }
 
   onNoClick(): void {
     this.dialogRef.close();

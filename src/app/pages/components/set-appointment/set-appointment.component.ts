@@ -88,5 +88,4 @@ export class SetAppointmentComponent {
         console.log('Error: ', error);
       });
   }
-
 }
