@@ -74,19 +74,24 @@ export class AppointmentsListComponent {
   }
 
   openDialog(appointment: Appointment): void {
-    const dialogRef = this.dialog.open(EditAppointmentDialogComponent, {
-      width: '60%',
-      data: {
-        appointment: appointment
-      }
-    });
-    dialogRef.afterClosed().subscribe(
-      (result) => {
-        this.ActivatedRoute.params.subscribe(
-          () => {
-            this.getAppointments();
+    const selectedAppointment = this.AppointmentAPIService.getAppointment(appointment.date, appointment.hour, appointment.minute)
+      .then((app: Appointment) => {
+        const dialogRef = this.dialog.open(EditAppointmentDialogComponent, {
+          width: '60%',
+          data: {
+            appointment: app
           }
-        );
+        });
+        dialogRef.afterClosed().subscribe(
+          (result) => {
+            this.ActivatedRoute.params.subscribe(
+              () => {
+                this.getAppointments();
+              }
+            );
+          });
+      }, (error: Error) => {
+        console.log('Error: ', error);
       });
   }
 
