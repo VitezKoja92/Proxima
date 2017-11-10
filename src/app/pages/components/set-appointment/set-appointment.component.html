@@ -48,7 +48,7 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
         <div class="buttons">
-          <button class="setAppointment-btn" type="submit">Set appointment</button>
+          <button mat-raised-button class="setAppointment-btn" type="submit" [disabled]="!form.valid">Set appointment</button>
         </div>
       </div>
     </form>

@@ -68,8 +68,13 @@ mat-form-field {
     border: $darkblue_button_border;
 }
 
-.setAppointment-btn:hover{
+.setAppointment-btn:hover {
     cursor: pointer;
-    background-color:rgb(255, 255, 255) !important;
+    background-color: white;
     color: $darkblue;
+}
+
+.setAppointment-btn:disabled {
+    background-color: $gray;
+    border-color: $gray;
 }
