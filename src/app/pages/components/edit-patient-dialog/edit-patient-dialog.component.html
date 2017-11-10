@@ -1,39 +1,43 @@
-<div class="fields">
-  <mat-form-field>
-    <input matInput #name placeholder="Name" required>
-  </mat-form-field>
+<form class="inputForm" #editPatientForm [formGroup]="form" (submit)="editPersonalInfo(form.value); addPatientForm.reset()">
 
-  <mat-form-field>
-    <input matInput #surname placeholder="Surname" required>
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput #name placeholder="Name" formControlName="name" [ngModel]="currentPatient?.personalInfo.name">
+      <mat-error *ngIf="form.controls['name'].hasError('required')">You must enter a value</mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="example-full-width">
-    <input matInput #street placeholder="Street">
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput #name placeholder="Surname" formControlName="surname" [ngModel]="currentPatient?.personalInfo.surname">
+      <mat-error *ngIf="form.controls['surname'].hasError('required')">You must enter a value</mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="example-full-width">
-    <input matInput #number placeholder="Number">
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput #name placeholder="Street" formControlName="street" [ngModel]="currentPatient?.personalInfo.address.street">
+    </mat-form-field>
 
-  <mat-form-field>
-    <input matInput #profession placeholder="Profession">
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput #name placeholder="Number" formControlName="number" [ngModel]="currentPatient?.personalInfo.address.streetNo">
+    </mat-form-field>
 
-  <mat-form-field class="example-full-width">
-    <input matInput #city placeholder="City" required>
-  </mat-form-field>
+    <mat-form-field>
+        <input matInput #name placeholder="Profession" formControlName="profession" [ngModel]="currentPatient?.personalInfo.profession">
+      </mat-form-field>
 
-  <mat-form-field class="example-full-width">
-    <input matInput #postCode maxlength="5" placeholder="Post Code">
-    <mat-hint align="end">{{postCode.value.length}} / 5</mat-hint>
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput #city placeholder="City" formControlName="city" [ngModel]="currentPatient?.personalInfo.address.city">
+      <mat-error *ngIf="form.controls['city'].hasError('required')">You must enter a value</mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="example-full-width">
-    <input matInput #country placeholder="Country" required>
-  </mat-form-field>
-</div>
+    <mat-form-field>
+      <input matInput #postCode maxlength="5" placeholder="Post Code" formControlName="postCode" [ngModel]="currentPatient?.personalInfo.address.postcode">
+      <mat-hint align="end">{{postCode.value.length}} / 5</mat-hint>
+    </mat-form-field>
 
-<mat-action-row class="buttonRow">
-  <button mat-button class="clear-btn" (click)="onNoClick()">Back</button>
-  <button mat-button class="addPatient-btn" (click)="editPersonalInfo(name.value, surname.value, city.value, country.value, postCode.value, street.value, number.value, profession.value)">Edit patient</button>
-</mat-action-row>
+    <mat-form-field>
+      <input matInput #country placeholder="Country" formControlName="country" [ngModel]="currentPatient?.personalInfo.address.country">
+      <mat-error *ngIf="form.controls['country'].hasError('required')">You must enter a value</mat-error>
+    </mat-form-field>
+
+  <mat-action-row class="buttonRow">
+    <button mat-raised-button type="submit" class="editPatient-btn" [disabled]="!form.valid">Edit patient</button>
+  </mat-action-row>
+</form>

@@ -430,7 +430,7 @@
 
         </div>
         <div class="addButtonDiv">
-          <button mat-raised-button class="addTherapyBtn" type="submit">
+          <button mat-raised-button class="addTherapyBtn" [disabled]="!form.valid" type="submit">
             Add therapy
           </button>
         </div>
