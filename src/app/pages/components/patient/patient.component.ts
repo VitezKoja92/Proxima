@@ -161,4 +161,21 @@ export class PatientComponent {
         console.log('Error: ', error);
       });
   }
+
+  deleteMedicalHistoryItem(item: MedicalHistoryItem) {
+    const newMedHistory: MedicalHistoryItem[] = this.currentPatient.medicalHistory.filter((medHistoryItem: MedicalHistoryItem) => {
+      return medHistoryItem !== item;
+    });
+    this.PatientAPIService.removeMedicalHistoryItem(item._id, newMedHistory)
+      .then((patient: Patient): void => {
+        this.currentPatient = patient;
+        this.ActivatedRoute.params.subscribe(
+          (params) => {
+            this.getPatient(params.id);
+          }
+        );
+      }, (error: Error) => {
+        console.log('Error: ', error);
+      });
+  }
 }

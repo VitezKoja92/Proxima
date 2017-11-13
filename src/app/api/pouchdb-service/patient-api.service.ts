@@ -95,6 +95,21 @@ export class PatientAPIService {
       });
   }
 
+  public removeMedicalHistoryItem(id: string, medHistory: MedicalHistoryItem[]) {
+    return this.db.get(id)
+      .then((doc: Patient): IPouchDBPutResult => {
+        return this.db.put({
+          _id: doc._id,
+          _rev: doc._rev,
+          personalInfo: doc.personalInfo,
+          medicalHistory: medHistory
+        });
+      }).then((res: string) => {
+      }).catch((error: Error) => {
+        console.log('Error: ', error);
+      });
+  }
+
   public deletePatient(id: string, rev: string): Promise<IPouchDBRemoveResult> {
     return this.db.get(id)
       .then((doc: Patient) => {

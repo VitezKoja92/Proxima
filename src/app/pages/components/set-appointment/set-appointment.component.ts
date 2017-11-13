@@ -77,9 +77,8 @@ export class SetAppointmentComponent {
       });
   }
 
-  setAppointment(doctor: User, patient: Patient, description: string, hour: number, minute: number, datePicker: string) {
-    const date = new Date(datePicker);
-    const appointment = new Appointment(doctor, patient, date, hour, minute, description);
+  setAppointment(data: any) {
+    const appointment = new Appointment(data.doctor, data.patient, data.date, data.hour, data.minute, data.description);
 
     this.AppointmentAPIService.addAppointment(appointment)
       .then((result: string): void => {
