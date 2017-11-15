@@ -119,7 +119,6 @@ export class AppointmentAPIService {
           minute: minute,
           description: description
         });
-      }).then((res: string): void => {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
