@@ -89,7 +89,6 @@ export class PatientAPIService {
           },
           medicalHistory: medicalHistory
         });
-      }).then((res: string): void => {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
@@ -104,7 +103,6 @@ export class PatientAPIService {
           personalInfo: doc.personalInfo,
           medicalHistory: medHistory
         });
-      }).then((res: string) => {
       }).catch((error: Error) => {
         console.log('Error: ', error);
       });
@@ -128,7 +126,6 @@ export class PatientAPIService {
           personalInfo: personalInfo,
           medicalHistory: medicalHistory
         });
-      }).then((res: string): void => {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
