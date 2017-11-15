@@ -82,8 +82,7 @@ export class AppointmentsListComponent {
             appointment: app
           }
         });
-        dialogRef.afterClosed().subscribe(
-          (result) => {
+        dialogRef.afterClosed().subscribe((result) => {
             this.ActivatedRoute.params.subscribe(() => {
                 this.getAppointments();
               }
