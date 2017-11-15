@@ -15,7 +15,7 @@ describe('AppointmentsListComponent', () => {
   let fixture: ComponentFixture<AppointmentsListComponent>;
   let date1: Date;
   let date2: Date;
- 
+
   class AppointmentAPIServiceMock {
     public getAllAppointments() {
       return {

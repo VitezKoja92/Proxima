@@ -33,7 +33,6 @@ export class UserAPIService {
       index: {
         fields: ['username, password, name, surname, email, phoneNr']
       }
-    }).then((result: IPouchDBCreateIndexResult) => {
     }).catch((err) => {
       console.log(err);
     });
