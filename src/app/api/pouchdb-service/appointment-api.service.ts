@@ -49,9 +49,15 @@ export class AppointmentAPIService {
   public getAppointment(date: Date, hour: number, minute: number): Promise<Appointment> {
     const query = {
       selector: {
-        'date': { $eq: date },
-        'hour': { $eq: hour },
-        'minute': { $eq: minute }
+        'date': {
+          $eq: date
+        },
+        'hour': {
+          $eq: hour
+        },
+        'minute': {
+          $eq: minute
+        }
       }
     };
     return this.db.find(query)

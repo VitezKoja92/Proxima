@@ -46,6 +46,15 @@ export interface IPouchDBFindPatientsResult {
     warning?: string;
 }
 
+export interface SetAppointmentModel {
+    doctor: User;
+    patient: Patient;
+    description: string;
+    hour: number;
+    minute: number;
+    date: Date;
+}
+
 export class User {
     _id: string;
     username: string;
