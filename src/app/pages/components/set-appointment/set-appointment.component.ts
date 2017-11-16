@@ -1,6 +1,6 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { UserAPIService } from './../../../api/pouchdb-service/user-api.service';
@@ -12,7 +12,7 @@ import { User, Patient, Appointment } from '../../../api/models/index';
   templateUrl: './set-appointment.component.html',
   styleUrls: ['./set-appointment.component.scss']
 })
-export class SetAppointmentComponent {
+export class SetAppointmentComponent implements OnInit{
 
   users: User[];
   patients: Patient[];
@@ -26,8 +26,6 @@ export class SetAppointmentComponent {
     private Router: Router,
     private FormBuilder: FormBuilder
   ) {
-    this.getAppointments();
-    this.getAllPatients();
     this.getAllUsers();
 
     this.form = this.FormBuilder.group({
@@ -38,16 +36,42 @@ export class SetAppointmentComponent {
       'description': [null],
       'date': [null, Validators.required]
     });
-
   }
 
-  getAppointments(): void {
+  ngOnInit() {
+    this.getAppointments()
+      .then((appointments: Appointment[]) => {
+        this.appointments  = appointments;
+      });
+    this.getAllPatients()
+      .then((patients: Patient[]) => {
+        this.patients = patients;
+      });
+    this.getAllUsers()
+      .then((users: User[]) => {
+        this.users = users;
+      });
+  }
+
+  getAppointments(): Promise<Appointment[]> {
     const today = new Date();
-    this.AppointmentAPIService.getAllAppointments()
-      .then((appointments: Appointment[]): void => {
-        this.appointments = appointments.sort(this.dateSort);
-      }, (error: Error): void => {
-        console.log('Error: ', error);
+    return this.AppointmentAPIService.getAllAppointments()
+      .then((appointments: Appointment[]) => {
+        return appointments.sort(this.dateSort);
+      });
+  }
+
+  getAllPatients(): Promise<Patient[]> {
+    return this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]) => {
+        return patients;
+      });
+  }
+
+  getAllUsers(): Promise<User[]> {
+    return this.UserAPIService.getAllUsers()
+      .then((users: User[]) => {
+        return users;
       });
   }
 
@@ -57,24 +81,6 @@ export class SetAppointmentComponent {
     } else {
       return 1;
     }
-  }
-
-  getAllPatients(): void {
-    this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]): void => {
-        this.patients = patients;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
-      });
-  }
-
-  getAllUsers(): void {
-    this.UserAPIService.getAllUsers()
-      .then((users: User[]): void => {
-        this.users = users;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
-      });
   }
 
   setAppointment(doctor: User, patient: Patient, description: string, hour: number, minute: number, datePicker: string) {

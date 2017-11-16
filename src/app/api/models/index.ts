@@ -46,6 +46,17 @@ export interface IPouchDBFindPatientsResult {
     warning?: string;
 }
 
+export interface EditPersonalInfoModel {
+    name: string;
+    surname: string;
+    city: string;
+    country: string;
+    postCode: number;
+    street: string;
+    streetNr: string;
+    profession: string;
+}
+
 export class User {
     _id: string;
     username: string;

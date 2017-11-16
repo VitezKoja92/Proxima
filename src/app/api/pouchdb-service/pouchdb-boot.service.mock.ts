@@ -1,9 +1,10 @@
+import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 import * as PouchDBlib from 'pouchdb';
 import * as PouchDBFind from 'pouchdb-find';
 
 import Configuration = PouchDB.Configuration;
-import { IPouchDBCreateIndexResult, User, IPouchDBFindUsersResult, IPouchDBPutResult } from '../models/index';
+import { IPouchDBCreateIndexResult, User, IPouchDBFindUsersResult, IPouchDBPutResult, IPouchDBAllDocsResult } from '../models/index';
 
 export class PouchDb {
 
@@ -28,13 +29,7 @@ export class PouchDb {
         }
     ];
 
-    sync(remote: string, options: any): void {}
-
-    createIndex(): Promise<IPouchDBCreateIndexResult> {
-        return Promise.resolve({
-            result: 'result'
-        });
-    }
+    sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
         return Promise.resolve({
@@ -44,29 +39,71 @@ export class PouchDb {
         });
     }
 
-    find(query: any): Promise<IPouchDBFindUsersResult> {
+    createIndex(): Promise<IPouchDBCreateIndexResult> {
         return Promise.resolve({
-            docs: this.users,
-            warning: 'warning'
+            result: 'result'
         });
     }
 
-    allDocs(): Promise<User[]> {
-        return Promise.resolve(this.users);
+    find(query: any): Promise<IPouchDBFindUsersResult> {
+
+        let temp = [];
+        if (isNullOrUndefined(query.selector.password)) {
+            temp = this.users.filter((user: User) => {
+                return query.selector.username.$eq === user.username;
+            });
+        } else {
+            temp = this.users.filter((user: User) => {
+                return query.selector.username.$eq === user.username
+                    && query.selector.password.$eq === user.password;
+            });
+        }
+        return Promise.resolve({
+            'docs': temp,
+            'warning': 'warning'
+        });
+    }
+
+    allDocs(): Promise<IPouchDBAllDocsResult> {
+        const result: IPouchDBAllDocsResult = {
+            offset: 0,
+            total_rows: 0,
+            rows: []
+        };
+        this.users.forEach((user) => {
+            result.rows.push({
+                id: 'rowid',
+                key: 'key',
+                value: {
+                    rev: 'rev'
+                },
+                doc: {
+                    '_id': user._id,
+                    'username': user.username,
+                    'password': user.password,
+                    'name': user.name,
+                    'surname': user.surname,
+                    'email': user.email,
+                    'phoneNr': user.phoneNr
+                }
+            });
+        });
+
+        return Promise.resolve(result);
     }
 }
 
 @Injectable()
 export class PouchDbBootServiceMock {
 
-  lib: any;
+    lib: any;
 
-  constructor() {
-    this.lib = PouchDBlib;
-    this.lib.default.plugin(PouchDBFind.default);
-  }
+    constructor() {
+        this.lib = PouchDBlib;
+        this.lib.default.plugin(PouchDBFind.default);
+    }
 
-  useDatabase(dbName: string, options: Configuration.DatabaseConfiguration): any {
-    return new PouchDb();
-  }
+    useDatabase(dbName: string, options: Configuration.DatabaseConfiguration): any {
+        return new PouchDb();
+    }
 }

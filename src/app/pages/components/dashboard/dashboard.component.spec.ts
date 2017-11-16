@@ -44,22 +44,12 @@ describe('DashboardComponent', () => {
   });
 
   // ***** Methods to test: *****
-  // - getNumberOfPatients() - calls the getAllPatients method from PatientAPIService - check if it calls that method
-  // - getNumberOfThearpies() - calls the getAllPatients method from PatientAPIService - check if it calls that method
+  // - getAllPatients() - calls the getAllPatients method from PatientAPIService - check if it calls that method
 
   it('should call getAllPatients method from the PatientAPIService in getNumberOfPatients method',
     inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
       spyOn(PatientAPIService, 'getAllPatients').and.callThrough();
-      component.getNumberOfPatients();
+      component.getAllPatients();
       expect(PatientAPIService.getAllPatients).toHaveBeenCalled();
     }));
-
-  it('should call getAllPatients method from the PatientAPIService in getNumberOfTherapies method',
-    inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
-      spyOn(PatientAPIService, 'getAllPatients').and.callThrough();
-      component.getNumberOfTherapies();
-      expect(PatientAPIService.getAllPatients).toHaveBeenCalled();
-    }));
-
-
 });

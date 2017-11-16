@@ -66,7 +66,7 @@ export class UserAPIService {
       .then((result: IPouchDBFindUsersResult): User | null => {
         return result.docs.length ? result.docs[0] : null;
       }).catch((error: Error) => {
-        console.log('Error: ', error);
+        throw error;
       });
   }
 

@@ -62,12 +62,4 @@ describe('EditPatientDialogComponent', () => {
   afterEach(() => {
     component = null;
   });
-
-  xit('should call editPatientInfo method from the PatientAPIService',
-    inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
-      spyOn(PatientAPIService, 'editPatientInfo').and.callThrough();
-      component.editPersonalInfo('name', 'surname', 'city', 'country', 37000, 'street', 'streetNo', 'profession');
-      expect(PatientAPIService.editPatientInfo).toHaveBeenCalled();
-    }));
-
 });

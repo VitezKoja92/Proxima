@@ -36,16 +36,17 @@ export class FindPatientComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.getAllPatients();
-  }
-
-  getAllPatients(): void {
-    this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]): void => {
+    this.getAllPatients()
+      .then((patients: Patient[]) => {
         this.patients = patients;
         this.filteredPatients = patients;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
+      });
+  }
+
+  getAllPatients(): Promise<Patient[]> {
+    return this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]): Patient[] => {
+        return patients;
       });
   }
 
