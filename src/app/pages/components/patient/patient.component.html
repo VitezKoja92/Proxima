@@ -33,8 +33,9 @@
 
     <h5 class="historyTitle">Medical history</h5>
     <!-- Medical history - BEGIN -->
-    <div class="medHistory">
-      <mat-expansion-panel *ngFor="let item of currentPatient?.medicalHistory">
+    <mat-accordion>
+    <div class="medHistory" *ngFor="let item of currentPatient?.medicalHistory">
+      <mat-expansion-panel>
 
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -183,8 +184,12 @@
             </mat-card-content>
           </mat-card>
         </div>
+        <mat-action-row>
+          <button mat-button color="warn" (click)="deleteMedicalHistoryItem(item)">Delete</button>
+        </mat-action-row>
       </mat-expansion-panel>
     </div>
+  </mat-accordion>
     <!-- Medical history - END -->
 
     <h5 class="addTherapyTitle">Add new therapy</h5>
