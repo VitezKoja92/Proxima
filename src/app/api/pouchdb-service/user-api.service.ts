@@ -65,8 +65,8 @@ export class UserAPIService {
     return this.db.find(userQuery)
       .then((result: IPouchDBFindUsersResult): User | null => {
         return result.docs.length ? result.docs[0] : null;
-      }).catch((error: Error) => {
-        throw error;
+      }).catch((error) => {
+        console.log('Error: ', error);
       });
   }
 

@@ -47,7 +47,7 @@ describe('UserAPIService', () => {
   beforeEach(fakeAsync(inject([UserAPIService, PouchDbBootService],
     (userService: UserAPIService, pouchDbBootService: PouchDbBootService) => {
       db = pouchDbBootService.useDatabase('db', null);
-  })));
+    })));
 
   it('should return the id when the user is added in the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
     let id = '';
@@ -70,15 +70,15 @@ describe('UserAPIService', () => {
   })));
 
   it('should get the first user from the database (when both username and password are provided)',
-  fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
-    let myUser = null;
-    service.getUser(userMock[0].username, userMock[0].password)
-      .then((res: User) => {
-        myUser = res;
-      });
-    tick();
-    expect(myUser).toEqual(userMock[0]);
-  })));
+    fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
+      let myUser = null;
+      service.getUser(userMock[0].username, userMock[0].password)
+        .then((res: User) => {
+          myUser = res;
+        });
+      tick();
+      expect(myUser).toEqual(userMock[0]);
+    })));
 
   it('should get the second user from the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
     let myUser = null;
@@ -100,17 +100,49 @@ describe('UserAPIService', () => {
     expect(myUser).toEqual(null);
   })));
 
-  // xit('should log an error when it tries to get a specific user', inject([UserAPIService], (service: UserAPIService) => {
-  //   spyOn(service, 'getUser').and.returnValue(Promise.reject('error'));
-  //   expect(service.getUser).toThrow('error');
-  // }));
+  it('should log an error when it tries to get a specific user',
+    inject([UserAPIService, PouchDbBootService], (userAPIService: UserAPIService, pouchDbBootService: PouchDbBootService, done) => {
+      let promiseHelper;
+      const errObj = {
+        msg: 'Failed'
+      };
+      const myPromise = new Promise((resolve, reject) => {
+        promiseHelper = {
+          resolve: resolve,
+          reject: reject
+        };
+      });
+      spyOn(db, 'find').and.returnValue(myPromise);
+      const resPromise = userAPIService.getUser('username', 'password');
+      promiseHelper.reject(errObj);
+      // spyOn(console, 'log');
+      resPromise.catch((error) => {
+        expect(error).toEqual(errObj);
+        // console.toString();
+        // expect(console.log).toHaveBeenCalled();
+        done();
+      });
+    }));
 
-  fit('should log an error when database tries to create the index',
-  inject([UserAPIService, PouchDbBootService], (userService: UserAPIService, pouchDbBootService: PouchDbBootService) => {
-    spyOn(db, 'createIndex').and.returnValue(Promise.reject({'result': 'bad'}));
-    const response = Promise.reject({'result': 'bad'});
-    expect(db.createIndex).toHaveBeenCalled();
-  }));
+  it('should log an error when the pouch is not able to create indices',
+    inject([UserAPIService, PouchDbBootService], (userAPIService: UserAPIService, pouchDbBootService: PouchDbBootService) => {
+      let promiseHelper;
+      const errObj = {
+        msg: 'Failed'
+      };
+      const myPromise = new Promise((resolve, reject) => {
+        promiseHelper = {
+          resolve: resolve,
+          reject: reject
+        };
+      });
+      spyOn(db, 'createIndex').and.returnValue(myPromise);
+      const resPromise = db.createIndex();
+      promiseHelper.reject(errObj);
+      resPromise.catch((error) => {
+        expect(error).toEqual(errObj);
+      });
+    }));
 
   it('should get all users from the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
     let myUsers = null;
