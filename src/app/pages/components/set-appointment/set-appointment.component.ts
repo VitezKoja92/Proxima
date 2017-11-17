@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { UserAPIService } from './../../../api/pouchdb-service/user-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
-import { User, Patient, Appointment, AddAppointmentModel } from '../../../api/models/index';
+import { User, Patient, Appointment, SetAppointmentModel } from '../../../api/models/index';
 
 @Component({
   selector: 'app-set-appointment',
@@ -83,7 +83,7 @@ export class SetAppointmentComponent implements OnInit{
     }
   }
 
-  setAppointment(data: AddAppointmentModel) {
+  setAppointment(data: SetAppointmentModel) {
     const appointment = new Appointment(data.doctor, data.patient, data.date, data.hour, data.minute, data.description);
 
     this.AppointmentAPIService.addAppointment(appointment)
@@ -93,5 +93,4 @@ export class SetAppointmentComponent implements OnInit{
         console.log('Error: ', error);
       });
   }
-
 }

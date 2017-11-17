@@ -75,18 +75,18 @@ export class UserAPIService {
       include_docs: true,
       startkey: 'user:'
     }).then((result: IPouchDBAllDocsResult): User[] => {
-        return result.rows.map((row: any): User => {
-            return ({
-              _id: row.doc._id,
-              username: row.doc.username,
-              password: row.doc.password,
-              name: row.doc.name,
-              surname: row.doc.surname,
-              email: row.doc.email,
-              phoneNr: row.doc.phoneNr
-            });
-          });
+      return result.rows.map((row: any): User => {
+        return ({
+          _id: row.doc._id,
+          username: row.doc.username,
+          password: row.doc.password,
+          name: row.doc.name,
+          surname: row.doc.surname,
+          email: row.doc.email,
+          phoneNr: row.doc.phoneNr
+        });
       });
+    });
     return promise;
   }
 }

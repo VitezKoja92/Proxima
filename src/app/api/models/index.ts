@@ -57,7 +57,7 @@ export interface EditPersonalInfoModel {
     profession: string;
 }
 
-export interface AddAppointmentModel {
+export interface SetAppointmentModel {
     doctor: User;
     patient: Patient;
     description: string;
@@ -258,6 +258,7 @@ export class ElectroTherapy {
 
 export class Appointment {
     _id: string;
+    _rev: string;
     user: User;
     patient: Patient;
     date: Date;
@@ -266,8 +267,9 @@ export class Appointment {
     description: string;
 
     constructor(user: User, patient: Patient,
-        dateAndTime: Date, hour: number, minute: number, description: string) {
+        dateAndTime: Date, hour: number, minute: number, description: string, rev?: string) {
         this._id = 'appointment:' + new Date().getTime();
+        this._rev = rev;
         this.user = user;
         this.patient = patient;
         this.date = dateAndTime;

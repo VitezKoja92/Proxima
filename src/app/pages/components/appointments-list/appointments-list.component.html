@@ -26,6 +26,7 @@
         <th mat-sort-header="name">Name</th>
         <th mat-sort-header="surname">Surname</th>
         <th mat-sort-header="description">Description</th>
+        <th mat-header="action">Action</th>
       </tr>
 
       <tr class="appointmentsRow" *ngFor="let appointment of sortedAppointments">
@@ -34,6 +35,10 @@
         <td>{{ appointment?.patient.personalInfo.name }}</td>
         <td>{{ appointment?.patient.personalInfo.surname }}</td>
         <td>{{ appointment?.description }}</td>
+        <td class="editDeleteBtns">
+          <button class="editBtn" (click)="openDialog(appointment)">Edit</button>
+          <button class="deleteBtn" (click)="deleteAppointment(appointment)">Delete</button>
+        </td>
       </tr>
     </table>
 
