@@ -104,7 +104,7 @@ describe('UserAPIService', () => {
     inject([UserAPIService, PouchDbBootService], (userAPIService: UserAPIService, pouchDbBootService: PouchDbBootService, done) => {
       let promiseHelper;
       const errObj = {
-        msg: 'Failed'
+        msg: 'Error'
       };
       const myPromise = new Promise((resolve, reject) => {
         promiseHelper = {
@@ -112,14 +112,14 @@ describe('UserAPIService', () => {
           reject: reject
         };
       });
+      promiseHelper.reject(errObj);
       spyOn(db, 'find').and.returnValue(myPromise);
       const resPromise = userAPIService.getUser('username', 'password');
-      promiseHelper.reject(errObj);
-      // spyOn(console, 'log');
-      resPromise.catch((error) => {
+      resPromise.then((res) => {
+        console.log('res:', res);
+      }).catch((error) => {
+        console.log('Error:', error);
         expect(error).toEqual(errObj);
-        // console.toString();
-        // expect(console.log).toHaveBeenCalled();
         done();
       });
     }));
