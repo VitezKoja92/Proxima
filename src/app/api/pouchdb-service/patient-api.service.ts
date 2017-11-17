@@ -89,8 +89,21 @@ export class PatientAPIService {
           },
           medicalHistory: medicalHistory
         });
-      }).then((res: string): void => {
       }).catch((error: Error): void => {
+        console.log('Error: ', error);
+      });
+  }
+
+  public removeMedicalHistoryItem(id: string, medHistory: MedicalHistoryItem[]) {
+    return this.db.get(id)
+      .then((doc: Patient): IPouchDBPutResult => {
+        return this.db.put({
+          _id: doc._id,
+          _rev: doc._rev,
+          personalInfo: doc.personalInfo,
+          medicalHistory: medHistory
+        });
+      }).catch((error: Error) => {
         console.log('Error: ', error);
       });
   }
@@ -113,7 +126,6 @@ export class PatientAPIService {
           personalInfo: personalInfo,
           medicalHistory: medicalHistory
         });
-      }).then((res: string): void => {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
