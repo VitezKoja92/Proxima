@@ -57,6 +57,15 @@ export interface EditPersonalInfoModel {
     profession: string;
 }
 
+export interface AddAppointmentModel {
+    doctor: User;
+    patient: Patient;
+    description: string;
+    hour: number;
+    minute: number;
+    date: Date;
+}
+
 export class User {
     _id: string;
     username: string;
@@ -129,9 +138,9 @@ export class MedicalHistoryItem {
         this.anamnesis = anamnesis;
         this.diagnostics = diagnostics;
         this.statusLocalis = statusLocalis;
-        this.diagnosis  = diagnosis;
+        this.diagnosis = diagnosis;
         this.recommendedTherapy = recommendedTherapy;
-        }
+    }
 }
 
 export class Address {

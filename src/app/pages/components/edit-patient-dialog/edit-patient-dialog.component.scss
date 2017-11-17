@@ -1,20 +1,20 @@
 @import "~variables.scss";
 
-.fields {
+.inputForm {
     display: flex;
     flex-direction: column;
 }
 
-.fields > mat-form-field {
+.inputForm > mat-form-field {
     font-family: $font_nova;
     margin: 0.5rem 3rem;
 }
 
-.fields > mat-form-field:first-child {
+.inputForm > mat-form-field:first-child {
     margin-top: 2rem;
 }
 
-.fields > mat-form-field:last-child {
+.inputForm > mat-form-field:last-child {
     margin-bottom: 2rem;
 }
 
@@ -23,7 +23,7 @@
     justify-content: center;
 }
 
-.mat-button {
+.editPatient-btn {
     width: 20vw;
     margin: 1rem 2rem;   
     padding: 0 1rem;
@@ -36,8 +36,13 @@
     border: $darkblue_button_border;
 }
 
-.mat-button:hover {
+.editPatient-btn:hover {
     cursor: pointer;
-    background-color:rgb(255, 255, 255) !important;
+    background-color: white;
     color: $darkblue;
+}
+
+.editPatient-btn:disabled {
+    background-color: $gray;
+    border-color: $gray;
 }

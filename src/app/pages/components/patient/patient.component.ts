@@ -115,6 +115,13 @@ export class PatientComponent {
       });
   }
 
+  deletePatient() {
+    this.PatientAPIService.deletePatient(this.currentPatient._id, this.currentPatient._rev)
+    .then(() => {
+      this.Router.navigate(['/find-patient']);
+    });
+  }
+
   addTherapy(data: any): void {
 
     const anamnesis: Anamnesis = new Anamnesis(data.mainDifficulties, data.anaMorbi, data.anaVitae, data.anaFamiliae);
@@ -151,6 +158,23 @@ export class PatientComponent {
           }
         );
       }, (error: Error): void => {
+        console.log('Error: ', error);
+      });
+  }
+
+  deleteMedicalHistoryItem(item: MedicalHistoryItem) {
+    const newMedHistory: MedicalHistoryItem[] = this.currentPatient.medicalHistory.filter((medHistoryItem: MedicalHistoryItem) => {
+      return medHistoryItem !== item;
+    });
+    this.PatientAPIService.removeMedicalHistoryItem(item._id, newMedHistory)
+      .then((patient: Patient): void => {
+        this.currentPatient = patient;
+        this.ActivatedRoute.params.subscribe(
+          (params) => {
+            this.getPatient(params.id);
+          }
+        );
+      }, (error: Error) => {
         console.log('Error: ', error);
       });
   }

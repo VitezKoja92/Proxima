@@ -73,10 +73,9 @@ p {
     justify-content: center;
 }
 
-.addTherapyBtn, .editPersonalInfoBtn {
-    width: 35%;
-    margin: 2rem 1rem 1rem 1rem;   
-
+.addTherapyBtn, .editPersonalInfoBtn, .deletePatientBtn {
+    width: 15vw;
+    margin: 2rem 1rem 1rem 1rem;
     padding: 0 1rem;
     background-color: $darkblue;
     color: $lightbedge;
@@ -87,10 +86,19 @@ p {
     border: $darkblue_button_border;
 }
 
-.addTherapyBtn:hover, .editPersonalInfoBtn:hover {
+.mat-card-actions .mat-button {
+    margin: 2rem 1rem 1rem 1rem;
+}
+
+.addTherapyBtn:hover, .editPersonalInfoBtn:hover, .deletePatientBtn:hover {
     cursor: pointer;
     background-color: white;
     color: $darkblue;
+}
+
+.addTherapyBtn:disabled, .editPersonalInfoBtn:disabled {
+    background-color: $gray;
+    border-color: $gray;
 }
 
 .radioTitle, .addTherapyLabel{

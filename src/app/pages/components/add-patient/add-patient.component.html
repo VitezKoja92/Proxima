@@ -93,8 +93,8 @@
         </div>
 
         <mat-action-row>
-            <button mat-button class="clear-btn" (click)="addPatientForm.reset()">Clear form</button>
-            <button mat-button type="submit" class="addPatient-btn">Add patient</button>
+            <button mat-raised-button class="clear-btn" (click)="addPatientForm.reset()">Clear form</button>
+            <button mat-raised-button type="submit" class="addPatient-btn" [disabled]="!form.valid">Add patient</button>
         </mat-action-row>
 
       </mat-expansion-panel>

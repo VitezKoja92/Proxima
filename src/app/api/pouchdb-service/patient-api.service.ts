@@ -2,7 +2,6 @@ import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
-import { MedicalHistoryItem, PatientPersonalInfo } from './../models/index';
 import { environment } from './../../../environments/environment';
 import { IPouchDBCreateIndexResult } from '../models/index';
 import {
@@ -10,7 +9,10 @@ import {
   IPouchDBAllDocsResult,
   IPouchDBPutResult,
   IPouchDBFindPatientsResult,
-  Address
+  Address,
+  IPouchDBRemoveResult,
+  PatientPersonalInfo,
+  MedicalHistoryItem
 } from './../models/index';
 
 @Injectable()
@@ -87,8 +89,30 @@ export class PatientAPIService {
           },
           medicalHistory: medicalHistory
         });
-      }).then((res: string): void => {
       }).catch((error: Error): void => {
+        console.log('Error: ', error);
+      });
+  }
+
+  public removeMedicalHistoryItem(id: string, medHistory: MedicalHistoryItem[]) {
+    return this.db.get(id)
+      .then((doc: Patient): IPouchDBPutResult => {
+        return this.db.put({
+          _id: doc._id,
+          _rev: doc._rev,
+          personalInfo: doc.personalInfo,
+          medicalHistory: medHistory
+        });
+      }).catch((error: Error) => {
+        console.log('Error: ', error);
+      });
+  }
+
+  public deletePatient(id: string, rev: string): Promise<IPouchDBRemoveResult> {
+    return this.db.get(id)
+      .then((doc: Patient) => {
+        return this.db.remove(doc);
+      }).catch((error: Error) => {
         console.log('Error: ', error);
       });
   }
@@ -102,7 +126,6 @@ export class PatientAPIService {
           personalInfo: personalInfo,
           medicalHistory: medicalHistory
         });
-      }).then((res: string): void => {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });

@@ -149,6 +149,7 @@ describe('FindPatientComponent', () => {
         }
       ];
       const searchField = component.form.controls['search'];
+      searchField.set = ''
 
 
   })));

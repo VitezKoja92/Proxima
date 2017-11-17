@@ -64,10 +64,17 @@ mat-expansion-panel-header{
     border: $darkblue_button_border;
 }
 
+
+
 .addPatient-btn:hover, .clear-btn:hover{
     cursor: pointer;
-    background-color:rgb(255, 255, 255);
+    background-color:white;
     color: $darkblue;
+}
+
+.addPatient-btn:disabled {
+    background-color: $gray;
+    border-color: $gray;
 }
 
 .laserTitle {
