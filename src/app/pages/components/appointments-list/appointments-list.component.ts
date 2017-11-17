@@ -1,10 +1,11 @@
 import { isNullOrUndefined } from 'util';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
-import { Sort } from '@angular/material';
+import { Sort, MatDialog } from '@angular/material';
 
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { Appointment } from './../../../api/models/index';
+import { EditAppointmentDialogComponent } from '../edit-appointment-dialog/edit-appointment-dialog.component';
 
 @Component({
   selector: 'app-appointments-list',
@@ -17,7 +18,12 @@ export class AppointmentsListComponent {
   sortedAppointments: Appointment[];
   selectedPeriod: string;
 
-  constructor(private AppointmentAPIService: AppointmentAPIService, private Router: Router) {
+  constructor(
+    private AppointmentAPIService: AppointmentAPIService,
+    private Router: Router,
+    private dialog: MatDialog,
+    private ActivatedRoute: ActivatedRoute
+  ) {
     this.selectedPeriod = '';
     this.getAppointments();
   }
@@ -33,14 +39,13 @@ export class AppointmentsListComponent {
           this.sortedAppointments = this.appointments.slice();
         } else {
           this.appointments = appointments.sort(this.dateSort).filter((appointment: Appointment) => {
-
             let todayDate;
             let futureDate;
             if (period === 'Today') {
               todayDate = new Date();
               return appointment.date.getDate() === today.getDate()
-              && appointment.date.getMonth() === today.getMonth()
-              && appointment.date.getFullYear() === today.getFullYear();
+                && appointment.date.getMonth() === today.getMonth()
+                && appointment.date.getFullYear() === today.getFullYear();
             } else if (period === 'Week') {
               todayDate = new Date();
               futureDate = new Date(today.getTime() + (1000 * 60 * 60 * 24 * 7));
@@ -57,6 +62,33 @@ export class AppointmentsListComponent {
           this.sortedAppointments = this.appointments.slice();
         }
       }, (error: Error): void => {
+        console.log('Error: ', error);
+      });
+  }
+
+  deleteAppointment(appointment: Appointment): void {
+    this.AppointmentAPIService.deleteAppointment(appointment._id)
+      .then(() => {
+        this.getAppointments();
+      });
+  }
+
+  openDialog(appointment: Appointment): void {
+    const selectedAppointment = this.AppointmentAPIService.getAppointment(appointment.date, appointment.hour, appointment.minute)
+      .then((app: Appointment) => {
+        const dialogRef = this.dialog.open(EditAppointmentDialogComponent, {
+          width: '60%',
+          data: {
+            appointment: app
+          }
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+            this.ActivatedRoute.params.subscribe(() => {
+                this.getAppointments();
+              }
+            );
+          });
+      }, (error: Error) => {
         console.log('Error: ', error);
       });
   }

@@ -11,7 +11,7 @@ import { Patient } from './../../../api/models/index';
   templateUrl: './find-patient.component.html',
   styleUrls: ['./find-patient.component.scss']
 })
-export class FindPatientComponent implements OnInit{
+export class FindPatientComponent implements OnInit {
 
   patients: Patient[];
   filteredPatients: Patient[];
