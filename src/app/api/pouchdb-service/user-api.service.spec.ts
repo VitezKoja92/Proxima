@@ -1,5 +1,4 @@
 import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
-import { error } from 'util';
 
 import { UserAPIService } from './user-api.service';
 import { PouchDbBootService } from './pouchdb-boot.service';
@@ -27,7 +26,6 @@ const userMock = [
   }
 ];
 
-let db;
 
 class MockError extends Response implements Error {
   name: any;
@@ -35,19 +33,27 @@ class MockError extends Response implements Error {
 }
 
 describe('UserAPIService', () => {
+
+  let db;
+
+  let userAPIServiceStub;
+  let pouchDbBootServiceStub;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         UserAPIService,
-        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock }
+        {provide: PouchDbBootService, useClass: PouchDbBootServiceMock}
       ]
     });
   });
 
-  beforeEach(fakeAsync(inject([UserAPIService, PouchDbBootService],
-    (userService: UserAPIService, pouchDbBootService: PouchDbBootService) => {
-      db = pouchDbBootService.useDatabase('db', null);
-    })));
+  beforeEach(() => {
+    pouchDbBootServiceStub = TestBed.get(PouchDbBootService);
+    userAPIServiceStub = TestBed.get(UserAPIService);
+    spyOn(console, 'log').and.callThrough();
+    db = pouchDbBootServiceStub.useDatabase('db', null);
+  });
 
   it('should return the id when the user is added in the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
     let id = '';
@@ -100,57 +106,28 @@ describe('UserAPIService', () => {
     expect(myUser).toEqual(null);
   })));
 
-  it('should log an error when it tries to get a specific user',
-    inject([UserAPIService, PouchDbBootService], (userAPIService: UserAPIService, pouchDbBootService: PouchDbBootService, done) => {
-      let promiseHelper;
-      const errObj = {
-        msg: 'Error'
-      };
-      const myPromise = new Promise((resolve, reject) => {
-        promiseHelper = {
-          resolve: resolve,
-          reject: reject
-        };
-      });
-      promiseHelper.reject(errObj);
-      spyOn(db, 'find').and.returnValue(myPromise);
-      const resPromise = userAPIService.getUser('username', 'password');
-      resPromise.then((res) => {
-        console.log('res:', res);
-      }).catch((error) => {
-        console.log('Error:', error);
-        expect(error).toEqual(errObj);
+  it('should log an error when it tries to get a specific user', (done) => {
+    spyOn(userAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
+
+    userAPIServiceStub.getUser('username', 'password').then(() => {
+      expect(console.log).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should log an error when the pouch is not able to create indices', (done) => {
+    spyOn(userAPIServiceStub.db, 'createIndex').and.returnValue(Promise.reject('error'));
+    userAPIServiceStub.createIndexes().then(() => {
+      expect(console.log).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should get all users from the database', (done) => {
+    userAPIServiceStub.getAllUsers()
+      .then((res: User[]) => {
+        expect(res).toEqual(userMock);
         done();
       });
-    }));
-
-  it('should log an error when the pouch is not able to create indices',
-    inject([UserAPIService, PouchDbBootService], (userAPIService: UserAPIService, pouchDbBootService: PouchDbBootService) => {
-      let promiseHelper;
-      const errObj = {
-        msg: 'Failed'
-      };
-      const myPromise = new Promise((resolve, reject) => {
-        promiseHelper = {
-          resolve: resolve,
-          reject: reject
-        };
-      });
-      spyOn(db, 'createIndex').and.returnValue(myPromise);
-      const resPromise = db.createIndex();
-      promiseHelper.reject(errObj);
-      resPromise.catch((error) => {
-        expect(error).toEqual(errObj);
-      });
-    }));
-
-  it('should get all users from the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
-    let myUsers = null;
-    service.getAllUsers()
-      .then((res: User[]) => {
-        myUsers = res;
-      });
-    tick();
-    expect(myUsers).toEqual(userMock);
-  })));
+  });
 });

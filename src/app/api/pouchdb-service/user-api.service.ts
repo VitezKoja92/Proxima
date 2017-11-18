@@ -28,8 +28,12 @@ export class UserAPIService {
       retry: true
     });
 
+    this.createIndexes();
+  }
+
+  public createIndexes() {
     // Index creation
-    this.db.createIndex({
+    return this.db.createIndex({
       index: {
         fields: ['username, password, name, surname, email, phoneNr']
       }
