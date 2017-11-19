@@ -1,4 +1,4 @@
-import { IPouchDBRemoveResult, IPouchDBGetResult } from './../models/index';
+import { IPouchDBRemoveResult, IPouchDBGetResult, Patient } from './../models/index';
 import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 import * as PouchDBlib from 'pouchdb';
@@ -60,6 +60,65 @@ export class PouchDb {
         }
     ];
 
+    patients = [
+        {
+          '_id': 'id1',
+          '_rev': 'rev1',
+          'personalInfo': {
+            'name': 'name1',
+            'surname': 'surname1',
+            'dateOfBirth': new Date(2013, 13, 1),
+            'address': {
+              'country': 'country1',
+              'city': 'city1',
+              'postcode': 1,
+              'street': 'street1',
+              'streetNo': 'streetNo1'
+            },
+            'profession': 'profession1',
+          },
+          'medicalHistory': [
+            {
+              '_id': 'id1',
+              'date': 'date1',
+              'anamnesis': null,
+              'diagnostics': null,
+              'statusLocalis': 'statusLocalis1',
+              'diagnosis': 'diagnosis1',
+              'recommendedTherapy': null
+            }
+          ]
+        },
+        {
+          '_id': 'id2',
+          '_rev': 'rev2',
+          'personalInfo': {
+            'name': 'name2',
+            'surname': 'surname2',
+            'dateOfBirth': new Date(2013, 13, 2),
+            'address': {
+              'country': 'country2',
+              'city': 'city2',
+              'postcode': 2,
+              'street': 'street2',
+              'streetNo': 'streetNo2'
+            },
+            'profession': 'profession2',
+          },
+          'medicalHistory': [
+            {
+              '_id': 'id2',
+              'date': 'date2',
+              'anamnesis': null,
+              'diagnostics': null,
+              'statusLocalis': 'statusLocalis2',
+              'diagnosis': 'diagnosis2',
+              'recommendedTherapy': null
+            }
+          ]
+        }
+      ];
+
     sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
@@ -78,22 +137,30 @@ export class PouchDb {
 
     find(query: any): Promise<IPouchDBFindUsersResult> {
         let temp = [];
-        if (isNullOrUndefined(query.selector.date) || isNullOrUndefined(query.selector.hour) || isNullOrUndefined(query.selector.minute)) {
-            if (isNullOrUndefined(query.selector.password)) {
-                temp = this.users.filter((user: User) => {
-                    return query.selector.username.$eq === user.username;
-                });
+        if (isNullOrUndefined(query.selector._id)) {
+            if (isNullOrUndefined(query.selector.date)
+            || isNullOrUndefined(query.selector.hour)
+            || isNullOrUndefined(query.selector.minute)) {
+                if (isNullOrUndefined(query.selector.password)) {
+                    temp = this.users.filter((user: User) => {
+                        return query.selector.username.$eq === user.username;
+                    });
+                } else {
+                    temp = this.users.filter((user: User) => {
+                        return query.selector.username.$eq === user.username
+                            && query.selector.password.$eq === user.password;
+                    });
+                }
             } else {
-                temp = this.users.filter((user: User) => {
-                    return query.selector.username.$eq === user.username
-                        && query.selector.password.$eq === user.password;
+                temp = this.appointments.filter((appointment: Appointment) => {
+                    return appointment.date.getMilliseconds() === query.selector.date.$eq.getMilliseconds()
+                        && appointment.hour === query.selector.hour.$eq
+                        && appointment.minute === query.selector.minute.$eq;
                 });
             }
         } else {
-            temp = this.appointments.filter((appointment: Appointment) => {
-                return appointment.date.getMilliseconds() === query.selector.date.$eq.getMilliseconds()
-                    && appointment.hour === query.selector.hour.$eq
-                    && appointment.minute === query.selector.minute.$eq;
+            temp = this.patients.filter((patient: Patient) => {
+                return patient._id === query.selector._id.$eq;
             });
         }
         return Promise.resolve({

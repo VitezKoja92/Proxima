@@ -127,8 +127,8 @@ describe('AppointmentApiService', () => {
     spyOn(appointmentAPIServiceStub.db, 'get').and.returnValue(Promise.reject('error'));
     appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].date,
       appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user, appointmentsMock[0].hour, 3).then(() => {
-      expect(console.log).toHaveBeenCalled();
-      done();
-    });
+        expect(console.log).toHaveBeenCalled();
+        done();
+      });
   });
 });
