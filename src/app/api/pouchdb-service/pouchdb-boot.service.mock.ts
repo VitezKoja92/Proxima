@@ -1,10 +1,18 @@
+import { IPouchDBRemoveResult, IPouchDBGetResult } from './../models/index';
 import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 import * as PouchDBlib from 'pouchdb';
 import * as PouchDBFind from 'pouchdb-find';
 
 import Configuration = PouchDB.Configuration;
-import { IPouchDBCreateIndexResult, User, IPouchDBFindUsersResult, IPouchDBPutResult, IPouchDBAllDocsResult } from '../models/index';
+import {
+    IPouchDBCreateIndexResult,
+    User,
+    IPouchDBFindUsersResult,
+    IPouchDBPutResult,
+    IPouchDBAllDocsResult,
+    Appointment
+} from '../models/index';
 
 export class PouchDb {
 
@@ -29,6 +37,29 @@ export class PouchDb {
         }
     ];
 
+    appointments = [
+        {
+            '_id': 'id1',
+            '_rev': 'rev1',
+            'user': null,
+            'patient': null,
+            'date': new Date(2013, 13, 1),
+            'hour': 1,
+            'minute': 1,
+            'description': 'description1'
+        },
+        {
+            '_id': 'id2',
+            '_rev': 'rev2',
+            'user': null,
+            'patient': null,
+            'date': new Date(2013, 13, 2),
+            'hour': 2,
+            'minute': 2,
+            'description': 'description2'
+        }
+    ];
+
     sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
@@ -46,21 +77,56 @@ export class PouchDb {
     }
 
     find(query: any): Promise<IPouchDBFindUsersResult> {
-
         let temp = [];
-        if (isNullOrUndefined(query.selector.password)) {
-            temp = this.users.filter((user: User) => {
-                return query.selector.username.$eq === user.username;
-            });
+        if (isNullOrUndefined(query.selector.date) || isNullOrUndefined(query.selector.hour) || isNullOrUndefined(query.selector.minute)) {
+            if (isNullOrUndefined(query.selector.password)) {
+                temp = this.users.filter((user: User) => {
+                    return query.selector.username.$eq === user.username;
+                });
+            } else {
+                temp = this.users.filter((user: User) => {
+                    return query.selector.username.$eq === user.username
+                        && query.selector.password.$eq === user.password;
+                });
+            }
         } else {
-            temp = this.users.filter((user: User) => {
-                return query.selector.username.$eq === user.username
-                    && query.selector.password.$eq === user.password;
+            temp = this.appointments.filter((appointment: Appointment) => {
+                return appointment.date.getMilliseconds() === query.selector.date.$eq.getMilliseconds()
+                    && appointment.hour === query.selector.hour.$eq
+                    && appointment.minute === query.selector.minute.$eq;
             });
         }
         return Promise.resolve({
             'docs': temp,
             'warning': 'warning'
+        });
+    }
+    get(id: string): Promise<Appointment> {
+        let myAppointment: Appointment;
+        for (let appointment of this.appointments) {
+            if (appointment._id === id) {
+                myAppointment = {
+                    '_id': appointment._id,
+                    '_rev': appointment._rev,
+                    'user': appointment.user,
+                    'patient': appointment.patient,
+                    'date': appointment.date,
+                    'hour': appointment.hour,
+                    'minute': appointment.minute,
+                    'description': appointment.description
+                };
+            }
+        }
+        console.log('myAppointment in get', myAppointment);
+        return Promise.resolve(myAppointment);
+    }
+
+    remove(doc: any): Promise<IPouchDBRemoveResult> {
+        console.log('doc in remove', doc);
+        return Promise.resolve({
+            'ok': true,
+            'id': doc._id,
+            'rev': doc._rev
         });
     }
 

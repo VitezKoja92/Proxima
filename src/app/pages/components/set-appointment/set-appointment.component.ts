@@ -12,7 +12,7 @@ import { User, Patient, Appointment, SetAppointmentModel } from '../../../api/mo
   templateUrl: './set-appointment.component.html',
   styleUrls: ['./set-appointment.component.scss']
 })
-export class SetAppointmentComponent implements OnInit{
+export class SetAppointmentComponent implements OnInit {
 
   users: User[];
   patients: Patient[];

@@ -34,13 +34,15 @@ export class AppointmentAPIService {
       retry: true
     });
 
-    // Index creation
-    this.db.createIndex({
+    this.createIndexes();
+  }
+
+  // Index creation
+  public createIndexes() {
+    return this.db.createIndex({
       index: {
         fields: ['user._id, patient.name, patient.surname, date, hour, minute, description']
       }
-    }).then((result: IPouchDBCreateIndexResult) => {
-      // handle result
     }).catch((err) => {
       console.log(err);
     });

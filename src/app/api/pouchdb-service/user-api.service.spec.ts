@@ -26,12 +26,6 @@ const userMock = [
   }
 ];
 
-
-class MockError extends Response implements Error {
-  name: any;
-  message: any;
-}
-
 describe('UserAPIService', () => {
 
   let db;
