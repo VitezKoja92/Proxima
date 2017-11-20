@@ -6,36 +6,30 @@ import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.se
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { Appointment, Patient } from '../../../api/models/index';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Observable } from 'rxjs/Observable';
+import * as Rx from 'rxjs/Rx';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
-  numberOfPatients: Number;
+  numberOfPatients = 0;
   numberOfTherapies = 0;
   appointmentsToday: Appointment[];
 
   constructor(
     private Router: Router,
-    private PatientAPIService: PatientAPIService,
+    public PatientAPIService: PatientAPIService,
     private AppointmentAPIService: AppointmentAPIService
   ) {
-      this.getAppointmentsToday();
+    this.getAppointmentsToday();
   }
 
   ngOnInit() {
-    this.getAllPatients()
-      .then((patients: Patient[]) => {
-        this.numberOfPatients = patients.length;
-        for (let patient of patients) {
-          if (!isNullOrUndefined(patient.medicalHistory)) {
-            this.numberOfTherapies += patient.medicalHistory.length;
-          }
-        }
-      });
+    this.getAllPatientCount();
     this.getAppointmentsToday()
       .then((appointments: Appointment[]) => {
         this.appointmentsToday = appointments;
@@ -54,10 +48,10 @@ export class DashboardComponent implements OnInit{
     this.Router.navigate(['/set-appointment']);
   }
 
-  getAllPatients(): Promise<Patient[]> {
-    return this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]) => {
-          return patients;
+  getAllPatientCount() {
+    this.PatientAPIService.getPatientCount()
+      .subscribe((count) => {
+        this.numberOfPatients = count;
       });
   }
 
@@ -67,8 +61,8 @@ export class DashboardComponent implements OnInit{
       .then((appointments: Appointment[]) => {
         return appointments.filter((appointment) => {
           return appointment.date.getDate() === today.getDate()
-          && appointment.date.getMonth() === today.getMonth()
-          && appointment.date.getFullYear() === today.getFullYear();
+            && appointment.date.getMonth() === today.getMonth()
+            && appointment.date.getFullYear() === today.getFullYear();
         }).sort(this.dateSort);
       });
   }

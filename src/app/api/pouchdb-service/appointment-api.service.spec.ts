@@ -85,7 +85,6 @@ describe('AppointmentApiService', () => {
   it('should return the id when the appointment is removed', (done) => {
     appointmentAPIServiceStub.deleteAppointment(appointmentsMock[0]._id)
         .then((res: any) => {
-          console.log('res', res);
           expect(res.id).toEqual('id1');
           done();
         });

@@ -93,16 +93,13 @@ describe('PatientApiService', () => {
     });
   });
 
-  it('should return the id when the patient is added in the database',
-    fakeAsync(inject([PatientAPIService], (service: PatientAPIService) => {
-      let id = '';
-      service.addPatient(patientsMock[0])
-        .then((res: string) => {
-          id = res;
-        });
-      tick();
-      expect(id).toEqual('id1');
-    })));
+  it('should return the id when the patient is added in the database', (done) => {
+    patientAPIServiceStub.addPatient(patientsMock[0])
+      .then((res: string) => {
+        expect(res).toEqual('id1');
+        done();
+      });
+  });
 
   it('should get the first patient from the database', fakeAsync(inject([PatientAPIService], (service: PatientAPIService) => {
     service.getPatient(patientsMock[0]._id)
