@@ -38,8 +38,11 @@ export class PatientAPIService {
       retry: true
     });
 
-    // Index creation
-    this.db.createIndex({
+    this.createIndexes();
+  }
+
+  public createIndexes() {
+    return this.db.createIndex({
       index: {
         fields: ['personalInfo.name, personalInfo.surname, personalInfo.dateOfBirth,' +
           'address.country, address.city, address.street, address.streetNo, profession']
@@ -137,14 +140,14 @@ export class PatientAPIService {
       include_docs: true,
       startkey: 'patient:'
     }).then((result: IPouchDBAllDocsResult): Patient[] => {
-        return result.rows.map((row: any): Patient => {
-          return ({
-            _id: row.doc._id,
-            _rev: row.doc._rev,
-            personalInfo: row.doc.personalInfo,
-            medicalHistory: row.doc.medicalHistory
-          });
+      return result.rows.map((row: any): Patient => {
+        return ({
+          _id: row.doc._id,
+          _rev: row.doc._rev,
+          personalInfo: row.doc.personalInfo,
+          medicalHistory: row.doc.medicalHistory
         });
       });
+    });
   }
 }

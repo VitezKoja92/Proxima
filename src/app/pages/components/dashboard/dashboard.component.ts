@@ -5,13 +5,14 @@ import { Component } from '@angular/core';
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { Appointment, Patient } from '../../../api/models/index';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
 
   numberOfPatients: Number;
   numberOfTherapies = 0;
@@ -22,9 +23,23 @@ export class DashboardComponent {
     private PatientAPIService: PatientAPIService,
     private AppointmentAPIService: AppointmentAPIService
   ) {
-      this.getNumberOfPatients();
-      this.getNumberOfTherapies();
       this.getAppointmentsToday();
+  }
+
+  ngOnInit() {
+    this.getAllPatients()
+      .then((patients: Patient[]) => {
+        this.numberOfPatients = patients.length;
+        for (let patient of patients) {
+          if (!isNullOrUndefined(patient.medicalHistory)) {
+            this.numberOfTherapies += patient.medicalHistory.length;
+          }
+        }
+      });
+    this.getAppointmentsToday()
+      .then((appointments: Appointment[]) => {
+        this.appointmentsToday = appointments;
+      });
   }
 
   goToAddPatient(): void {
@@ -39,41 +54,22 @@ export class DashboardComponent {
     this.Router.navigate(['/set-appointment']);
   }
 
-  getNumberOfPatients(): void {
-    this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]): void => {
-          this.numberOfPatients = patients.length;
-      },
-      (error: Error): void => {
-        console.log('Error: ', error);
+  getAllPatients(): Promise<Patient[]> {
+    return this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]) => {
+          return patients;
       });
   }
 
-  getNumberOfTherapies(): void {
-    this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]): void => {
-        for (let patient of patients) {
-          if (!isNullOrUndefined(patient.medicalHistory)) {
-            this.numberOfTherapies += patient.medicalHistory.length;
-          }
-        }
-      },
-      (error: Error): void => {
-        console.log('Error: ', error);
-      });
-  }
-
-  getAppointmentsToday(): void {
+  getAppointmentsToday(): Promise<Appointment[]> {
     const today = new Date();
-    this.AppointmentAPIService.getAllAppointments()
-      .then((appointments: Appointment[]): void => {
-        this.appointmentsToday = appointments.filter((appointment) => {
+    return this.AppointmentAPIService.getAllAppointments()
+      .then((appointments: Appointment[]) => {
+        return appointments.filter((appointment) => {
           return appointment.date.getDate() === today.getDate()
           && appointment.date.getMonth() === today.getMonth()
           && appointment.date.getFullYear() === today.getFullYear();
         }).sort(this.dateSort);
-      }, (error: Error): void => {
-        console.log('Error: ', error);
       });
   }
 
@@ -90,5 +86,4 @@ export class DashboardComponent {
       return 1;
     }
   }
-
 }

@@ -46,6 +46,17 @@ export interface IPouchDBFindPatientsResult {
     warning?: string;
 }
 
+export interface EditPersonalInfoModel {
+    name: string;
+    surname: string;
+    city: string;
+    country: string;
+    postCode: number;
+    street: string;
+    streetNr: string;
+    profession: string;
+}
+
 export interface SetAppointmentModel {
     doctor: User;
     patient: Patient;
@@ -127,9 +138,9 @@ export class MedicalHistoryItem {
         this.anamnesis = anamnesis;
         this.diagnostics = diagnostics;
         this.statusLocalis = statusLocalis;
-        this.diagnosis  = diagnosis;
+        this.diagnosis = diagnosis;
         this.recommendedTherapy = recommendedTherapy;
-        }
+    }
 }
 
 export class Address {

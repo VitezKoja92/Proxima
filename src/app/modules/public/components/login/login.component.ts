@@ -6,13 +6,14 @@ import { NgClass } from '@angular/common';
 import { User } from '../../../../api/models/index';
 import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   users: User[];
   form: FormGroup;
@@ -21,11 +22,18 @@ export class LoginComponent {
     private Router: Router,
     private UserAPIService: UserAPIService,
     private FormBuilder: FormBuilder) {
-      this.form = FormBuilder.group({
-        'username': [null, Validators.required],
-        'password': [null, Validators.required]
+    this.form = FormBuilder.group({
+      'username': [null, Validators.required],
+      'password': [null, Validators.required]
+    });
+  }
+
+  ngOnInit() {
+    this.getUsers()
+      .then((users: User[]) => {
+        this.users = users;
       });
-   }
+  }
 
   login(data: any) {
     this.Router.navigate(['/dashboard']);
@@ -41,12 +49,10 @@ export class LoginComponent {
     //   });
   }
 
-  getUsers(): void {
-    this.UserAPIService.getAllUsers()
-      .then((users: User[]): void => {
-        this.users = users;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
-    });
+  getUsers(): Promise<User[]> {
+    return this.UserAPIService.getAllUsers()
+      .then((users: User[]) => {
+        return users;
+      });
   }
 }

@@ -17,7 +17,7 @@ export class AuthenticationService {
     .then((user: User): boolean => {
       if (!isNullOrUndefined(user)) {
         this.currentUser = user;
-        localStorage.setItem('currentUser', user._id);
+        // localStorage.setItem('currentUser', user._id);
         return true;
       }
       return false;
@@ -26,7 +26,7 @@ export class AuthenticationService {
 
   logout(): void {
     this.currentUser = null;
-    localStorage.removeItem('currentUser');
+    // localStorage.removeItem('currentUser');
   }
 
   isSessionValid(): boolean {

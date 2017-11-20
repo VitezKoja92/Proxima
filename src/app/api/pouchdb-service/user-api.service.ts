@@ -28,12 +28,15 @@ export class UserAPIService {
       retry: true
     });
 
+    this.createIndexes();
+  }
+
+  public createIndexes() {
     // Index creation
-    this.db.createIndex({
+    return this.db.createIndex({
       index: {
         fields: ['username, password, name, surname, email, phoneNr']
       }
-    }).then((result: IPouchDBCreateIndexResult) => {
     }).catch((err) => {
       console.log(err);
     });
@@ -66,7 +69,7 @@ export class UserAPIService {
     return this.db.find(userQuery)
       .then((result: IPouchDBFindUsersResult): User | null => {
         return result.docs.length ? result.docs[0] : null;
-      }).catch((error: Error) => {
+      }).catch((error) => {
         console.log('Error: ', error);
       });
   }
