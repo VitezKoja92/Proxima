@@ -58,15 +58,13 @@ describe('AppointmentApiService', () => {
     });
   });
 
-  it('should get the first appointment from the database', fakeAsync(inject([AppointmentAPIService], (service: AppointmentAPIService) => {
-    let appointment = null;
-    service.getAppointment(appointmentsMock[0].date, appointmentsMock[0].hour, appointmentsMock[0].minute)
+  it('should get the first appointment from the database', (done) => {
+    appointmentAPIServiceStub.getAppointment(appointmentsMock[0].date, appointmentsMock[0].hour, appointmentsMock[0].minute)
       .then((res: Appointment) => {
-        appointment = res;
+        expect(res).toEqual(appointmentsMock[0]);
+        done();
       });
-    tick();
-    expect(appointment).toEqual(appointmentsMock[0]);
-  })));
+  });
 
   it('should log an error when it tries to get a specific appointment from the database', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
@@ -76,35 +74,22 @@ describe('AppointmentApiService', () => {
     });
   });
 
-  // do I need to create a different pouchdbMock for services that are meant to use
-  // different implementations of the same method (allDocs in this case)
-  xit('should get all appointments from the database', (done) => {
-    appointmentAPIServiceStub.getAllAppointments()
-      .then((res: Appointment[]) => {
-        expect(res).toEqual(appointmentsMock);
-        done();
-      });
-  });
-
-  it('should return the id when the appointment is added in the database',
-    fakeAsync(inject([AppointmentAPIService], (service: AppointmentAPIService) => {
-      let id = '';
-      service.addAppointment(appointmentsMock[0])
+  it('should return the id when the appointment is added in the database', (done) => {
+    appointmentAPIServiceStub.addAppointment(appointmentsMock[0])
         .then((res: string) => {
-          id = res;
+          expect(res).toEqual('id1');
+          done();
         });
-      tick();
-      expect(id).toEqual('id1');
-    })));
+    });
 
-  it('should return the id when the appointment is removed',
-    fakeAsync(inject([AppointmentAPIService], (service: AppointmentAPIService) => {
-      service.deleteAppointment(appointmentsMock[0]._id)
+  it('should return the id when the appointment is removed', (done) => {
+    appointmentAPIServiceStub.deleteAppointment(appointmentsMock[0]._id)
         .then((res: any) => {
           console.log('res', res);
           expect(res.id).toEqual('id1');
+          done();
         });
-    })));
+    });
 
   it('should return the error if appointment was not able to be removed', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'get').and.returnValue(Promise.reject('error'));
