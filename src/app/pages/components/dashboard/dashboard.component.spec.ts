@@ -1,6 +1,7 @@
+import { PouchDbBootServiceMock } from './../../../api/pouchdb-service/pouchdb-boot.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { DashboardComponent } from './dashboard.component';
@@ -12,6 +13,8 @@ import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
+  let patientAPIServiceStub;
+  let pouchDbBootServiceStub;
 
   class PatientAPIServiceMock {
     public getAllPatients() {
@@ -24,9 +27,9 @@ describe('DashboardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: PatientAPIService, useClass: PatientAPIServiceMock },
+        PatientAPIService,
         AppointmentAPIService,
-        PouchDbBootService
+        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock}
       ],
       imports: [ReactiveFormsModule, MaterialModule, RouterTestingModule, BrowserAnimationsModule, FormsModule],
       declarations: [DashboardComponent]
@@ -35,6 +38,9 @@ describe('DashboardComponent', () => {
   }));
 
   beforeEach(() => {
+    pouchDbBootServiceStub = TestBed.get(PouchDbBootService);
+    patientAPIServiceStub = TestBed.get(PatientAPIService);
+
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
   });
@@ -43,13 +49,9 @@ describe('DashboardComponent', () => {
     component = null;
   });
 
-  // ***** Methods to test: *****
-  // - getAllPatients() - calls the getAllPatients method from PatientAPIService - check if it calls that method
-
-  // it('should call getAllPatients method from the PatientAPIService in getNumberOfPatients method',
-  //   inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
-  //     spyOn(PatientAPIService, 'getAllPatients').and.callThrough();
-  //     component.getAllPatients();
-  //     expect(PatientAPIService.getAllPatients).toHaveBeenCalled();
-  //   }));
+  fit('should call getPatientCount method from the PatientAPIService in getAllPatientCount method', () => {
+      spyOn(patientAPIServiceStub, 'getPatientCount').and.callThrough();
+      component.getAllPatientCount();
+      expect(patientAPIServiceStub.getPatientCount).toHaveBeenCalled();
+    });
 });

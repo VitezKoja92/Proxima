@@ -101,17 +101,26 @@ describe('PatientApiService', () => {
       });
   });
 
-  it('should get the first patient from the database', fakeAsync(inject([PatientAPIService], (service: PatientAPIService) => {
-    service.getPatient(patientsMock[0]._id)
+  it('should get the first patient from the database', (done) => {
+    patientAPIServiceStub.getPatient(patientsMock[0]._id)
       .then((res: Patient) => {
         expect(res).toEqual(patientsMock[0]);
+        done();
       });
-  })));
+  });
 
   it('should log an error when it tries to get a specific patient from the database', (done) => {
     spyOn(patientAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
     patientAPIServiceStub.getPatient('someId').then(() => {
       expect(console.log).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  it('should get the number of patients from the database', (done) => {
+    patientAPIServiceStub.getPatientCount()
+    .subscribe((res: number) => {
+      expect(res + 1).toEqual(patientsMock.length);
       done();
     });
   });
