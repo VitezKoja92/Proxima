@@ -37,19 +37,19 @@ export class FindPatientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getAllPatients()
-    //   .then((patients: Patient[]) => {
-    //     this.patients = patients;
-    //     this.filteredPatients = patients;
-    //   });
+    this.getAllPatients()
+      .then((patients: Patient[]) => {
+        this.patients = patients;
+        this.filteredPatients = patients;
+      });
   }
 
-  // getAllPatients(): Promise<Patient[]> {
-  //   return this.PatientAPIService.getAllPatients()
-  //     .then((patients: Patient[]): Patient[] => {
-  //       return patients;
-  //     });
-  // }
+  getAllPatients(): Promise<Patient[]> {
+    return this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]): Patient[] => {
+        return patients;
+      });
+  }
 
   openPatient(id: string): void {
     this.Router.navigate(['/patient/' + id]);

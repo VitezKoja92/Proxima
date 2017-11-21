@@ -41,13 +41,13 @@ export class EditAppointmentDialogComponent implements OnInit {
           return user._id === this.appointment.user._id;
         });
       });
-    // this.PatientAPIService.getAllPatients()
-    //   .then((patients: Patient[]) => {
-    //     this.patients = patients;
-    //     this.selectedPatient = patients.find((patient: Patient) => {
-    //       return patient._id === this.appointment.patient._id;
-    //     });
-    //   });
+    this.PatientAPIService.getAllPatients()
+      .then((patients: Patient[]) => {
+        this.patients = patients;
+        this.selectedPatient = patients.find((patient: Patient) => {
+          return patient._id === this.appointment.patient._id;
+        });
+      });
   }
 
   ngOnInit(): void {

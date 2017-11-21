@@ -144,11 +144,11 @@ export class PatientAPIService {
       });
   }
 
-  public getAllPatients(): Observable<Patient[]> {
-    return Observable.fromPromise(this.db.allDocs({
+  public getAllPatients(): Promise<Patient[]> {
+    return this.db.allDocs({
       include_docs: true,
       startkey: 'patient:'
-    })).map((result: IPouchDBAllDocsResult): Patient[] => {
+    }).then((result: IPouchDBAllDocsResult): Patient[] => {
       return result.rows.map((row: any): Patient => {
         return ({
           _id: row.doc._id,
