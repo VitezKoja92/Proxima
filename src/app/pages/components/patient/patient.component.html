@@ -31,7 +31,7 @@
       </mat-card-actions>
     </mat-card>
 
-    <h5 class="historyTitle">Medical history</h5>
+    <h5 class="historyTitle" *ngIf="currentPatient?.medicalHistory != undefined">Medical history</h5>
     <!-- Medical history - BEGIN -->
     <mat-accordion>
     <div class="medHistory" *ngFor="let item of currentPatient?.medicalHistory">
