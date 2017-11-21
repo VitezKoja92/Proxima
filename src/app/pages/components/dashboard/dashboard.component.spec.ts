@@ -57,7 +57,7 @@ describe('DashboardComponent', () => {
     expect(patientAPIServiceStub.getPatientCount).toHaveBeenCalled();
   });
 
-  fit('should call getAppointmentsToday from the AppointmentAPIService in getAppointmentsToday method', () => {
+  it('should call getAppointmentsToday from the AppointmentAPIService in getAppointmentsToday method', () => {
     spyOn(appointmentAPIServiceStub, 'getAppointmentsToday').and.callThrough();
     component.getAppointmentsToday();
     expect(appointmentAPIServiceStub.getAppointmentsToday).toHaveBeenCalled();
