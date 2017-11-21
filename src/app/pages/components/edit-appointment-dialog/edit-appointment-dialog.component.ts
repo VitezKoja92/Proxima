@@ -36,7 +36,6 @@ export class EditAppointmentDialogComponent implements OnInit {
     this.UserAPIService.getAllUsers()
       .then((users: User[]) => {
         this.users = users;
-        // this.selectedUser = users[0];
         this.selectedUser = users.find((user: User) => {
           return user._id === this.appointment.user._id;
         });
