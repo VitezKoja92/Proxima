@@ -7,7 +7,6 @@ import { AppointmentAPIService } from './../../../api/pouchdb-service/appointmen
 import { Appointment, Patient } from '../../../api/models/index';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Observable } from 'rxjs/Observable';
-import * as Rx from 'rxjs/Rx';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,21 +18,17 @@ export class DashboardComponent implements OnInit {
   numberOfPatients = 0;
   numberOfTherapies = 0;
   appointmentsToday: Appointment[];
+  noAppointment = true;
 
   constructor(
     private Router: Router,
     private PatientAPIService: PatientAPIService,
     private AppointmentAPIService: AppointmentAPIService
-  ) {
-    this.getAppointmentsToday();
-  }
+  ) {}
 
   ngOnInit() {
     this.getAllPatientCount();
-    this.getAppointmentsToday()
-      .then((appointments: Appointment[]) => {
-        this.appointmentsToday = appointments;
-      });
+    this.getAppointmentsToday();
   }
 
   goToAddPatient(): void {
@@ -55,15 +50,13 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  getAppointmentsToday(): Promise<Appointment[]> {
-    const today = new Date();
-    return this.AppointmentAPIService.getAllAppointments()
-      .then((appointments: Appointment[]) => {
-        return appointments.filter((appointment) => {
-          return appointment.date.getDate() === today.getDate()
-            && appointment.date.getMonth() === today.getMonth()
-            && appointment.date.getFullYear() === today.getFullYear();
-        }).sort(this.dateSort);
+  getAppointmentsToday() {
+    this.AppointmentAPIService.getAppointmentsToday()
+      .subscribe((appointments: Appointment[]) => {
+        this.appointmentsToday = appointments;
+        if (appointments.length !== 0) {
+          this.noAppointment = false;
+        }
       });
   }
 

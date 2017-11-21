@@ -15,6 +15,7 @@
             </div>
             <div class="appointmentsStats">
                 <span class="statsTitle">Appointments today:</span>
+                <p *ngIf="noAppointment">* No appointments today</p>
                 <span *ngFor="let appointment of appointmentsToday">
                     {{appointment.hour}}:{{appointment.minute}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}
                 </span>
