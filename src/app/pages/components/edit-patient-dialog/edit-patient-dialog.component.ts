@@ -47,8 +47,10 @@ export class EditPatientDialogComponent {
       }, (error: Error): void => {
         console.log('Error: ', error);
       });
+    this.dialogRef.close();
+  }
 
-      this.dialogRef.close();
-      this.Router.navigate(['/patient/' + this.currentPatient._id]);
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

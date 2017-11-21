@@ -105,14 +105,6 @@ export class PatientComponent {
         patient: this.currentPatient
       }
     });
-    dialogRef.afterClosed().subscribe(
-      (result) => {
-        this.ActivatedRoute.params.subscribe(
-          (params) => {
-            this.getPatient(params.id);
-          }
-        );
-      });
   }
 
   deletePatient() {

@@ -14,7 +14,7 @@
           <span>{{currentPatient?.personalInfo.surname}}</span>
         </mat-card-title>
         <mat-card-title>Date of birth:
-          <span>{{currentPatient?.personalInfo.dateOfBirth}}</span>
+          <span>{{currentPatient?.personalInfo.dateOfBirth | date}}</span>
         </mat-card-title>
         <mat-card-title>Address:
           <span>{{currentPatient?.personalInfo.address.street}} {{currentPatient?.personalInfo.address.streetNo}}, {{currentPatient?.personalInfo.address.postcode}}
@@ -39,7 +39,7 @@
 
         <mat-expansion-panel-header>
           <mat-panel-title>
-            {{item.date}}
+            {{item.date | date}}
           </mat-panel-title>
           <mat-panel-description>
             {{item.diagnosis}}
@@ -86,19 +86,19 @@
             </mat-card-header>
             <mat-card-content>
               <p>
-                <span class="cardSubtitle">Lab findings ({{item.diagnostics.labFindings_date}}): </span><br>
+                <span class="cardSubtitle">Lab findings ({{item.diagnostics.labFindings_date | date}}): </span><br>
                 {{item.diagnostics.labFindings}}
               </p>
               <p>
-                <span class="cardSubtitle">RTG ({{item.diagnostics.RTG_date}}): </span><br>
+                <span class="cardSubtitle">RTG ({{item.diagnostics.RTG_date | date}}): </span><br>
                 {{item.diagnostics.RTG}}
               </p>
               <p>
-                <span class="cardSubtitle">NMR ({{item.diagnostics.NMR_date}}): </span><br>
+                <span class="cardSubtitle">NMR ({{item.diagnostics.NMR_date | date}}): </span><br>
                 {{item.diagnostics.NMR}}
               </p>
               <p>
-                <span class="cardSubtitle">EMNG ({{item.diagnostics.EMNG_date}}): </span><br>
+                <span class="cardSubtitle">EMNG ({{item.diagnostics.EMNG_date | date}}): </span><br>
                 {{item.diagnostics.EMNG}}
               </p>
             </mat-card-content>
