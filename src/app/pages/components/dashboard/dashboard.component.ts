@@ -59,18 +59,4 @@ export class DashboardComponent implements OnInit {
         }
       });
   }
-
-  dateSort(a: Appointment, b: Appointment) {
-    if (a.hour < b.hour) {
-      return -1;
-    } else if (a.hour === b.hour) {
-      if (a.minute <= b.minute) {
-        return -1;
-      } else {
-        return 1;
-      }
-    } else {
-      return 1;
-    }
-  }
 }

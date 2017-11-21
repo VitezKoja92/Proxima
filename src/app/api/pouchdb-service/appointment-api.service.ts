@@ -1,3 +1,4 @@
+import { Sort } from '@angular/material';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
@@ -13,7 +14,8 @@ import {
   IPouchDBPutResult,
   IPouchDBRemoveResult,
   User,
-  Patient
+  Patient,
+  IPouchDBDocsResult
 } from './../models/index';
 
 
@@ -108,24 +110,21 @@ export class AppointmentAPIService {
     return Observable.fromPromise(this.db.allDocs({
       include_docs: true,
       startkey: 'appointment:'
-    })).map((result: IPouchDBAllDocsResult): Appointment[] => {
+    })).map((result: IPouchDBDocsResult<Appointment>) => {
+
       return result.rows.map((row: any): Appointment => {
-        return ({
-          _id: row.doc._id,
-          _rev: row.doc._rev,
-          user: row.doc.user,
-          patient: row.doc.patient,
-          date: new Date(row.doc.date),
-          hour: row.doc.hour,
-          minute: row.doc.minute,
-          description: row.doc.description
-        });
-      });
-    }).filter((appointment: any) => {
+        const newAppointemnt = new Appointment(row.doc.user, row.doc.patient,
+          row.doc.date, row.doc.hour, row.doc.minute, row.doc.description);
+        newAppointemnt._id = row.doc._id;
+
+        return newAppointemnt;
+      }).filter((appointment: Appointment) => {
         const today = new Date();
-        return appointment.date.getDate() === today.getDate()
-          && appointment.date.getMonth() === today.getMonth()
-          && appointment.date.getFullYear() === today.getFullYear();
+        const date = new Date(appointment.date);
+        return date.getDate() === today.getDate()
+          && date.getMonth() === today.getMonth()
+          && date.getFullYear() === today.getFullYear();
+      }).sort(this.dateSort);
     });
   }
 
@@ -162,6 +161,20 @@ export class AppointmentAPIService {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
+  }
+
+  private dateSort(a: Appointment, b: Appointment) {
+    if (a.hour < b.hour) {
+      return -1;
+    } else if (a.hour === b.hour) {
+      if (a.minute <= b.minute) {
+        return -1;
+      } else {
+        return 1;
+      }
+    } else {
+      return 1;
+    }
   }
 
 }
