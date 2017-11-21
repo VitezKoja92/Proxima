@@ -29,16 +29,8 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllPatients();
-    // this.getAllPatients()
-    //   .then((patients: Patient[]) => {
-    //     this.numberOfPatients = patients.length;
-    //     for (let patient of patients) {
-    //       if (!isNullOrUndefined(patient.medicalHistory)) {
-    //         this.numberOfTherapies += patient.medicalHistory.length;
-    //       }
-    //     }
-    //   });
+    this.getAllPatientCount();
+    this.getAllTherapiesCount();
     this.getAppointmentsToday()
       .then((appointments: Appointment[]) => {
         this.appointmentsToday = appointments;
@@ -57,16 +49,17 @@ export class DashboardComponent implements OnInit {
     this.Router.navigate(['/set-appointment']);
   }
 
-  getAllPatients() {
-    this.PatientAPIService.getAllPatients()
-      .subscribe((res) => {
-        console.log(res);
-      });
-  }
   getAllPatientCount() {
     this.PatientAPIService.getPatientCount()
-      .subscribe((count) => {
+      .subscribe((count: number) => {
         this.numberOfPatients = count;
+      });
+  }
+
+  getAllTherapiesCount() {
+    this.PatientAPIService.getTotalTherapiesCount()
+      .subscribe((count: number) => {
+        this.numberOfTherapies = count;
       });
   }
 

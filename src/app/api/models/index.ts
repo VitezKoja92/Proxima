@@ -1,7 +1,20 @@
 export interface IPouchDBAllDocsResult {
     offset: number;
     total_rows: number;
-    rows: IPouchDBRow[];
+    rows: IPouchDBAllRow[];
+}
+
+export interface IPouchDBDocsResult<T> {
+    offset: number;
+    total_rows: number;
+    rows: IPouchDBRow<T>[];
+}
+
+export interface IPouchDBRow<T> {
+    id: string;
+    key: string;
+    value: { rev: string };
+    doc?: T;
 }
 
 export interface IPouchDBGetResult {
@@ -25,7 +38,7 @@ export interface IPouchDBRemoveResult {
     rev: string;
 }
 
-export interface IPouchDBRow {
+export interface IPouchDBAllRow {
     id: string;
     key: string;
     value: { rev: string };

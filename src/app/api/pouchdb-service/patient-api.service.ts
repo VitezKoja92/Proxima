@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
 import { environment } from './../../../environments/environment';
-import { IPouchDBCreateIndexResult } from '../models/index';
+import { IPouchDBCreateIndexResult, IPouchDBDocsResult } from '../models/index';
 import {
   Patient,
   IPouchDBAllDocsResult,
@@ -157,6 +157,23 @@ export class PatientAPIService {
           medicalHistory: row.doc.medicalHistory
         });
       });
+    });
+  }
+
+  public getTotalTherapiesCount(): Observable<number> {
+    return Observable.fromPromise(this.db.allDocs({
+      include_docs: true,
+      startkey: 'patient:'
+    })).map((result: IPouchDBDocsResult<Patient>) => {
+      let count = 0;
+
+      result.rows.forEach((row) => {
+        if (!isNullOrUndefined(row.doc.medicalHistory)) {
+          count += row.doc.medicalHistory.length;
+        }
+      });
+
+      return count;
     });
   }
 }
