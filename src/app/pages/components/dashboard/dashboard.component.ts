@@ -6,13 +6,15 @@ import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.se
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { Appointment, Patient } from '../../../api/models/index';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Observable } from 'rxjs/Observable';
+import * as Rx from 'rxjs/Rx';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit {
 
   numberOfPatients: Number;
   numberOfTherapies = 0;
@@ -27,15 +29,16 @@ export class DashboardComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.getAllPatients()
-      .then((patients: Patient[]) => {
-        this.numberOfPatients = patients.length;
-        for (let patient of patients) {
-          if (!isNullOrUndefined(patient.medicalHistory)) {
-            this.numberOfTherapies += patient.medicalHistory.length;
-          }
-        }
-      });
+    this.getAllPatients();
+    // this.getAllPatients()
+    //   .then((patients: Patient[]) => {
+    //     this.numberOfPatients = patients.length;
+    //     for (let patient of patients) {
+    //       if (!isNullOrUndefined(patient.medicalHistory)) {
+    //         this.numberOfTherapies += patient.medicalHistory.length;
+    //       }
+    //     }
+    //   });
     this.getAppointmentsToday()
       .then((appointments: Appointment[]) => {
         this.appointmentsToday = appointments;
@@ -54,10 +57,10 @@ export class DashboardComponent implements OnInit{
     this.Router.navigate(['/set-appointment']);
   }
 
-  getAllPatients(): Promise<Patient[]> {
-    return this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]) => {
-          return patients;
+  getAllPatients() {
+    this.PatientAPIService.getAllPatients()
+      .subscribe((res) => {
+        console.log(res);
       });
   }
 

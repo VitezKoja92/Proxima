@@ -43,10 +43,10 @@ export class SetAppointmentComponent implements OnInit {
       .then((appointments: Appointment[]) => {
         this.appointments  = appointments;
       });
-    this.getAllPatients()
-      .then((patients: Patient[]) => {
-        this.patients = patients;
-      });
+    // this.getAllPatients()
+    //   .then((patients: Patient[]) => {
+    //     this.patients = patients;
+    //   });
     this.getAllUsers()
       .then((users: User[]) => {
         this.users = users;
@@ -61,12 +61,12 @@ export class SetAppointmentComponent implements OnInit {
       });
   }
 
-  getAllPatients(): Promise<Patient[]> {
-    return this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]) => {
-        return patients;
-      });
-  }
+  // getAllPatients(): Promise<Patient[]> {
+  //   return this.PatientAPIService.getAllPatients()
+  //     .then((patients: Patient[]) => {
+  //       return patients;
+  //     });
+  // }
 
   getAllUsers(): Promise<User[]> {
     return this.UserAPIService.getAllUsers()

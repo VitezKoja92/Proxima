@@ -14,6 +14,9 @@ import {
   PatientPersonalInfo,
   MedicalHistoryItem
 } from './../models/index';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class PatientAPIService {
@@ -135,11 +138,11 @@ export class PatientAPIService {
   }
 
 
-  public getAllPatients(): Promise<Patient[]> {
-    return this.db.allDocs({
+  public getAllPatients(): Observable<Patient[]> {
+    return Observable.fromPromise(this.db.allDocs({
       include_docs: true,
       startkey: 'patient:'
-    }).then((result: IPouchDBAllDocsResult): Patient[] => {
+    })).map((result: IPouchDBAllDocsResult): Patient[] => {
       return result.rows.map((row: any): Patient => {
         return ({
           _id: row.doc._id,
