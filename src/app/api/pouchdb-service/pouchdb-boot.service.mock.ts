@@ -1,4 +1,4 @@
-import { IPouchDBRemoveResult, IPouchDBGetResult, Patient } from './../models/index';
+import { IPouchDBRemoveResult, IPouchDBGetResult, Patient, IPouchDBInfo } from './../models/index';
 import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 import * as PouchDBlib from 'pouchdb';
@@ -168,6 +168,17 @@ export class PouchDb {
             'warning': 'warning'
         });
     }
+
+    info(): Promise<IPouchDBInfo> {
+        const info =  {
+            'db_name': 'name',
+            'doc_count': this.patients.length,
+            'update_seq': 1
+        };
+
+        return Promise.resolve(info);
+    }
+
     get(id: string): Promise<Appointment> {
         let myAppointment: Appointment;
         for (let appointment of this.appointments) {

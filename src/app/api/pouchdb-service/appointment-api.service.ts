@@ -70,6 +70,13 @@ export class AppointmentAPIService {
       });
   }
 
+   /**
+   * sync:        --o1-o1--o2--o2--o3--o4-->
+   * event:       e-e-----------e-----e---->
+   * thr(event):  -----e----------e------e->
+   * lastFrom():  -----o1---------o2-----o4>
+   */
+
   getAllAppointments(): Promise<Appointment[]> {
     const promise = this.db.allDocs({
       include_docs: true,
