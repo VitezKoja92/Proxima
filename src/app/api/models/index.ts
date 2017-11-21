@@ -32,6 +32,12 @@ export interface IPouchDBRow {
     doc?: any;
 }
 
+export interface IPouchDBInfo {
+    db_name: string;
+    doc_count: number;
+    update_seq: number;
+}
+
 export interface IPouchDBCreateIndexResult {
     result: string;
 }

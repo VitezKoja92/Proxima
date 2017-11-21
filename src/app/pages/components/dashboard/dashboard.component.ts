@@ -16,7 +16,7 @@ import * as Rx from 'rxjs/Rx';
 })
 export class DashboardComponent implements OnInit {
 
-  numberOfPatients: Number;
+  numberOfPatients = 0;
   numberOfTherapies = 0;
   appointmentsToday: Appointment[];
 
@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
     private PatientAPIService: PatientAPIService,
     private AppointmentAPIService: AppointmentAPIService
   ) {
-      this.getAppointmentsToday();
+    this.getAppointmentsToday();
   }
 
   ngOnInit() {
@@ -63,6 +63,12 @@ export class DashboardComponent implements OnInit {
         console.log(res);
       });
   }
+  getAllPatientCount() {
+    this.PatientAPIService.getPatientCount()
+      .subscribe((count) => {
+        this.numberOfPatients = count;
+      });
+  }
 
   getAppointmentsToday(): Promise<Appointment[]> {
     const today = new Date();
@@ -70,8 +76,8 @@ export class DashboardComponent implements OnInit {
       .then((appointments: Appointment[]) => {
         return appointments.filter((appointment) => {
           return appointment.date.getDate() === today.getDate()
-          && appointment.date.getMonth() === today.getMonth()
-          && appointment.date.getFullYear() === today.getFullYear();
+            && appointment.date.getMonth() === today.getMonth()
+            && appointment.date.getFullYear() === today.getFullYear();
         }).sort(this.dateSort);
       });
   }

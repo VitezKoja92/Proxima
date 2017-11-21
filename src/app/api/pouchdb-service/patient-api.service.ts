@@ -137,6 +137,12 @@ export class PatientAPIService {
       });
   }
 
+  public getPatientCount(): Observable<number> {
+    return Observable.fromPromise(this.db.info())
+    .map((result: any): number => {
+      return result.doc_count - 1;
+      });
+  }
 
   public getAllPatients(): Observable<Patient[]> {
     return Observable.fromPromise(this.db.allDocs({

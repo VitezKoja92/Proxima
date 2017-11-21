@@ -49,60 +49,48 @@ describe('UserAPIService', () => {
     db = pouchDbBootServiceStub.useDatabase('db', null);
   });
 
-  it('should return the id when the user is added in the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
-    let id = '';
-    service.addUser(userMock[0])
+  it('should return the id when the user is added in the database', (done) => {
+    userAPIServiceStub.addUser(userMock[0])
       .then((res: string) => {
-        id = res;
+        expect(res).toEqual('id1');
+        done();
       });
-    tick();
-    expect(id).toEqual('id1');
-  })));
+  });
 
-  it('should get the first user from the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
-    let myUser = null;
-    service.getUser(userMock[0].username)
+  it('should get the first user from the database', (done) => {
+    userAPIServiceStub.getUser(userMock[0].username)
       .then((res: User) => {
-        myUser = res;
+        expect(res).toEqual(userMock[0]);
+        done();
       });
-    tick();
-    expect(myUser).toEqual(userMock[0]);
-  })));
+  });
 
-  it('should get the first user from the database (when both username and password are provided)',
-    fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
-      let myUser = null;
-      service.getUser(userMock[0].username, userMock[0].password)
+  it('should get the first user from the database (when both username and password are provided)', (done) => {
+    userAPIServiceStub.getUser(userMock[0].username, userMock[0].password)
         .then((res: User) => {
-          myUser = res;
+          expect(res).toEqual(userMock[0]);
+          done();
         });
-      tick();
-      expect(myUser).toEqual(userMock[0]);
-    })));
+    });
 
-  it('should get the second user from the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
-    let myUser = null;
-    service.getUser(userMock[1].username)
+  it('should get the second user from the database', (done) => {
+    userAPIServiceStub.getUser(userMock[1].username)
       .then((res: User) => {
-        myUser = res;
+        expect(res).toEqual(userMock[1]);
+        done();
       });
-    tick();
-    expect(myUser).toEqual(userMock[1]);
-  })));
+  });
 
-  it('should get the null instead of user from the database', fakeAsync(inject([UserAPIService], (service: UserAPIService) => {
-    let myUser = null;
-    service.getUser('username3')
+  it('should get the null instead of user from the database', (done) => {
+    userAPIServiceStub.getUser('username3')
       .then((res: User) => {
-        myUser = res;
+        expect(res).toEqual(null);
+        done();
       });
-    tick();
-    expect(myUser).toEqual(null);
-  })));
+  });
 
   it('should log an error when it tries to get a specific user', (done) => {
     spyOn(userAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
-
     userAPIServiceStub.getUser('username', 'password').then(() => {
       expect(console.log).toHaveBeenCalled();
       done();
