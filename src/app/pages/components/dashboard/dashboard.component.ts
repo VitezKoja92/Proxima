@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private Router: Router,
-    public PatientAPIService: PatientAPIService,
+    private PatientAPIService: PatientAPIService,
     private AppointmentAPIService: AppointmentAPIService
   ) {
     this.getAppointmentsToday();
