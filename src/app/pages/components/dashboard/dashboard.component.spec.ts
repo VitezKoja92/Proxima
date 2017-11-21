@@ -29,7 +29,7 @@ describe('DashboardComponent', () => {
       providers: [
         PatientAPIService,
         AppointmentAPIService,
-        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock}
+        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock }
       ],
       imports: [ReactiveFormsModule, MaterialModule, RouterTestingModule, BrowserAnimationsModule, FormsModule],
       declarations: [DashboardComponent]
@@ -50,8 +50,14 @@ describe('DashboardComponent', () => {
   });
 
   it('should call getPatientCount method from the PatientAPIService in getAllPatientCount method', () => {
-      spyOn(patientAPIServiceStub, 'getPatientCount').and.callThrough();
-      component.getAllPatientCount();
-      expect(patientAPIServiceStub.getPatientCount).toHaveBeenCalled();
-    });
+    spyOn(patientAPIServiceStub, 'getPatientCount').and.callThrough();
+    component.getAllPatientCount();
+    expect(patientAPIServiceStub.getPatientCount).toHaveBeenCalled();
+  });
+
+  fit('should call getTotalTherapiesCount method from the PatientAPIService in getAllTherapiesCount method', () => {
+    spyOn(patientAPIServiceStub, 'getTotalTherapiesCount').and.callThrough();
+    component.getAllTherapiesCount();
+    expect(patientAPIServiceStub.getTotalTherapiesCount).toHaveBeenCalled();
+  });
 });
