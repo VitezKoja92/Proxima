@@ -105,14 +105,6 @@ export class PatientComponent {
         patient: this.currentPatient
       }
     });
-    dialogRef.afterClosed().subscribe(
-      (result) => {
-        this.ActivatedRoute.params.subscribe(
-          (params) => {
-            this.getPatient(params.id);
-          }
-        );
-      });
   }
 
   deletePatient() {
@@ -123,7 +115,7 @@ export class PatientComponent {
   }
 
   addTherapy(data: any): void {
-
+console.log(data);
     const anamnesis: Anamnesis = new Anamnesis(data.mainDifficulties, data.anaMorbi, data.anaVitae, data.anaFamiliae);
     const diagnostics: Diagnostics = new Diagnostics(data.labFindings, data.labFindingsDate,
       data.rtg, data.rtgDate, data.nmr, data.nmrDate, data.emng, data.emngDate);
@@ -150,13 +142,8 @@ export class PatientComponent {
     this.PatientAPIService.addTherapy(this.currentPatient._id, this.currentPatient._rev,
       this.currentPatient.personalInfo, this.currentPatient.medicalHistory)
       .then((patient: Patient): void => {
-        this.currentPatient = patient;
+        this.form.reset();
         this.therapyVisible = false;
-        this.ActivatedRoute.params.subscribe(
-          (params) => {
-            this.getPatient(params.id);
-          }
-        );
       }, (error: Error): void => {
         console.log('Error: ', error);
       });
@@ -166,14 +153,9 @@ export class PatientComponent {
     const newMedHistory: MedicalHistoryItem[] = this.currentPatient.medicalHistory.filter((medHistoryItem: MedicalHistoryItem) => {
       return medHistoryItem !== item;
     });
+    this.currentPatient.medicalHistory = newMedHistory;
     this.PatientAPIService.removeMedicalHistoryItem(item._id, newMedHistory)
       .then((patient: Patient): void => {
-        this.currentPatient = patient;
-        this.ActivatedRoute.params.subscribe(
-          (params) => {
-            this.getPatient(params.id);
-          }
-        );
       }, (error: Error) => {
         console.log('Error: ', error);
       });
