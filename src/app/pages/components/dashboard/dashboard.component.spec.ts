@@ -55,7 +55,7 @@ describe('DashboardComponent', () => {
     expect(patientAPIServiceStub.getPatientCount).toHaveBeenCalled();
   });
 
-  fit('should call getTotalTherapiesCount method from the PatientAPIService in getAllTherapiesCount method', () => {
+  it('should call getTotalTherapiesCount method from the PatientAPIService in getAllTherapiesCount method', () => {
     spyOn(patientAPIServiceStub, 'getTotalTherapiesCount').and.callThrough();
     component.getAllTherapiesCount();
     expect(patientAPIServiceStub.getTotalTherapiesCount).toHaveBeenCalled();

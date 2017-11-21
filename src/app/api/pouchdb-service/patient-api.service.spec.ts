@@ -124,4 +124,19 @@ describe('PatientApiService', () => {
       done();
     });
   });
+
+  // Problem: we need to have two different implementations of allDocs method in pouchdb-boot.service.mock.ts
+  // in order to test both for users and patients (or appointments)
+
+  // it('should get the number of therapies from the database', (done) => {
+  //   let count = 0;
+  //   patientsMock.forEach((patient) => {
+  //     count += patient.medicalHistory.length;
+  //   });
+  //   patientAPIServiceStub.getTotalTherapiesCount()
+  //   .subscribe((res: number) => {
+  //     expect(res).toEqual(count);
+  //     done();
+  //   });
+  // });
 });
