@@ -127,8 +127,8 @@ export class PatientAPIService {
     return this.db.get(id)
       .then((doc: Patient): IPouchDBPutResult => {
         return this.db.put({
-          _id: id,
-          _rev: rev,
+          _id: doc._id,
+          _rev: doc._rev,
           personalInfo: personalInfo,
           medicalHistory: medicalHistory
         });
