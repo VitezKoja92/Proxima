@@ -31,7 +31,10 @@
 
       <tr class="appointmentsRow" *ngFor="let appointment of sortedAppointments">
         <td>{{ appointment?.date.getDate()}}-{{appointment?.date.getMonth()+1}}-{{appointment?.date.getFullYear() }}</td>
-        <td>{{ appointment?.hour}}:{{appointment?.minute }}</td>
+        <td *ngIf="appointment?.hour >= 10 && appointment?.minute >= 10">{{ appointment?.hour}}:{{appointment?.minute }}</td>
+        <td *ngIf="appointment?.hour < 10">0{{ appointment?.hour}}:{{appointment?.minute }}</td>
+        <td *ngIf="appointment?.minute < 10">{{ appointment?.hour}}:0{{appointment?.minute }}</td>
+        <td *ngIf="appointment?.hour < 10 && appointment?.minute < 10">0{{ appointment?.hour}}:0{{appointment?.minute }}</td>
         <td>{{ appointment?.patient.personalInfo.name }}</td>
         <td>{{ appointment?.patient.personalInfo.surname }}</td>
         <td>{{ appointment?.description }}</td>
