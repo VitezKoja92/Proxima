@@ -4,6 +4,9 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/switchMap';
+import { Subject } from 'rxjs/Subject';
 
 import { environment } from '../../../environments/environment';
 import { PouchDbBootService } from './pouchdb-boot.service';
@@ -20,11 +23,13 @@ import {
 
 
 
+
 @Injectable()
 export class AppointmentAPIService {
 
   private db;
   private dbName = 'appointments_proxima';
+  private dbChange$: Subject<any> = new Subject();
 
   constructor(private PouchDbBootService: PouchDbBootService) {
     // Database creation
@@ -42,6 +47,13 @@ export class AppointmentAPIService {
       retry: true
     });
 
+    const changes = this.db.changes({
+      live: true,
+      include_docs: true
+    }).on('change', (change) => {
+      this.dbChange$.next(change);
+    });
+
     this.createIndexes();
   }
 
@@ -54,6 +66,15 @@ export class AppointmentAPIService {
     }).catch((err) => {
       console.log(err);
     });
+  }
+
+  public todayAppointments(): Observable<Appointment[]> {
+    return this.dbChange$.startWith({})
+    .switchMap(
+      () => this.fetchAppointmentsToday(),
+      (outer, inner) => {
+        return inner;
+      });
   }
 
   public getAppointment(date: Date, hour: number, minute: number): Promise<Appointment> {
@@ -106,7 +127,7 @@ export class AppointmentAPIService {
     return promise;
   }
 
-  getAppointmentsToday(): Observable<Appointment[]> {
+  fetchAppointmentsToday(): Observable<Appointment[]> {
     return Observable.fromPromise(this.db.allDocs({
       include_docs: true,
       startkey: 'appointment:'

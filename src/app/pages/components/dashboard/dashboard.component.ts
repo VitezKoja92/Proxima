@@ -7,11 +7,13 @@ import { AppointmentAPIService } from './../../../api/pouchdb-service/appointmen
 import { Appointment, Patient } from '../../../api/models/index';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Observable } from 'rxjs/Observable';
+import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
 
@@ -23,7 +25,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private Router: Router,
     private PatientAPIService: PatientAPIService,
-    private AppointmentAPIService: AppointmentAPIService
+    private AppointmentAPIService: AppointmentAPIService,
+    private changeDetectorRef: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -51,12 +54,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getAppointmentsToday() {
-    this.AppointmentAPIService.getAppointmentsToday()
+    this.AppointmentAPIService.todayAppointments()
       .subscribe((appointments: Appointment[]) => {
         this.appointmentsToday = appointments;
         if (appointments.length !== 0) {
           this.noAppointment = false;
         }
+        this.changeDetectorRef.detectChanges();
       });
   }
 }
