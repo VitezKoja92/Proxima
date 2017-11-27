@@ -1,4 +1,4 @@
-import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, inject, fakeAsync } from '@angular/core/testing';
 
 import { AppointmentAPIService } from './appointment-api.service';
 import { PouchDbBootService } from './pouchdb-boot.service';
@@ -48,6 +48,9 @@ describe('AppointmentApiService', () => {
     appointmentAPIServiceStub = TestBed.get(AppointmentAPIService);
     spyOn(console, 'log').and.callThrough();
     db = pouchDbBootServiceStub.useDatabase('db', null);
+    appointmentsMock.forEach((item) => {
+      appointmentAPIServiceStub.db.put(item);
+    });
   });
 
   it('should log an error when the pouch is not able to create indices', (done) => {
@@ -98,14 +101,14 @@ describe('AppointmentApiService', () => {
     });
   });
 
-  it('should return the id when the appointment is edited in the database',
-    fakeAsync(inject([AppointmentAPIService], (service: AppointmentAPIService) => {
-      service.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].date,
+  it('should return the id when the appointment is edited in the database', (done) => {
+      appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].date,
         appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user, appointmentsMock[0].hour, 3)
         .then((res: any) => {
           expect(res.id).toEqual('id1');
+          done();
         });
-    })));
+    });
 
   it('should return the error if appointment was not able to be edited', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'get').and.returnValue(Promise.reject('error'));

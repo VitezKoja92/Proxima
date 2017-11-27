@@ -7,8 +7,6 @@ import { AppointmentsListComponent } from './appointments-list.component';
 import { MaterialModule } from '../../../modules/material.module';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { PouchDbBootService } from '../../../api/pouchdb-service/pouchdb-boot.service';
-import { Appointment } from './../../../api/models/index';
-
 
 describe('AppointmentsListComponent', () => {
   let component: AppointmentsListComponent;
@@ -47,10 +45,6 @@ describe('AppointmentsListComponent', () => {
     date1 = null;
     date2 = null;
   });
-
-  // ***** Methods to test: *****
-  // - getAppointments(data: any) - calls the getAllAppointments method from AppointmentAPIService - check if it calls that method
-  // - dateSort(a: Appointment, b: Appointment) - checks if a.date is before b.date - check if it works fine
 
   it('should call getAllAppointments method from the AppointmentAPIService',
     inject([AppointmentAPIService], (AppointmentAPIService: AppointmentAPIService) => {

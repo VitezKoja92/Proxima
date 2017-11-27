@@ -1,7 +1,7 @@
 import { PouchDbBootServiceMock } from './../../../api/pouchdb-service/pouchdb-boot.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { DashboardComponent } from './dashboard.component';
@@ -29,7 +29,7 @@ describe('DashboardComponent', () => {
       providers: [
         PatientAPIService,
         AppointmentAPIService,
-        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock}
+        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock }
       ],
       imports: [ReactiveFormsModule, MaterialModule, RouterTestingModule, BrowserAnimationsModule, FormsModule],
       declarations: [DashboardComponent]
@@ -50,8 +50,14 @@ describe('DashboardComponent', () => {
   });
 
   it('should call getPatientCount method from the PatientAPIService in getAllPatientCount method', () => {
-      spyOn(patientAPIServiceStub, 'getPatientCount').and.callThrough();
-      component.getAllPatientCount();
-      expect(patientAPIServiceStub.getPatientCount).toHaveBeenCalled();
-    });
+    spyOn(patientAPIServiceStub, 'patientsCount').and.callThrough();
+    component.getAllPatientCount();
+    expect(patientAPIServiceStub.patientsCount).toHaveBeenCalled();
+  });
+
+  it('should call getTotalTherapiesCount method from the PatientAPIService in getAllTherapiesCount method', () => {
+    spyOn(patientAPIServiceStub, 'therapiesCount').and.callThrough();
+    component.getAllTherapiesCount();
+    expect(patientAPIServiceStub.therapiesCount).toHaveBeenCalled();
+  });
 });

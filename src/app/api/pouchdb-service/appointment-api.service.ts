@@ -5,7 +5,6 @@ import { PouchDbBootService } from './pouchdb-boot.service';
 import {
   Appointment,
   IPouchDBAllDocsResult,
-  IPouchDBCreateIndexResult,
   IPouchDBPutResult,
   IPouchDBRemoveResult,
   User,
@@ -70,14 +69,7 @@ export class AppointmentAPIService {
       });
   }
 
-   /**
-   * sync:        --o1-o1--o2--o2--o3--o4-->
-   * event:       e-e-----------e-----e---->
-   * thr(event):  -----e----------e------e->
-   * lastFrom():  -----o1---------o2-----o4>
-   */
-
-  getAllAppointments(): Promise<Appointment[]> {
+  public getAllAppointments(): Promise<Appointment[]> {
     const promise = this.db.allDocs({
       include_docs: true,
       startkey: 'appointment:'
@@ -132,5 +124,4 @@ export class AppointmentAPIService {
         console.log('Error: ', error);
       });
   }
-
 }

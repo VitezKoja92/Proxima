@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
 import { environment } from './../../../environments/environment';
-import { IPouchDBCreateIndexResult } from '../models/index';
+import { IPouchDBCreateIndexResult, IPouchDBDocsResult } from '../models/index';
 import {
   Patient,
   IPouchDBAllDocsResult,
@@ -17,12 +17,16 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/switchMap';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class PatientAPIService {
 
   private db;
   private dbName = 'patients_proxima';
+  private dbChange$: Subject<any> = new Subject();
 
   constructor(private PouchDbBootService: PouchDbBootService) {
 
@@ -39,6 +43,13 @@ export class PatientAPIService {
     this.db.sync(`${environment.couch_url}${this.dbName}`, {
       live: true,
       retry: true
+    });
+
+    const changes = this.db.changes({
+      live: true,
+      include_docs: true
+    }).on('change', (change) => {
+      this.dbChange$.next(change);
     });
 
     this.createIndexes();
@@ -127,8 +138,8 @@ export class PatientAPIService {
     return this.db.get(id)
       .then((doc: Patient): IPouchDBPutResult => {
         return this.db.put({
-          _id: id,
-          _rev: rev,
+          _id: doc._id,
+          _rev: doc._rev,
           personalInfo: personalInfo,
           medicalHistory: medicalHistory
         });
@@ -137,11 +148,21 @@ export class PatientAPIService {
       });
   }
 
-  public getPatientCount(): Observable<number> {
+  public fetchPatientCount(): Observable<number> {
     return Observable.fromPromise(this.db.info())
     .map((result: any): number => {
       return result.doc_count - 1;
       });
+  }
+
+  public patientsCount(): Observable<number> {
+    return this.dbChange$.startWith({})
+      .switchMap(
+      () => this.fetchPatientCount(),
+      (outer, inner) => {
+        return inner;
+      }
+    );
   }
 
   public getAllPatients(): Promise<Patient[]> {
@@ -157,6 +178,32 @@ export class PatientAPIService {
           medicalHistory: row.doc.medicalHistory
         });
       });
+    });
+  }
+
+  public therapiesCount(): Observable<number> {
+    return this.dbChange$.startWith({})
+      .switchMap(
+        () => this.fetchTherapiesCount(),
+        (outer, inner) => {
+          return inner;
+        }
+      );
+  }
+
+  public fetchTherapiesCount(): Observable<number> {
+    return Observable.fromPromise(this.db.allDocs({
+      include_docs: true,
+      startkey: 'patient:'
+    })).map((result: IPouchDBDocsResult<Patient>) => {
+      let count = 0;
+      result.rows.forEach((row) => {
+        if (!isNullOrUndefined(row.doc.medicalHistory)) {
+          count += row.doc.medicalHistory.length;
+        }
+      });
+
+      return count;
     });
   }
 }
