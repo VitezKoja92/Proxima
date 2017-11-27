@@ -5,9 +5,10 @@ import { Component } from '@angular/core';
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { Appointment, Patient } from '../../../api/models/index';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Observable } from 'rxjs/Observable';
 import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,12 +16,13 @@ import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   numberOfPatients = 0;
   numberOfTherapies = 0;
   appointmentsToday: Appointment[];
   noAppointment = true;
+  subs: Subscription[] = [];
 
   constructor(
     private Router: Router,
@@ -54,13 +56,20 @@ export class DashboardComponent implements OnInit {
   }
 
   getAppointmentsToday() {
-    this.AppointmentAPIService.todayAppointments()
+    this.subs.push(this.AppointmentAPIService.todayAppointments()
       .subscribe((appointments: Appointment[]) => {
         this.appointmentsToday = appointments;
         if (appointments.length !== 0) {
           this.noAppointment = false;
         }
         this.changeDetectorRef.detectChanges();
-      });
+      }));
+  }
+
+  ngOnDestroy(): void {
+    this.changeDetectorRef.detach();
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 }
