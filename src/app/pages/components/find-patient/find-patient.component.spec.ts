@@ -14,6 +14,7 @@ describe('FindPatientComponent', () => {
   let component: FindPatientComponent;
   let fixture: ComponentFixture<FindPatientComponent>;
   let routerMock;
+  let patientAPIServiceStub;
 
   class PatientAPIServiceMock {
     patientsMock = [
@@ -99,18 +100,18 @@ describe('FindPatientComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FindPatientComponent);
     component = fixture.componentInstance;
+    patientAPIServiceStub = TestBed.get(PatientAPIService);
   });
 
   afterEach(() => {
     component = null;
   });
 
-  it('should call getAllPatients method from the PatientAPIService',
-    inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
-      spyOn(PatientAPIService, 'getAllPatients').and.callThrough();
+  it('should call getAllPatients method from the PatientAPIService', () => {
+      spyOn(patientAPIServiceStub, 'getAllPatients').and.callThrough();
       component.ngOnInit();
-      expect(PatientAPIService.getAllPatients).toHaveBeenCalled();
-    }));
+      expect(patientAPIServiceStub.getAllPatients).toHaveBeenCalled();
+    });
 
   it('should get all patients from the service',
     fakeAsync(() => {

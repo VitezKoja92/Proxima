@@ -20,7 +20,7 @@ export class PouchDb {
     sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
-        debugger;
+        // debugger;
         this.store.push(item);
         return Promise.resolve({
             ok: true,
@@ -37,7 +37,7 @@ export class PouchDb {
 
     find(query: any): Promise<IPouchDBFindUsersResult> {
         let temp = [];
-        debugger;
+        // debugger;
         temp = this.store.filter((item) => {
             if (isNullOrUndefined(query.selector._id)) {
                 if (isNullOrUndefined(query.selector.date)

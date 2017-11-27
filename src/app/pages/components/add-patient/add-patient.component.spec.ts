@@ -12,6 +12,7 @@ import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.
 describe('AddPatientComponent', () => {
   let component: AddPatientComponent;
   let fixture: ComponentFixture<AddPatientComponent>;
+  let patientAPIServiceStub;
 
   const data = {
     name: 'name',
@@ -49,15 +50,16 @@ describe('AddPatientComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddPatientComponent);
     component = fixture.componentInstance;
+    patientAPIServiceStub = TestBed.get(PatientAPIService);
   });
 
   afterEach(() => {
     component = null;
   });
 
-  it('should call getAllPatients method from the PatientAPIService', inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
-    spyOn(PatientAPIService, 'addPatient').and.callThrough();
+  it('should call getAllPatients method from the PatientAPIService', () => {
+    spyOn(patientAPIServiceStub, 'addPatient').and.callThrough();
     component.addPatient(data);
-    expect(PatientAPIService.addPatient).toHaveBeenCalled();
-  }));
+    expect(patientAPIServiceStub.addPatient).toHaveBeenCalled();
+  });
 });

@@ -98,14 +98,14 @@ describe('AppointmentApiService', () => {
     });
   });
 
-  it('should return the id when the appointment is edited in the database',
-    fakeAsync(inject([AppointmentAPIService], (service: AppointmentAPIService) => {
-      service.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].date,
+  it('should return the id when the appointment is edited in the database', (done) => {
+      appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].date,
         appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user, appointmentsMock[0].hour, 3)
         .then((res: any) => {
           expect(res.id).toEqual('id1');
+          done();
         });
-    })));
+    });
 
   it('should return the error if appointment was not able to be edited', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'get').and.returnValue(Promise.reject('error'));

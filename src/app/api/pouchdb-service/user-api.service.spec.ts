@@ -37,7 +37,7 @@ describe('UserAPIService', () => {
     TestBed.configureTestingModule({
       providers: [
         UserAPIService,
-        {provide: PouchDbBootService, useClass: PouchDbBootServiceMock}
+        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock }
       ]
     });
   });
@@ -46,11 +46,20 @@ describe('UserAPIService', () => {
     pouchDbBootServiceStub = TestBed.get(PouchDbBootService);
     userAPIServiceStub = TestBed.get(UserAPIService);
     db = pouchDbBootServiceStub.useDatabase('db', null);
+
+    spyOn(console, 'log').and.callThrough();
+  });
+
+  fit('should get the first user from the database', (done) => {
     userMock.forEach((user: User) => {
       // debugger;
       db.put(user);
     });
-    spyOn(console, 'log').and.callThrough();
+    userAPIServiceStub.getUser(userMock[0].username)
+      .then((res: User) => {
+        expect(res).toEqual(userMock[0]);
+        done();
+      });
   });
 
   it('should return the id when the user is added in the database', (done) => {
@@ -61,21 +70,15 @@ describe('UserAPIService', () => {
       });
   });
 
-  fit('should get the first user from the database', (done) => {
-    userAPIServiceStub.getUser(userMock[0].username)
+
+
+  it('should get the first user from the database (when both username and password are provided)', (done) => {
+    userAPIServiceStub.getUser(userMock[0].username, userMock[0].password)
       .then((res: User) => {
         expect(res).toEqual(userMock[0]);
         done();
       });
   });
-
-  it('should get the first user from the database (when both username and password are provided)', (done) => {
-    userAPIServiceStub.getUser(userMock[0].username, userMock[0].password)
-        .then((res: User) => {
-          expect(res).toEqual(userMock[0]);
-          done();
-        });
-    });
 
   it('should get the second user from the database', (done) => {
     userAPIServiceStub.getUser(userMock[1].username)

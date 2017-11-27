@@ -15,6 +15,7 @@ describe('RegisterComponent', () => {
 
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
+  let userAPIServiceStub;
 
   let titleDe: DebugElement;
   let titleEl: HTMLElement;
@@ -50,6 +51,7 @@ describe('RegisterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
+    userAPIServiceStub = TestBed.get(UserAPIService);
 
     titleDe = fixture.debugElement.query(By.css('h3'));
     titleEl = titleDe.nativeElement;
@@ -64,9 +66,9 @@ describe('RegisterComponent', () => {
     expect(titleEl.textContent).toContain('Register');
   });
 
-  it('should call addUser method from the UserAPIService', inject([UserAPIService], (UserAPIService: UserAPIService) => {
-    spyOn(UserAPIService, 'addUser').and.callThrough();
+  it('should call addUser method from the UserAPIService', () => {
+    spyOn(userAPIServiceStub, 'addUser').and.callThrough();
     component.addUser(data);
-    expect(UserAPIService.addUser).toHaveBeenCalled();
-  }));
+    expect(userAPIServiceStub.addUser).toHaveBeenCalled();
+  });
 });
