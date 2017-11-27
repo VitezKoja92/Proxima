@@ -197,7 +197,6 @@ export class PatientAPIService {
       startkey: 'patient:'
     })).map((result: IPouchDBDocsResult<Patient>) => {
       let count = 0;
-
       result.rows.forEach((row) => {
         if (!isNullOrUndefined(row.doc.medicalHistory)) {
           count += row.doc.medicalHistory.length;

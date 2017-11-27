@@ -48,6 +48,9 @@ describe('AppointmentApiService', () => {
     appointmentAPIServiceStub = TestBed.get(AppointmentAPIService);
     spyOn(console, 'log').and.callThrough();
     db = pouchDbBootServiceStub.useDatabase('db', null);
+    appointmentsMock.forEach((item) => {
+      appointmentAPIServiceStub.db.store.push(item);
+    });
   });
 
   it('should log an error when the pouch is not able to create indices', (done) => {

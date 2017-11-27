@@ -69,7 +69,7 @@ export class AppointmentAPIService {
       });
   }
 
-  getAllAppointments(): Promise<Appointment[]> {
+  public getAllAppointments(): Promise<Appointment[]> {
     const promise = this.db.allDocs({
       include_docs: true,
       startkey: 'appointment:'

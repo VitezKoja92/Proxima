@@ -63,6 +63,15 @@ const patientsMock = [
         'statusLocalis': 'statusLocalis2',
         'diagnosis': 'diagnosis2',
         'recommendedTherapy': null
+      },
+      {
+        '_id': 'id3',
+        'date': 'date3',
+        'anamnesis': null,
+        'diagnostics': null,
+        'statusLocalis': 'statusLocalis3',
+        'diagnosis': 'diagnosis3',
+        'recommendedTherapy': null
       }
     ]
   }
@@ -83,6 +92,9 @@ describe('PatientApiService', () => {
     patientAPIServiceStub = TestBed.get(PatientAPIService);
     spyOn(console, 'log').and.callThrough();
     db = pouchDbBootServiceStub.useDatabase('db', null);
+    patientsMock.forEach((item) => {
+      patientAPIServiceStub.db.store.push(item);
+    });
   });
 
   it('should log an error when the pouch is not able to create indices', (done) => {
@@ -118,25 +130,22 @@ describe('PatientApiService', () => {
   });
 
   it('should get the number of patients from the database', (done) => {
-    patientAPIServiceStub.getPatientCount()
+    patientAPIServiceStub.patientsCount()
     .subscribe((res: number) => {
       expect(res + 1).toEqual(patientsMock.length);
       done();
     });
   });
 
-  // Problem: we need to have two different implementations of allDocs method in pouchdb-boot.service.mock.ts
-  // in order to test both for users and patients (or appointments)
-
-  // it('should get the number of therapies from the database', (done) => {
-  //   let count = 0;
-  //   patientsMock.forEach((patient) => {
-  //     count += patient.medicalHistory.length;
-  //   });
-  //   patientAPIServiceStub.getTotalTherapiesCount()
-  //   .subscribe((res: number) => {
-  //     expect(res).toEqual(count);
-  //     done();
-  //   });
-  // });
+  it('should get the number of therapies from the database', (done) => {
+    let count = 0;
+    patientsMock.forEach((patient) => {
+      count += patient.medicalHistory.length;
+    });
+    patientAPIServiceStub.therapiesCount()
+    .subscribe((res: number) => {
+      expect(res).toEqual(count);
+      done();
+    });
+  });
 });

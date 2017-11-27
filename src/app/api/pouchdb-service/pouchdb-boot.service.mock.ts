@@ -13,21 +13,31 @@ import {
     IPouchDBInfo
 } from '../models/index';
 
+export class Change {
+    on(changeType, callback) {
+        return {};
+    }
+}
+
 export class PouchDb {
 
-    store: any[] = [];
+    public store: any[] = [];
 
     sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
         // debugger;
-        this.store.push(item);
         return Promise.resolve({
             ok: true,
             id: item._id,
             rev: item._rev
         });
     }
+
+    changes(options) {
+        return new Change();
+    }
+
 
     createIndex(): Promise<IPouchDBCreateIndexResult> {
         return Promise.resolve({
@@ -41,18 +51,18 @@ export class PouchDb {
         temp = this.store.filter((item) => {
             if (isNullOrUndefined(query.selector._id)) {
                 if (isNullOrUndefined(query.selector.date)
-                || isNullOrUndefined(query.selector.hour)
-                || isNullOrUndefined(query.selector.minute)) {
+                    || isNullOrUndefined(query.selector.hour)
+                    || isNullOrUndefined(query.selector.minute)) {
                     if (isNullOrUndefined(query.selector.password)) {
                         return query.selector.username.$eq === item.username;
                     } else {
                         return query.selector.username.$eq === item.username
-                        && query.selector.password.$eq === item.password;
+                            && query.selector.password.$eq === item.password;
                     }
                 } else {
                     return item.date.getMilliseconds() === query.selector.date.$eq.getMilliseconds()
-                    && item.hour === query.selector.hour.$eq
-                    && item.minute === query.selector.minute.$eq;
+                        && item.hour === query.selector.hour.$eq
+                        && item.minute === query.selector.minute.$eq;
                 }
             } else {
                 return item._id === query.selector._id.$eq;
@@ -65,7 +75,7 @@ export class PouchDb {
     }
 
     info(): Promise<IPouchDBInfo> {
-        const info =  {
+        const info = {
             'db_name': 'name',
             'doc_count': this.store.length,
             'update_seq': 1
@@ -85,7 +95,6 @@ export class PouchDb {
     }
 
     remove(doc: any): Promise<IPouchDBRemoveResult> {
-        console.log('doc in remove', doc);
         return Promise.resolve({
             'ok': true,
             'id': doc._id,
@@ -107,15 +116,7 @@ export class PouchDb {
                 value: {
                     rev: 'rev'
                 },
-                doc: {
-                    '_id': item._id,
-                    'username': item.username,
-                    'password': item.password,
-                    'name': item.name,
-                    'surname': item.surname,
-                    'email': item.email,
-                    'phoneNr': item.phoneNr
-                }
+                doc: item
             });
         });
 

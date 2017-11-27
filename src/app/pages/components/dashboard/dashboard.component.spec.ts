@@ -50,14 +50,14 @@ describe('DashboardComponent', () => {
   });
 
   it('should call getPatientCount method from the PatientAPIService in getAllPatientCount method', () => {
-    spyOn(patientAPIServiceStub, 'getPatientCount').and.callThrough();
+    spyOn(patientAPIServiceStub, 'patientsCount').and.callThrough();
     component.getAllPatientCount();
-    expect(patientAPIServiceStub.getPatientCount).toHaveBeenCalled();
+    expect(patientAPIServiceStub.patientsCount).toHaveBeenCalled();
   });
 
   it('should call getTotalTherapiesCount method from the PatientAPIService in getAllTherapiesCount method', () => {
-    spyOn(patientAPIServiceStub, 'getTotalTherapiesCount').and.callThrough();
+    spyOn(patientAPIServiceStub, 'therapiesCount').and.callThrough();
     component.getAllTherapiesCount();
-    expect(patientAPIServiceStub.getTotalTherapiesCount).toHaveBeenCalled();
+    expect(patientAPIServiceStub.therapiesCount).toHaveBeenCalled();
   });
 });
