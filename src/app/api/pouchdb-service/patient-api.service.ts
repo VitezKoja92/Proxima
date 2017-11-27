@@ -160,7 +160,6 @@ export class PatientAPIService {
       .switchMap(
       () => this.fetchPatientCount(),
       (outer, inner) => {
-        console.log('inner patients', inner);
         return inner;
       }
     );
@@ -187,7 +186,6 @@ export class PatientAPIService {
       .switchMap(
         () => this.fetchTherapiesCount(),
         (outer, inner) => {
-          console.log('inner therapies', inner);
           return inner;
         }
       );

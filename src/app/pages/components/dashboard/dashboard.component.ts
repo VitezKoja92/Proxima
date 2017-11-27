@@ -58,7 +58,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getAllPatientCount() {
     this.subs.push(this.PatientAPIService.patientsCount()
       .subscribe((count: number) => {
-        console.log('dashboard patients', count);
         this.numberOfPatients = count;
         this.changeDetectionRef.detectChanges();
       }));
@@ -67,7 +66,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getAllTherapiesCount() {
     this.subs.push(this.PatientAPIService.therapiesCount()
       .subscribe((count: number) => {
-        console.log('dashboard therapies', count);
         this.numberOfTherapies = count;
         this.changeDetectionRef.detectChanges();
       }));
