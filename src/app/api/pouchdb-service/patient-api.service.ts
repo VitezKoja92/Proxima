@@ -17,12 +17,16 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/switchMap';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class PatientAPIService {
 
   private db;
   private dbName = 'patients_proxima';
+  private dbChange$: Subject<any> = new Subject();
 
   constructor(private PouchDbBootService: PouchDbBootService) {
 
@@ -39,6 +43,13 @@ export class PatientAPIService {
     this.db.sync(`${environment.couch_url}${this.dbName}`, {
       live: true,
       retry: true
+    });
+
+    const changes = this.db.changes({
+      live: true,
+      include_docs: true
+    }).on('change', (change) => {
+      this.dbChange$.next(change);
     });
 
     this.createIndexes();
@@ -137,11 +148,22 @@ export class PatientAPIService {
       });
   }
 
-  public getPatientCount(): Observable<number> {
+  public fetchPatientCount(): Observable<number> {
     return Observable.fromPromise(this.db.info())
     .map((result: any): number => {
       return result.doc_count - 1;
       });
+  }
+
+  public patientsCount(): Observable<number> {
+    return this.dbChange$.startWith({})
+      .switchMap(
+      () => this.fetchPatientCount(),
+      (outer, inner) => {
+        console.log('inner patients', inner);
+        return inner;
+      }
+    );
   }
 
   public getAllPatients(): Promise<Patient[]> {
@@ -160,7 +182,18 @@ export class PatientAPIService {
     });
   }
 
-  public getTotalTherapiesCount(): Observable<number> {
+  public therapiesCount(): Observable<number> {
+    return this.dbChange$.startWith({})
+      .switchMap(
+        () => this.fetchTherapiesCount(),
+        (outer, inner) => {
+          console.log('inner therapies', inner);
+          return inner;
+        }
+      );
+  }
+
+  public fetchTherapiesCount(): Observable<number> {
     return Observable.fromPromise(this.db.allDocs({
       include_docs: true,
       startkey: 'patient:'
