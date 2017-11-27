@@ -16,112 +16,12 @@ import {
 
 export class PouchDb {
 
-    users = [
-        {
-            '_id': 'id1',
-            'username': 'username1',
-            'password': 'password1',
-            'name': 'name1',
-            'surname': 'surname1',
-            'email': 'email1',
-            'phoneNr': 'phoneNr1'
-        },
-        {
-            '_id': 'id2',
-            'username': 'username2',
-            'password': 'password2',
-            'name': 'name2',
-            'surname': 'surname2',
-            'email': 'email2',
-            'phoneNr': 'phoneNr2'
-        }
-    ];
-
-    appointments = [
-        {
-            '_id': 'id1',
-            '_rev': 'rev1',
-            'user': null,
-            'patient': null,
-            'date': new Date(2013, 13, 1),
-            'hour': 1,
-            'minute': 1,
-            'description': 'description1'
-        },
-        {
-            '_id': 'id2',
-            '_rev': 'rev2',
-            'user': null,
-            'patient': null,
-            'date': new Date(2013, 13, 2),
-            'hour': 2,
-            'minute': 2,
-            'description': 'description2'
-        }
-    ];
-
-    patients = [
-        {
-          '_id': 'id1',
-          '_rev': 'rev1',
-          'personalInfo': {
-            'name': 'name1',
-            'surname': 'surname1',
-            'dateOfBirth': new Date(2013, 13, 1),
-            'address': {
-              'country': 'country1',
-              'city': 'city1',
-              'postcode': 1,
-              'street': 'street1',
-              'streetNo': 'streetNo1'
-            },
-            'profession': 'profession1',
-          },
-          'medicalHistory': [
-            {
-              '_id': 'id1',
-              'date': 'date1',
-              'anamnesis': null,
-              'diagnostics': null,
-              'statusLocalis': 'statusLocalis1',
-              'diagnosis': 'diagnosis1',
-              'recommendedTherapy': null
-            }
-          ]
-        },
-        {
-          '_id': 'id2',
-          '_rev': 'rev2',
-          'personalInfo': {
-            'name': 'name2',
-            'surname': 'surname2',
-            'dateOfBirth': new Date(2013, 13, 2),
-            'address': {
-              'country': 'country2',
-              'city': 'city2',
-              'postcode': 2,
-              'street': 'street2',
-              'streetNo': 'streetNo2'
-            },
-            'profession': 'profession2',
-          },
-          'medicalHistory': [
-            {
-              '_id': 'id2',
-              'date': 'date2',
-              'anamnesis': null,
-              'diagnostics': null,
-              'statusLocalis': 'statusLocalis2',
-              'diagnosis': 'diagnosis2',
-              'recommendedTherapy': null
-            }
-          ]
-        }
-      ];
+    store: any[] = [];
 
     sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
+        this.store.push(item);
         return Promise.resolve({
             ok: true,
             id: item._id,
@@ -137,32 +37,26 @@ export class PouchDb {
 
     find(query: any): Promise<IPouchDBFindUsersResult> {
         let temp = [];
-        if (isNullOrUndefined(query.selector._id)) {
-            if (isNullOrUndefined(query.selector.date)
-            || isNullOrUndefined(query.selector.hour)
-            || isNullOrUndefined(query.selector.minute)) {
-                if (isNullOrUndefined(query.selector.password)) {
-                    temp = this.users.filter((user: User) => {
-                        return query.selector.username.$eq === user.username;
-                    });
+        temp = this.store.filter((item) => {
+            if (isNullOrUndefined(query.selector._id)) {
+                if (isNullOrUndefined(query.selector.date)
+                || isNullOrUndefined(query.selector.hour)
+                || isNullOrUndefined(query.selector.minute)) {
+                    if (isNullOrUndefined(query.selector.password)) {
+                        return query.selector.username.$eq === item.username;
+                    } else {
+                        return query.selector.username.$eq === item.username
+                        && query.selector.password.$eq === item.password;
+                    }
                 } else {
-                    temp = this.users.filter((user: User) => {
-                        return query.selector.username.$eq === user.username
-                            && query.selector.password.$eq === user.password;
-                    });
+                    return item.date.getMilliseconds() === query.selector.date.$eq.getMilliseconds()
+                    && item.hour === query.selector.hour.$eq
+                    && item.minute === query.selector.minute.$eq;
                 }
             } else {
-                temp = this.appointments.filter((appointment: Appointment) => {
-                    return appointment.date.getMilliseconds() === query.selector.date.$eq.getMilliseconds()
-                        && appointment.hour === query.selector.hour.$eq
-                        && appointment.minute === query.selector.minute.$eq;
-                });
+                return item._id === query.selector._id.$eq;
             }
-        } else {
-            temp = this.patients.filter((patient: Patient) => {
-                return patient._id === query.selector._id.$eq;
-            });
-        }
+        });
         return Promise.resolve({
             'docs': temp,
             'warning': 'warning'
@@ -172,7 +66,7 @@ export class PouchDb {
     info(): Promise<IPouchDBInfo> {
         const info =  {
             'db_name': 'name',
-            'doc_count': this.patients.length,
+            'doc_count': this.store.length,
             'update_seq': 1
         };
 
@@ -181,7 +75,7 @@ export class PouchDb {
 
     get(id: string): Promise<Appointment> {
         let myAppointment: Appointment;
-        for (let appointment of this.appointments) {
+        for (let appointment of this.store) {
             if (appointment._id === id) {
                 myAppointment = {
                     '_id': appointment._id,
@@ -214,7 +108,8 @@ export class PouchDb {
             total_rows: 0,
             rows: []
         };
-        this.users.forEach((user) => {
+        console.log('this.store in allDocs', this.store);
+        this.store.forEach((item) => {
             result.rows.push({
                 id: 'rowid',
                 key: 'key',
@@ -222,13 +117,13 @@ export class PouchDb {
                     rev: 'rev'
                 },
                 doc: {
-                    '_id': user._id,
-                    'username': user.username,
-                    'password': user.password,
-                    'name': user.name,
-                    'surname': user.surname,
-                    'email': user.email,
-                    'phoneNr': user.phoneNr
+                    '_id': item._id,
+                    'username': item.username,
+                    'password': item.password,
+                    'name': item.name,
+                    'surname': item.surname,
+                    'email': item.email,
+                    'phoneNr': item.phoneNr
                 }
             });
         });

@@ -47,6 +47,10 @@ describe('UserAPIService', () => {
     userAPIServiceStub = TestBed.get(UserAPIService);
     spyOn(console, 'log').and.callThrough();
     db = pouchDbBootServiceStub.useDatabase('db', null);
+    userMock.forEach((user: User) => {
+      debugger;
+      db.put(user);
+    });
   });
 
   it('should return the id when the user is added in the database', (done) => {
@@ -57,7 +61,8 @@ describe('UserAPIService', () => {
       });
   });
 
-  it('should get the first user from the database', (done) => {
+  fit('should get the first user from the database', (done) => {
+    debugger;
     userAPIServiceStub.getUser(userMock[0].username)
       .then((res: User) => {
         expect(res).toEqual(userMock[0]);
