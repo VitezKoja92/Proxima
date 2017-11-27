@@ -49,7 +49,7 @@ describe('AppointmentApiService', () => {
     spyOn(console, 'log').and.callThrough();
     db = pouchDbBootServiceStub.useDatabase('db', null);
     appointmentsMock.forEach((item) => {
-      appointmentAPIServiceStub.db.store.push(item);
+      appointmentAPIServiceStub.db.put(item);
     });
   });
 

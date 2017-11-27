@@ -47,7 +47,7 @@ describe('UserAPIService', () => {
     userAPIServiceStub = TestBed.get(UserAPIService);
     db = pouchDbBootServiceStub.useDatabase('db', null);
     userMock.forEach((item) => {
-      userAPIServiceStub.db.store.push(item);
+      userAPIServiceStub.db.put(item);
     });
     spyOn(console, 'log').and.callThrough();
   });

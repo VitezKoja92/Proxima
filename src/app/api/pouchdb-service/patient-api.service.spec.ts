@@ -93,7 +93,7 @@ describe('PatientApiService', () => {
     spyOn(console, 'log').and.callThrough();
     db = pouchDbBootServiceStub.useDatabase('db', null);
     patientsMock.forEach((item) => {
-      patientAPIServiceStub.db.store.push(item);
+      patientAPIServiceStub.db.put(item);
     });
   });
 
