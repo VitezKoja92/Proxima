@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthenticationGuard } from './../../guards/authentication.guard';
 import { PrivateComponent } from './private.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
 import { AddPatientComponent } from '../../pages/components/add-patient/add-patient.component';

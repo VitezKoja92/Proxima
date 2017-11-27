@@ -1,13 +1,10 @@
-import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
-import { Appointment, Patient } from '../../../api/models/index';
+import { Appointment } from '../../../api/models/index';
 import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Observable } from 'rxjs/Observable';
-import * as Rx from 'rxjs/Rx';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 

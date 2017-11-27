@@ -55,9 +55,6 @@ describe('AddPatientComponent', () => {
     component = null;
   });
 
-  // ***** Methods to test: *****
-  // - addPatient(data: any) - calls the addPateint method from PatientAPIService - check if it calls that method
-
   it('should call getAllPatients method from the PatientAPIService', inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
     spyOn(PatientAPIService, 'addPatient').and.callThrough();
     component.addPatient(data);

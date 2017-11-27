@@ -1,4 +1,4 @@
-import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { UserAPIService } from './user-api.service';
 import { PouchDbBootService } from './pouchdb-boot.service';
@@ -45,12 +45,12 @@ describe('UserAPIService', () => {
   beforeEach(() => {
     pouchDbBootServiceStub = TestBed.get(PouchDbBootService);
     userAPIServiceStub = TestBed.get(UserAPIService);
-    spyOn(console, 'log').and.callThrough();
     db = pouchDbBootServiceStub.useDatabase('db', null);
     userMock.forEach((user: User) => {
-      debugger;
+      // debugger;
       db.put(user);
     });
+    spyOn(console, 'log').and.callThrough();
   });
 
   it('should return the id when the user is added in the database', (done) => {
@@ -62,7 +62,6 @@ describe('UserAPIService', () => {
   });
 
   fit('should get the first user from the database', (done) => {
-    debugger;
     userAPIServiceStub.getUser(userMock[0].username)
       .then((res: User) => {
         expect(res).toEqual(userMock[0]);

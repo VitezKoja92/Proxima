@@ -59,9 +59,6 @@ describe('RegisterComponent', () => {
     component = null;
   });
 
-  // ***** Methods to test: *****
-  // - addUser(data: any) - creates the user and calls the addUser method from UserAPIService - check if it calls that method
-
   it('should display the title', () => {
     fixture.detectChanges();
     expect(titleEl.textContent).toContain('Register');

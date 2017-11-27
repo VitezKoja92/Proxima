@@ -125,32 +125,4 @@ describe('FindPatientComponent', () => {
     component.openPatient('patient:1509005061016');
     expect(routerMock.navigate).toHaveBeenCalledWith(['/patient/patient:1509005061016']);
   });
-
-  // it('should filter the patients in the right manner',
-  //   fakeAsync(inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
-  //     const filteredPatientsMock = [
-  //       {
-  //         '_id': 'patient:1509005061016',
-  //         '_rev': '9-b4d74744e2e6432e859aea75585fee7d',
-  //         'personalInfo': {
-  //           'name': 'Jeca',
-  //           'surname': 'Smeca',
-  //           'dateOfBirth': '6/14/2017',
-  //           'address': {
-  //             'country': 'Serbia',
-  //             'city': 'Belgrade',
-  //             'postcode': '11000',
-  //             'street': 'Brace Jerkovic',
-  //             'streetNo': '213'
-  //           },
-  //           'profession': 'Student'
-  //         },
-  //         'medicalHistory': []
-  //       }
-  //     ];
-  //     const searchField = component.form.controls['search'];
-  //     searchField.set = ''
-
-
-  // })));
 });

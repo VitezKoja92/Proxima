@@ -1,6 +1,5 @@
 import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { UserAPIService } from './../api/pouchdb-service/user-api.service';
 import { User } from './../api/models/index';

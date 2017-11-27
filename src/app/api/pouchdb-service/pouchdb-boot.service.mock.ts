@@ -1,4 +1,3 @@
-import { IPouchDBRemoveResult, IPouchDBGetResult, Patient, IPouchDBInfo } from './../models/index';
 import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
 import * as PouchDBlib from 'pouchdb';
@@ -7,11 +6,11 @@ import * as PouchDBFind from 'pouchdb-find';
 import Configuration = PouchDB.Configuration;
 import {
     IPouchDBCreateIndexResult,
-    User,
     IPouchDBFindUsersResult,
     IPouchDBPutResult,
     IPouchDBAllDocsResult,
-    Appointment
+    IPouchDBRemoveResult,
+    IPouchDBInfo
 } from '../models/index';
 
 export class PouchDb {
@@ -21,6 +20,7 @@ export class PouchDb {
     sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
+        debugger;
         this.store.push(item);
         return Promise.resolve({
             ok: true,
@@ -37,6 +37,7 @@ export class PouchDb {
 
     find(query: any): Promise<IPouchDBFindUsersResult> {
         let temp = [];
+        debugger;
         temp = this.store.filter((item) => {
             if (isNullOrUndefined(query.selector._id)) {
                 if (isNullOrUndefined(query.selector.date)
@@ -73,24 +74,14 @@ export class PouchDb {
         return Promise.resolve(info);
     }
 
-    get(id: string): Promise<Appointment> {
-        let myAppointment: Appointment;
-        for (let appointment of this.store) {
-            if (appointment._id === id) {
-                myAppointment = {
-                    '_id': appointment._id,
-                    '_rev': appointment._rev,
-                    'user': appointment.user,
-                    'patient': appointment.patient,
-                    'date': appointment.date,
-                    'hour': appointment.hour,
-                    'minute': appointment.minute,
-                    'description': appointment.description
-                };
+    get(id: string): Promise<any> {
+        let myItem: any;
+        for (let item of this.store) {
+            if (item._id === id) {
+                myItem = item;
             }
         }
-        console.log('myAppointment in get', myAppointment);
-        return Promise.resolve(myAppointment);
+        return Promise.resolve(myItem);
     }
 
     remove(doc: any): Promise<IPouchDBRemoveResult> {
