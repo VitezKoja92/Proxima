@@ -157,8 +157,7 @@ export class PatientAPIService {
 
   public patientsCount(): Observable<number> {
     return this.dbChange$.startWith({})
-      .switchMap(
-      () => this.fetchPatientCount(),
+      .switchMap(() => this.fetchPatientCount(),
       (outer, inner) => {
         return inner;
       }
@@ -183,8 +182,7 @@ export class PatientAPIService {
 
   public therapiesCount(): Observable<number> {
     return this.dbChange$.startWith({})
-      .switchMap(
-        () => this.fetchTherapiesCount(),
+      .switchMap(() => this.fetchTherapiesCount(),
         (outer, inner) => {
           return inner;
         }

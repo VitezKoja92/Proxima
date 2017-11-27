@@ -175,7 +175,7 @@ export class AppointmentAPIService {
         console.log('Error: ', error);
       });
   }
-  
+
   private dateSort(a: Appointment, b: Appointment) {
     if (a.hour < b.hour) {
       return -1;

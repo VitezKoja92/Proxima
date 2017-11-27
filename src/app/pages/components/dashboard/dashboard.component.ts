@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subs.push(this.PatientAPIService.patientsCount()
       .subscribe((count: number) => {
         this.numberOfPatients = count;
-        this.changeDetectionRef.detectChanges();
+        this.changeDetectorRef.detectChanges();
       }));
   }
 
@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subs.push(this.PatientAPIService.therapiesCount()
       .subscribe((count: number) => {
         this.numberOfTherapies = count;
-        this.changeDetectionRef.detectChanges();
+        this.changeDetectorRef.detectChanges();
       }));
   }
 
@@ -78,13 +78,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.changeDetectorRef.detach();
-    this.subs.forEach((sub) => {
-      sub.unsubscribe();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.changeDetectionRef.detach();
     this.subs.forEach((sub) => {
       sub.unsubscribe();
     });
