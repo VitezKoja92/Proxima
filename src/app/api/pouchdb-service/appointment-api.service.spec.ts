@@ -116,14 +116,11 @@ describe('AppointmentApiService', () => {
       });
   });
 
-  // Problem: we need to have two different implementations of allDocs method in
-  // pouchdb-boot.service.mock.ts in order to test both for users and appointments (or patients)
-
-  // it('should get from the database the appointments scheduled for today', (done) => {
-  //   appointmentAPIServiceStub.getAppointmentsToday()
-  //   .subscribe((res: Appointment[]) => {
-  //     expect(res[0]).toEqual(appointmentsMock[0]);
-  //     done();
-  //   });
-  // });
+  it('should get from the database the appointments scheduled for today', (done) => {
+    appointmentAPIServiceStub.getAppointmentsToday()
+    .subscribe((res: Appointment[]) => {
+      expect(res[0]).toEqual(appointmentsMock[0]);
+      done();
+    });
+  });
 });

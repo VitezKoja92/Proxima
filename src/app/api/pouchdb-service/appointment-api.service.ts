@@ -70,8 +70,7 @@ export class AppointmentAPIService {
 
   public todayAppointments(): Observable<Appointment[]> {
     return this.dbChange$.startWith({})
-    .switchMap(
-      () => this.fetchAppointmentsToday(),
+    .switchMap(() => this.fetchAppointmentsToday(),
       (outer, inner) => {
         return inner;
       });
@@ -98,13 +97,6 @@ export class AppointmentAPIService {
         console.log('Error: ', error);
       });
   }
-
-   /**
-   * sync:        --o1-o1--o2--o2--o3--o4-->
-   * event:       e-e-----------e-----e---->
-   * thr(event):  -----e----------e------e->
-   * lastFrom():  -----o1---------o2-----o4>
-   */
 
   getAllAppointments(): Promise<Appointment[]> {
     const promise = this.db.allDocs({
