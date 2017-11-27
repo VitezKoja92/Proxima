@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getAllPatientCount();
     this.getAppointmentsToday();
-
+    this.getAllTherapiesCount();
   }
 
   goToAddPatient(): void {
