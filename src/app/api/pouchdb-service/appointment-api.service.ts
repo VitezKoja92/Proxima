@@ -1,4 +1,12 @@
+import { Sort } from '@angular/material';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromPromise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/switchMap';
+import { Subject } from 'rxjs/Subject';
 
 import { environment } from '../../../environments/environment';
 import { PouchDbBootService } from './pouchdb-boot.service';
@@ -8,14 +16,19 @@ import {
   IPouchDBPutResult,
   IPouchDBRemoveResult,
   User,
-  Patient
+  Patient,
+  IPouchDBDocsResult
 } from './../models/index';
+
+
+
 
 @Injectable()
 export class AppointmentAPIService {
 
   private db;
   private dbName = 'appointments_proxima';
+  private dbChange$: Subject<any> = new Subject();
 
   constructor(private PouchDbBootService: PouchDbBootService) {
     // Database creation
@@ -33,6 +46,13 @@ export class AppointmentAPIService {
       retry: true
     });
 
+    const changes = this.db.changes({
+      live: true,
+      include_docs: true
+    }).on('change', (change) => {
+      this.dbChange$.next(change);
+    });
+
     this.createIndexes();
   }
 
@@ -45,6 +65,14 @@ export class AppointmentAPIService {
     }).catch((err) => {
       console.log(err);
     });
+  }
+
+  public todayAppointments(): Observable<Appointment[]> {
+    return this.dbChange$.startWith({})
+    .switchMap(() => this.fetchAppointmentsToday(),
+      (outer, inner) => {
+        return inner;
+      });
   }
 
   public getAppointment(date: Date, hour: number, minute: number): Promise<Appointment> {
@@ -70,6 +98,7 @@ export class AppointmentAPIService {
   }
 
   public getAllAppointments(): Promise<Appointment[]> {
+
     const promise = this.db.allDocs({
       include_docs: true,
       startkey: 'appointment:'
@@ -88,6 +117,28 @@ export class AppointmentAPIService {
       });
     });
     return promise;
+  }
+
+  fetchAppointmentsToday(): Observable<Appointment[]> {
+    return Observable.fromPromise(this.db.allDocs({
+      include_docs: true,
+      startkey: 'appointment:'
+    })).map((result: IPouchDBDocsResult<Appointment>) => {
+
+      return result.rows.map((row: any): Appointment => {
+        const newAppointemnt = new Appointment(row.doc.user, row.doc.patient,
+          row.doc.date, row.doc.hour, row.doc.minute, row.doc.description);
+        newAppointemnt._id = row.doc._id;
+
+        return newAppointemnt;
+      }).filter((appointment: Appointment) => {
+        const today = new Date();
+        const date = new Date(appointment.date);
+        return date.getDate() === today.getDate()
+          && date.getMonth() === today.getMonth()
+          && date.getFullYear() === today.getFullYear();
+      }).sort(this.dateSort);
+    });
   }
 
   public addAppointment(appointment: Appointment): Promise<string> {
@@ -123,5 +174,19 @@ export class AppointmentAPIService {
       }).catch((error: Error): void => {
         console.log('Error: ', error);
       });
+  }
+  
+  private dateSort(a: Appointment, b: Appointment) {
+    if (a.hour < b.hour) {
+      return -1;
+    } else if (a.hour === b.hour) {
+      if (a.minute <= b.minute) {
+        return -1;
+      } else {
+        return 1;
+      }
+    } else {
+      return 1;
+    }
   }
 }

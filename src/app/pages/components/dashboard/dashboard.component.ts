@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
+
 import { Appointment } from '../../../api/models/index';
 import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
@@ -19,25 +20,21 @@ export class DashboardComponent implements OnInit, OnDestroy {
   numberOfPatients = 0;
   numberOfTherapies = 0;
   appointmentsToday: Appointment[];
+
+  noAppointment = true;
   subs: Subscription[] = [];
 
   constructor(
     private Router: Router,
     private PatientAPIService: PatientAPIService,
     private AppointmentAPIService: AppointmentAPIService,
-    private changeDetectionRef: ChangeDetectorRef
-
-  ) {
-    this.getAppointmentsToday();
-  }
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.getAllPatientCount();
-    this.getAllTherapiesCount();
-    this.getAppointmentsToday()
-      .then((appointments: Appointment[]) => {
-        this.appointmentsToday = appointments;
-      });
+    this.getAppointmentsToday();
+
   }
 
   goToAddPatient(): void {
@@ -68,30 +65,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }));
   }
 
-  getAppointmentsToday(): Promise<Appointment[]> {
-    const today = new Date();
-    return this.AppointmentAPIService.getAllAppointments()
-      .then((appointments: Appointment[]) => {
-        return appointments.filter((appointment) => {
-          return appointment.date.getDate() === today.getDate()
-            && appointment.date.getMonth() === today.getMonth()
-            && appointment.date.getFullYear() === today.getFullYear();
-        }).sort(this.dateSort);
-      });
+  getAppointmentsToday() {
+    this.subs.push(this.AppointmentAPIService.todayAppointments()
+      .subscribe((appointments: Appointment[]) => {
+        this.appointmentsToday = appointments;
+        if (appointments.length !== 0) {
+          this.noAppointment = false;
+        }
+        this.changeDetectorRef.detectChanges();
+      }));
   }
 
-  dateSort(a: Appointment, b: Appointment) {
-    if (a.hour < b.hour) {
-      return -1;
-    } else if (a.hour === b.hour) {
-      if (a.minute <= b.minute) {
-        return -1;
-      } else {
-        return 1;
-      }
-    } else {
-      return 1;
-    }
+  ngOnDestroy(): void {
+    this.changeDetectorRef.detach();
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
   ngOnDestroy(): void {

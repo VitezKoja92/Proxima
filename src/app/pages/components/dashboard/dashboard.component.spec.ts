@@ -15,6 +15,7 @@ describe('DashboardComponent', () => {
   let fixture: ComponentFixture<DashboardComponent>;
   let patientAPIServiceStub;
   let pouchDbBootServiceStub;
+  let appointmentAPIServiceStub;
 
   class PatientAPIServiceMock {
     public getAllPatients() {
@@ -40,6 +41,7 @@ describe('DashboardComponent', () => {
   beforeEach(() => {
     pouchDbBootServiceStub = TestBed.get(PouchDbBootService);
     patientAPIServiceStub = TestBed.get(PatientAPIService);
+    appointmentAPIServiceStub = TestBed.get(AppointmentAPIService);
 
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
