@@ -1,6 +1,5 @@
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { isNullOrUndefined } from 'util';
 import { Component } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
@@ -47,5 +46,4 @@ export class AddPatientComponent {
         console.log('Error: ', error);
     });
   }
-
 }

@@ -1,4 +1,4 @@
-import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { UserAPIService } from './user-api.service';
 import { PouchDbBootService } from './pouchdb-boot.service';
@@ -37,7 +37,7 @@ describe('UserAPIService', () => {
     TestBed.configureTestingModule({
       providers: [
         UserAPIService,
-        {provide: PouchDbBootService, useClass: PouchDbBootServiceMock}
+        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock }
       ]
     });
   });
@@ -45,16 +45,11 @@ describe('UserAPIService', () => {
   beforeEach(() => {
     pouchDbBootServiceStub = TestBed.get(PouchDbBootService);
     userAPIServiceStub = TestBed.get(UserAPIService);
-    spyOn(console, 'log').and.callThrough();
     db = pouchDbBootServiceStub.useDatabase('db', null);
-  });
-
-  it('should return the id when the user is added in the database', (done) => {
-    userAPIServiceStub.addUser(userMock[0])
-      .then((res: string) => {
-        expect(res).toEqual('id1');
-        done();
-      });
+    userMock.forEach((item) => {
+      userAPIServiceStub.db.put(item);
+    });
+    spyOn(console, 'log').and.callThrough();
   });
 
   it('should get the first user from the database', (done) => {
@@ -65,13 +60,23 @@ describe('UserAPIService', () => {
       });
   });
 
+  it('should return the id when the user is added in the database', (done) => {
+    userAPIServiceStub.addUser(userMock[0])
+      .then((res: string) => {
+        expect(res).toEqual('id1');
+        done();
+      });
+  });
+
+
+
   it('should get the first user from the database (when both username and password are provided)', (done) => {
     userAPIServiceStub.getUser(userMock[0].username, userMock[0].password)
-        .then((res: User) => {
-          expect(res).toEqual(userMock[0]);
-          done();
-        });
-    });
+      .then((res: User) => {
+        expect(res).toEqual(userMock[0]);
+        done();
+      });
+  });
 
   it('should get the second user from the database', (done) => {
     userAPIServiceStub.getUser(userMock[1].username)

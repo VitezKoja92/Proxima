@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { AnonymousGuard } from './anonymous.guard';
 
@@ -8,8 +8,4 @@ describe('AnonymousGuard', () => {
       providers: [AnonymousGuard]
     });
   });
-
-  // it('should ...', inject([AnonymousGuard], (guard: AnonymousGuard) => {
-  //   expect(guard).toBeTruthy();
-  // }));
 });

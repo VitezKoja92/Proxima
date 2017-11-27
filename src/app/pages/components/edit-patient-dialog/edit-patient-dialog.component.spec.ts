@@ -1,5 +1,5 @@
 import { Address, MedicalHistoryItem } from './../../../api/models/index';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -9,7 +9,6 @@ import { EditPatientDialogComponent } from './edit-patient-dialog.component';
 import { PatientAPIService } from '../../../api/pouchdb-service/patient-api.service';
 import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.service';
 import { MaterialModule } from '../../../modules/material.module';
-import { Inject } from '@angular/core';
 import { Patient } from '../../../api/models/index';
 
 

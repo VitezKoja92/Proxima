@@ -1,13 +1,12 @@
-import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
-import { Appointment, Patient } from '../../../api/models/index';
+
+import { Appointment } from '../../../api/models/index';
 import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
-import { Observable } from 'rxjs/Observable';
-import { ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -21,6 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   numberOfPatients = 0;
   numberOfTherapies = 0;
   appointmentsToday: Appointment[];
+
   noAppointment = true;
   subs: Subscription[] = [];
 
@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getAllPatientCount();
     this.getAppointmentsToday();
+
   }
 
   goToAddPatient(): void {
@@ -49,10 +50,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getAllPatientCount() {
-    this.PatientAPIService.getPatientCount()
-      .subscribe((count) => {
+    this.subs.push(this.PatientAPIService.patientsCount()
+      .subscribe((count: number) => {
         this.numberOfPatients = count;
-      });
+        this.changeDetectionRef.detectChanges();
+      }));
+  }
+
+  getAllTherapiesCount() {
+    this.subs.push(this.PatientAPIService.therapiesCount()
+      .subscribe((count: number) => {
+        this.numberOfTherapies = count;
+        this.changeDetectionRef.detectChanges();
+      }));
   }
 
   getAppointmentsToday() {
@@ -68,6 +78,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.changeDetectorRef.detach();
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.changeDetectionRef.detach();
     this.subs.forEach((sub) => {
       sub.unsubscribe();
     });

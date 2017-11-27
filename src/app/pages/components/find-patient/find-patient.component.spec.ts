@@ -14,6 +14,7 @@ describe('FindPatientComponent', () => {
   let component: FindPatientComponent;
   let fixture: ComponentFixture<FindPatientComponent>;
   let routerMock;
+  let patientAPIServiceStub;
 
   class PatientAPIServiceMock {
     patientsMock = [
@@ -99,18 +100,18 @@ describe('FindPatientComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FindPatientComponent);
     component = fixture.componentInstance;
+    patientAPIServiceStub = TestBed.get(PatientAPIService);
   });
 
   afterEach(() => {
     component = null;
   });
 
-  it('should call getAllPatients method from the PatientAPIService',
-    inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
-      spyOn(PatientAPIService, 'getAllPatients').and.callThrough();
+  it('should call getAllPatients method from the PatientAPIService', () => {
+      spyOn(patientAPIServiceStub, 'getAllPatients').and.callThrough();
       component.ngOnInit();
-      expect(PatientAPIService.getAllPatients).toHaveBeenCalled();
-    }));
+      expect(patientAPIServiceStub.getAllPatients).toHaveBeenCalled();
+    });
 
   it('should get all patients from the service',
     fakeAsync(() => {
@@ -125,32 +126,4 @@ describe('FindPatientComponent', () => {
     component.openPatient('patient:1509005061016');
     expect(routerMock.navigate).toHaveBeenCalledWith(['/patient/patient:1509005061016']);
   });
-
-  // it('should filter the patients in the right manner',
-  //   fakeAsync(inject([PatientAPIService], (PatientAPIService: PatientAPIService) => {
-  //     const filteredPatientsMock = [
-  //       {
-  //         '_id': 'patient:1509005061016',
-  //         '_rev': '9-b4d74744e2e6432e859aea75585fee7d',
-  //         'personalInfo': {
-  //           'name': 'Jeca',
-  //           'surname': 'Smeca',
-  //           'dateOfBirth': '6/14/2017',
-  //           'address': {
-  //             'country': 'Serbia',
-  //             'city': 'Belgrade',
-  //             'postcode': '11000',
-  //             'street': 'Brace Jerkovic',
-  //             'streetNo': '213'
-  //           },
-  //           'profession': 'Student'
-  //         },
-  //         'medicalHistory': []
-  //       }
-  //     ];
-  //     const searchField = component.form.controls['search'];
-  //     searchField.set = ''
-
-
-  // })));
 });

@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
+  let userAPIServiceStub;
 
   class UserAPIServiceMock {
     public getAllUsers() {
@@ -36,20 +37,16 @@ describe('LoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    userAPIServiceStub = TestBed.get(UserAPIService);
   });
 
   afterEach(() => {
     component = null;
   });
 
-  // ***** Methods to test: *****
-  // - getUsers() - calls the getAllUsers method from UserAPIService - check if it calls that method
-  // - login(data: any) - provides AuthenticationService with the data and calls its
-  //   login(username, password) method - check if it calls that method
-
-  it('should call getAllUsers method from the UserAPIService', inject([UserAPIService], (UserAPIService: UserAPIService) => {
-    spyOn(UserAPIService, 'getAllUsers').and.callThrough();
+  it('should call getAllUsers method from the UserAPIService', () => {
+    spyOn(userAPIServiceStub, 'getAllUsers').and.callThrough();
     component.getUsers();
-    expect(UserAPIService.getAllUsers).toHaveBeenCalled();
-  }));
+    expect(userAPIServiceStub.getAllUsers).toHaveBeenCalled();
+  });
 });

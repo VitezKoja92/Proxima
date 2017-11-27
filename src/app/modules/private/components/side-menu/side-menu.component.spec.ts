@@ -11,6 +11,7 @@ describe('SideMenuComponent', () => {
   let fixture: ComponentFixture<SideMenuComponent>;
   let routerMock;
   let userAPIServiceStub;
+  let authenticationServiceStub;
 
   beforeEach(async(() => {
     routerMock = {
@@ -31,6 +32,7 @@ describe('SideMenuComponent', () => {
     fixture = TestBed.createComponent(SideMenuComponent);
     component = fixture.componentInstance;
     userAPIServiceStub = TestBed.get(UserAPIService);
+    authenticationServiceStub = TestBed.get(AuthenticationService);
   });
 
   it('should open login page when button is clicked', () => {
@@ -38,10 +40,9 @@ describe('SideMenuComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['login']);
   });
 
-  it('should call logout function from AuthenticationService',
-    inject([AuthenticationService], (AuthenticationService: AuthenticationService) => {
-      spyOn(AuthenticationService, 'logout').and.callThrough();
+  it('should call logout function from AuthenticationService', () => {
+      spyOn(authenticationServiceStub, 'logout').and.callThrough();
       component.logout();
-      expect(AuthenticationService.logout).toHaveBeenCalled();
-    }));
+      expect(authenticationServiceStub.logout).toHaveBeenCalled();
+    });
 });

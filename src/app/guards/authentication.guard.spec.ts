@@ -1,4 +1,4 @@
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { AuthenticationGuard } from './authentication.guard';
 
@@ -8,8 +8,4 @@ describe('AuthenticationGuard', () => {
       providers: [AuthenticationGuard]
     });
   });
-
-  // it('should ...', inject([AuthenticationGuard], (guard: AuthenticationGuard) => {
-  //   expect(guard).toBeTruthy();
-  // }));
 });

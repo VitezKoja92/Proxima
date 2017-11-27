@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NgClass } from '@angular/common';
 
 import { User } from '../../../../api/models/index';
 import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service';

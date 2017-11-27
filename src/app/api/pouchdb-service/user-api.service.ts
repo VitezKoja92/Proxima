@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
-import { IPouchDBPutResult, IPouchDBAllDocsResult, User, IPouchDBCreateIndexResult, IPouchDBFindUsersResult } from './../models/index';
+import { IPouchDBPutResult, IPouchDBAllDocsResult, User, IPouchDBFindUsersResult } from './../models/index';
 import { environment } from './../../../environments/environment';
 
 @Injectable()

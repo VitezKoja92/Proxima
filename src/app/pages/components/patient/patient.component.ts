@@ -115,7 +115,6 @@ export class PatientComponent {
   }
 
   addTherapy(data: any): void {
-console.log(data);
     const anamnesis: Anamnesis = new Anamnesis(data.mainDifficulties, data.anaMorbi, data.anaVitae, data.anaFamiliae);
     const diagnostics: Diagnostics = new Diagnostics(data.labFindings, data.labFindingsDate,
       data.rtg, data.rtgDate, data.nmr, data.nmrDate, data.emng, data.emngDate);
