@@ -37,7 +37,6 @@ export class AppointmentsListComponent {
         if (isNullOrUndefined(period) || period === 'All') {
           this.appointments = appointments.sort(this.dateSort);
           this.sortedAppointments = this.appointments.slice();
-          console.log('sortedAppointments: ', this.sortedAppointments);
         } else {
           this.appointments = appointments.sort(this.dateSort).filter((appointment: Appointment) => {
             let todayDate;
@@ -61,7 +60,6 @@ export class AppointmentsListComponent {
             return appointment.dateTime >= todayDate && appointment.dateTime < futureDate;
           });
           this.sortedAppointments = this.appointments.slice();
-          console.log('sortedAppointments: ', this.sortedAppointments);
         }
       }, (error: Error): void => {
         console.log('Error: ', error);
@@ -90,8 +88,6 @@ export class AppointmentsListComponent {
               }
             );
           });
-      }, (error: Error) => {
-        console.log('Error: ', error);
       });
   }
 

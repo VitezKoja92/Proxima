@@ -44,8 +44,6 @@ export class EditPatientDialogComponent {
       address, data.profession, this.currentPatient.personalInfo.dateOfBirth, this.currentPatient.medicalHistory)
       .then((patient: Patient): void => {
         this.currentPatient = patient;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
       });
     this.dialogRef.close();
   }

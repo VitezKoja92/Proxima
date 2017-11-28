@@ -14,19 +14,25 @@ import {
 } from '../models/index';
 
 export class Change {
+
+    listeners = [];
+
     on(changeType, callback) {
-        return {};
+        const change = {};
+        this.listeners.push(callback);
     }
 }
 
 export class PouchDb {
+
+    private changeDB: Change = new Change();
 
     public store: any[] = [];
 
     sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
-        this.store.push(item);
+        this.addToStore(item);
         return Promise.resolve({
             ok: true,
             id: item._id,
@@ -35,7 +41,7 @@ export class PouchDb {
     }
 
     changes(options) {
-        return new Change();
+        return this.changeDB;
     }
 
 
@@ -92,6 +98,7 @@ export class PouchDb {
     }
 
     remove(doc: any): Promise<IPouchDBRemoveResult> {
+        this.deleteFromStore(doc);
         return Promise.resolve({
             'ok': true,
             'id': doc._id,
@@ -118,6 +125,23 @@ export class PouchDb {
         });
 
         return Promise.resolve(result);
+    }
+
+    addToStore(item) {
+        this.store.push(item);
+        this.changes({}).listeners.forEach((listener) => {
+            listener();
+        });
+    }
+
+    deleteFromStore(item) {
+        const index = this.store.indexOf(item);
+        if (index > -1) {
+            this.store.splice(index, 1);
+        }
+        this.changes({}).listeners.forEach((listener) => {
+            listener();
+        });
     }
 }
 

@@ -133,11 +133,11 @@ export class AppointmentAPIService {
     });
   }
 
-  public addAppointment(appointment: Appointment): Promise<string> {
-    return this.db.put(appointment)
+  public addAppointment(appointment: Appointment): Observable<string> {
+    return Observable.fromPromise(this.db.put(appointment)
       .then((result: IPouchDBPutResult): string => {
         return result.id;
-      });
+      }));
   }
 
   public deleteAppointment(id: string): Promise<IPouchDBRemoveResult> {

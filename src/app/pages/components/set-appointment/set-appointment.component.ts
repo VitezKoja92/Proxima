@@ -88,18 +88,10 @@ export class SetAppointmentComponent implements OnInit {
     date.setHours(data.hour);
     date.setMinutes(data.minute);
     const appointment = new Appointment(data.doctor, data.patient, date, data.description);
-    console.log('appointment in setAppointment: ', appointment);
-    console.log('date', appointment.dateTime.getDate());
-    console.log('month', appointment.dateTime.getMonth());
-    console.log('fullyear', appointment.dateTime.getFullYear());
-    console.log('h', appointment.dateTime.getHours());
-    console.log('m', appointment.dateTime.getMinutes());
 
     this.AppointmentAPIService.addAppointment(appointment)
-      .then((result: string): void => {
+      .subscribe((result: string): void => {
         this.Router.navigate(['/appointments-list']);
-      }, (error: Error): void => {
-        console.log('Error: ', error);
       });
   }
 }
