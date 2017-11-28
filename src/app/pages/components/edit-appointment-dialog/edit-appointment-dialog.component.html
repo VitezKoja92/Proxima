@@ -23,20 +23,20 @@
   <div class="calendar">
     <div class="hourMinute">
       <mat-form-field class="hourInputField">
-        <input matInput #hour placeholder="Hour" type="number" formControlName="hour" [ngModel]="appointment.hour">
+        <input matInput #hour placeholder="Hour" type="number" formControlName="hour" [ngModel]="appointment.dateTime.getHours()">
         <mat-error *ngIf="form.controls['hour'].hasError('required')">You must enter a value</mat-error>
         <mat-error *ngIf="form.controls['hour'].hasError('max')">Value must be lower than 24</mat-error>
         <mat-error *ngIf="form.controls['hour'].hasError('min')">Value must be higher or equal to 0</mat-error>
       </mat-form-field>
       <mat-form-field class="minuteInputField">
-        <input matInput #minute placeholder="Minute" type="number" formControlName="minute" [ngModel]="appointment.minute">
+        <input matInput #minute placeholder="Minute" type="number" formControlName="minute" [ngModel]="appointment.dateTime.getMinutes()">
         <mat-error *ngIf="form.controls['minute'].hasError('required')">You must enter a value</mat-error>
         <mat-error *ngIf="form.controls['minute'].hasError('max')">Value must be lower than 60</mat-error>
         <mat-error *ngIf="form.controls['minute'].hasError('min')">Value must be higher or equal to 0</mat-error>
       </mat-form-field>
     </div>
     <mat-form-field>
-      <input matInput #datePicker [matDatepicker]="picker" placeholder="Choose a date" formControlName="date" [ngModel]="appointment.date">
+      <input matInput #datePicker [matDatepicker]="picker" placeholder="Choose a date" formControlName="date" [ngModel]="appointment.dateTime">
       <mat-error *ngIf="form.controls['date'].hasError('required')">You must enter a value</mat-error>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>

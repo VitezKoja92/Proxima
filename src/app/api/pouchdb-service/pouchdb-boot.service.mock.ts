@@ -59,9 +59,7 @@ export class PouchDb {
                             && query.selector.password.$eq === item.password;
                     }
                 } else {
-                    return item.date.getMilliseconds() === query.selector.date.$eq.getMilliseconds()
-                        && item.hour === query.selector.hour.$eq
-                        && item.minute === query.selector.minute.$eq;
+                    return item.dateTime.getMilliseconds() === query.selector.dateTime.$eq.getMilliseconds();
                 }
             } else {
                 return item._id === query.selector._id.$eq;

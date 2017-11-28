@@ -37,15 +37,16 @@ export class AppointmentsListComponent {
         if (isNullOrUndefined(period) || period === 'All') {
           this.appointments = appointments.sort(this.dateSort);
           this.sortedAppointments = this.appointments.slice();
+          console.log('sortedAppointments: ', this.sortedAppointments);
         } else {
           this.appointments = appointments.sort(this.dateSort).filter((appointment: Appointment) => {
             let todayDate;
             let futureDate;
             if (period === 'Today') {
               todayDate = new Date();
-              return appointment.date.getDate() === today.getDate()
-                && appointment.date.getMonth() === today.getMonth()
-                && appointment.date.getFullYear() === today.getFullYear();
+              return appointment.dateTime.getDate() === today.getDate()
+                && appointment.dateTime.getMonth() === today.getMonth()
+                && appointment.dateTime.getFullYear() === today.getFullYear();
             } else if (period === 'Week') {
               todayDate = new Date();
               futureDate = new Date(today.getTime() + (1000 * 60 * 60 * 24 * 7));
@@ -57,9 +58,10 @@ export class AppointmentsListComponent {
               futureDate = new Date(today.getTime() + (1000 * 60 * 60 * 24 * 365));
             }
 
-            return appointment.date >= todayDate && appointment.date < futureDate;
+            return appointment.dateTime >= todayDate && appointment.dateTime < futureDate;
           });
           this.sortedAppointments = this.appointments.slice();
+          console.log('sortedAppointments: ', this.sortedAppointments);
         }
       }, (error: Error): void => {
         console.log('Error: ', error);
@@ -74,7 +76,7 @@ export class AppointmentsListComponent {
   }
 
   openDialog(appointment: Appointment): void {
-    const selectedAppointment = this.AppointmentAPIService.getAppointment(appointment.date, appointment.hour, appointment.minute)
+    const selectedAppointment = this.AppointmentAPIService.getAppointment(appointment.dateTime)
       .then((app: Appointment) => {
         const dialogRef = this.dialog.open(EditAppointmentDialogComponent, {
           width: '60%',
@@ -94,7 +96,7 @@ export class AppointmentsListComponent {
   }
 
   dateSort(a: Appointment, b: Appointment) {
-    if (a.date < b.date) {
+    if (a.dateTime < b.dateTime) {
       return -1;
     } else {
       return 1;
@@ -111,8 +113,9 @@ export class AppointmentsListComponent {
     this.sortedAppointments = data.sort((a: Appointment, b: Appointment) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        case 'date': return compare(a.date, b.date, isAsc);
-        case 'time': return compare(+(a.hour * 60 + a.minute), +(b.hour * 60 + b.minute), isAsc);
+        case 'date': return compare(a.dateTime, b.dateTime, isAsc);
+        case 'time': return compare(+(a.dateTime.getHours() * 60 + a.dateTime.getMinutes()),
+         +(b.dateTime.getHours() * 60 + b.dateTime.getMinutes()), isAsc);
         case 'name': return compare(a.patient.personalInfo.name, +b.patient.personalInfo.name, isAsc);
         case 'surname': return compare(a.patient.personalInfo.surname, +b.patient.personalInfo.surname, isAsc);
         case 'description': return compare(+a.description, +b.description, isAsc);

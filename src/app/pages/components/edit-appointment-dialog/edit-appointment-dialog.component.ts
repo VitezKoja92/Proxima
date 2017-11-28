@@ -62,8 +62,12 @@ export class EditAppointmentDialogComponent implements OnInit {
   }
 
   editAppointment(data: any) {
+    const date: Date = data.date;
+    date.setHours(data.hour);
+    date.setMinutes(data.minute);
+    console.log('date in editAppointment: ', date);
     this.AppointmentAPIService.editAppointment(this.appointment._id, this.appointment._rev,
-      data.date, data.description, data.patient, data.doctor, data.hour, data.minute)
+      date, data.description, data.patient, data.doctor)
       .then((appointment: Appointment): void => {
         this.Router.navigate(['/appointments-list']);
       }, (error: Error) => {

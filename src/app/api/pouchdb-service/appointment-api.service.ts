@@ -60,7 +60,7 @@ export class AppointmentAPIService {
   public createIndexes() {
     return this.db.createIndex({
       index: {
-        fields: ['user._id, patient.name, patient.surname, date, hour, minute, description']
+        fields: ['user._id, patient.name, patient.surname, date, description']
       }
     }).catch((err) => {
       console.log(err);
@@ -75,17 +75,11 @@ export class AppointmentAPIService {
       });
   }
 
-  public getAppointment(date: Date, hour: number, minute: number): Promise<Appointment> {
+  public getAppointment(date: Date): Promise<Appointment> {
     const query = {
       selector: {
-        'date': {
+        'dateTime': {
           $eq: date
-        },
-        'hour': {
-          $eq: hour
-        },
-        'minute': {
-          $eq: minute
         }
       }
     };
@@ -109,9 +103,7 @@ export class AppointmentAPIService {
           _rev: row.doc._rev,
           user: row.doc.user,
           patient: row.doc.patient,
-          date: new Date(row.doc.date),
-          hour: row.doc.hour,
-          minute: row.doc.minute,
+          dateTime: new Date(row.doc.dateTime),
           description: row.doc.description
         });
       });
@@ -127,13 +119,13 @@ export class AppointmentAPIService {
 
       return result.rows.map((row: any): Appointment => {
         const newAppointemnt = new Appointment(row.doc.user, row.doc.patient,
-          row.doc.date, row.doc.hour, row.doc.minute, row.doc.description);
+          row.doc.dateTime, row.doc.description);
         newAppointemnt._id = row.doc._id;
 
         return newAppointemnt;
       }).filter((appointment: Appointment) => {
         const today = new Date();
-        const date = new Date(appointment.date);
+        const date = new Date(appointment.dateTime);
         return date.getDate() === today.getDate()
           && date.getMonth() === today.getMonth()
           && date.getFullYear() === today.getFullYear();
@@ -158,7 +150,7 @@ export class AppointmentAPIService {
   }
 
   public editAppointment(id: string, rev: string, date: Date, description: string,
-    patient: Patient, doctor: User, hour: number, minute: number): Promise<Appointment> {
+    patient: Patient, doctor: User): Promise<Appointment> {
     return this.db.get(id)
       .then((doc: Appointment): IPouchDBRemoveResult => {
         return this.db.put({
@@ -166,9 +158,7 @@ export class AppointmentAPIService {
           _rev: rev,
           user: doctor,
           patient: patient,
-          date: date,
-          hour: hour,
-          minute: minute,
+          dateTime: date,
           description: description
         });
       }).catch((error: Error): void => {
@@ -177,14 +167,8 @@ export class AppointmentAPIService {
   }
 
   private dateSort(a: Appointment, b: Appointment) {
-    if (a.hour < b.hour) {
+    if (a.dateTime < b.dateTime) {
       return -1;
-    } else if (a.hour === b.hour) {
-      if (a.minute <= b.minute) {
-        return -1;
-      } else {
-        return 1;
-      }
     } else {
       return 1;
     }

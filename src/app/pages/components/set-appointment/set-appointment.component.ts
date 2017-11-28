@@ -76,7 +76,7 @@ export class SetAppointmentComponent implements OnInit {
   }
 
   dateSort(a: Appointment, b: Appointment) {
-    if (a.date < b.date) {
+    if (a.dateTime < b.dateTime) {
       return -1;
     } else {
       return 1;
@@ -84,7 +84,16 @@ export class SetAppointmentComponent implements OnInit {
   }
 
   setAppointment(data: SetAppointmentModel) {
-    const appointment = new Appointment(data.doctor, data.patient, data.date, data.hour, data.minute, data.description);
+    const date: Date = data.date;
+    date.setHours(data.hour);
+    date.setMinutes(data.minute);
+    const appointment = new Appointment(data.doctor, data.patient, date, data.description);
+    console.log('appointment in setAppointment: ', appointment);
+    console.log('date', appointment.dateTime.getDate());
+    console.log('month', appointment.dateTime.getMonth());
+    console.log('fullyear', appointment.dateTime.getFullYear());
+    console.log('h', appointment.dateTime.getHours());
+    console.log('m', appointment.dateTime.getMinutes());
 
     this.AppointmentAPIService.addAppointment(appointment)
       .then((result: string): void => {

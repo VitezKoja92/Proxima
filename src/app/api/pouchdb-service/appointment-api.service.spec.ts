@@ -17,9 +17,7 @@ describe('AppointmentApiService', () => {
       '_rev': 'rev1',
       'user': null,
       'patient': null,
-      'date': new Date(),
-      'hour': 1,
-      'minute': 1,
+      'dateTime': new Date(),
       'description': 'description1'
     },
     {
@@ -27,9 +25,7 @@ describe('AppointmentApiService', () => {
       '_rev': 'rev2',
       'user': null,
       'patient': null,
-      'date': new Date(2013, 13, 2),
-      'hour': 2,
-      'minute': 2,
+      'dateTime': new Date(2013, 13, 2),
       'description': 'description2'
     }
   ];
@@ -62,7 +58,7 @@ describe('AppointmentApiService', () => {
   });
 
   it('should get the first appointment from the database', (done) => {
-    appointmentAPIServiceStub.getAppointment(appointmentsMock[0].date, appointmentsMock[0].hour, appointmentsMock[0].minute)
+    appointmentAPIServiceStub.getAppointment(appointmentsMock[0].dateTime)
       .then((res: Appointment) => {
         expect(res).toEqual(appointmentsMock[0]);
         done();
@@ -71,7 +67,7 @@ describe('AppointmentApiService', () => {
 
   it('should log an error when it tries to get a specific appointment from the database', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
-    appointmentAPIServiceStub.getAppointment(null, 3, 3).then(() => {
+    appointmentAPIServiceStub.getAppointment(null).then(() => {
       expect(console.log).toHaveBeenCalled();
       done();
     });
@@ -102,8 +98,8 @@ describe('AppointmentApiService', () => {
   });
 
   it('should return the id when the appointment is edited in the database', (done) => {
-      appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].date,
-        appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user, appointmentsMock[0].hour, 3)
+      appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].dateTime,
+        appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user)
         .then((res: any) => {
           expect(res.id).toEqual('id1');
           done();
@@ -112,8 +108,8 @@ describe('AppointmentApiService', () => {
 
   it('should return the error if appointment was not able to be edited', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'get').and.returnValue(Promise.reject('error'));
-    appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].date,
-      appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user, appointmentsMock[0].hour, 3).then(() => {
+    appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].dateTime,
+      appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user).then(() => {
         expect(console.log).toHaveBeenCalled();
         done();
       });
