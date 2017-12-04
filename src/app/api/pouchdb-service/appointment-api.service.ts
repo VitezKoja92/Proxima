@@ -1,11 +1,7 @@
 import { Sort } from '@angular/material';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/switchMap';
+import 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 
 import { environment } from '../../../environments/environment';
@@ -75,6 +71,28 @@ export class AppointmentAPIService {
       });
   }
 
+  fetchAppointmentsToday(): Observable<Appointment[]> {
+    return Observable.fromPromise(this.db.allDocs({
+      include_docs: true,
+      startkey: 'appointment:'
+    })).map((result: IPouchDBDocsResult<Appointment>) => {
+
+      return result.rows.map((row: any): Appointment => {
+        const newAppointemnt = new Appointment(row.doc.user, row.doc.patient,
+          row.doc.dateTime, row.doc.description);
+        newAppointemnt._id = row.doc._id;
+
+        return newAppointemnt;
+      }).filter((appointment: Appointment) => {
+        const today = new Date();
+        const date = new Date(appointment.dateTime);
+        return date.getDate() === today.getDate()
+          && date.getMonth() === today.getMonth()
+          && date.getFullYear() === today.getFullYear();
+      }).sort(this.dateSort);
+    });
+  }
+
   public getAppointment(date: Date): Promise<Appointment> {
     const query = {
       selector: {
@@ -109,28 +127,6 @@ export class AppointmentAPIService {
       });
     });
     return promise;
-  }
-
-  fetchAppointmentsToday(): Observable<Appointment[]> {
-    return Observable.fromPromise(this.db.allDocs({
-      include_docs: true,
-      startkey: 'appointment:'
-    })).map((result: IPouchDBDocsResult<Appointment>) => {
-
-      return result.rows.map((row: any): Appointment => {
-        const newAppointemnt = new Appointment(row.doc.user, row.doc.patient,
-          row.doc.dateTime, row.doc.description);
-        newAppointemnt._id = row.doc._id;
-
-        return newAppointemnt;
-      }).filter((appointment: Appointment) => {
-        const today = new Date();
-        const date = new Date(appointment.dateTime);
-        return date.getDate() === today.getDate()
-          && date.getMonth() === today.getMonth()
-          && date.getFullYear() === today.getFullYear();
-      }).sort(this.dateSort);
-    });
   }
 
   public addAppointment(appointment: Appointment): Observable<string> {

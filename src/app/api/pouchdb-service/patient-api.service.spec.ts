@@ -97,6 +97,28 @@ describe('PatientApiService', () => {
     });
   });
 
+  // -------- patientsCount() --------
+    it('should get the number of patients from the database', (done) => {
+      patientAPIServiceStub.patientsCount()
+      .subscribe((res: number) => {
+        expect(res + 1).toEqual(patientsMock.length);
+        done();
+      });
+    });
+
+  // -------- therapiesCount() --------
+    it('should get the number of therapies from the database', (done) => {
+      let count = 0;
+      patientsMock.forEach((patient) => {
+        count += patient.medicalHistory.length;
+      });
+      patientAPIServiceStub.therapiesCount()
+      .subscribe((res: number) => {
+        expect(res).toEqual(count);
+        done();
+      });
+    });
+
   it('should log an error when the pouch is not able to create indices', (done) => {
     spyOn(patientAPIServiceStub.db, 'createIndex').and.returnValue(Promise.reject('error'));
     patientAPIServiceStub.createIndexes().then(() => {
@@ -125,26 +147,6 @@ describe('PatientApiService', () => {
     spyOn(patientAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
     patientAPIServiceStub.getPatient('someId').then(() => {
       expect(console.log).toHaveBeenCalled();
-      done();
-    });
-  });
-
-  it('should get the number of patients from the database', (done) => {
-    patientAPIServiceStub.patientsCount()
-    .subscribe((res: number) => {
-      expect(res + 1).toEqual(patientsMock.length);
-      done();
-    });
-  });
-
-  it('should get the number of therapies from the database', (done) => {
-    let count = 0;
-    patientsMock.forEach((patient) => {
-      count += patient.medicalHistory.length;
-    });
-    patientAPIServiceStub.therapiesCount()
-    .subscribe((res: number) => {
-      expect(res).toEqual(count);
       done();
     });
   });

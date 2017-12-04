@@ -25,7 +25,11 @@ export class Change {
 
 export class PouchDb {
 
-    private changeDB: Change = new Change();
+    private changeDB: Change;
+
+    constructor() {
+        this.changeDB = new Change();
+    }
 
     public store: any[] = [];
 
@@ -112,7 +116,6 @@ export class PouchDb {
             total_rows: 0,
             rows: []
         };
-        console.log('this.store in allDocs', this.store);
         this.store.forEach((item) => {
             result.rows.push({
                 id: 'rowid',
