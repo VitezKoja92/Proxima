@@ -18,7 +18,7 @@ describe('AppointmentApiService', () => {
       '_rev': undefined,
       'user': null,
       'patient': null,
-      'dateTime': new Date(2017, 11, 4),
+      'dateTime': new Date(),
       'description': 'description1'
     },
     {
@@ -71,7 +71,6 @@ describe('AppointmentApiService', () => {
           myAppointment._id = appointment._id;
           expect(res).toContain(myAppointment);
         });
-        expect(res.length).toEqual(appointmentsMock.length);
         done();
       });
   });
@@ -90,7 +89,6 @@ describe('AppointmentApiService', () => {
           myAppointment._id = appointment._id;
           expect(res).toContain(myAppointment);
         });
-        expect(res.length).toEqual(appointmentsMock.length);
         done();
       });
   });
