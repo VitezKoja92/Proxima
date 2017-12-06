@@ -14,19 +14,29 @@ import {
 } from '../models/index';
 
 export class Change {
+
+    listeners = [];
+
     on(changeType, callback) {
-        return {};
+        const change = {};
+        this.listeners.push(callback);
     }
 }
 
 export class PouchDb {
+
+    private changeDB: Change;
+
+    constructor() {
+        this.changeDB = new Change();
+    }
 
     public store: any[] = [];
 
     sync(remote: string, options: any): void { }
 
     put(item: any): Promise<IPouchDBPutResult> {
-        this.store.push(item);
+        this.addToStore(item);
         return Promise.resolve({
             ok: true,
             id: item._id,
@@ -35,7 +45,7 @@ export class PouchDb {
     }
 
     changes(options) {
-        return new Change();
+        return this.changeDB;
     }
 
 
@@ -59,9 +69,7 @@ export class PouchDb {
                             && query.selector.password.$eq === item.password;
                     }
                 } else {
-                    return item.date.getMilliseconds() === query.selector.date.$eq.getMilliseconds()
-                        && item.hour === query.selector.hour.$eq
-                        && item.minute === query.selector.minute.$eq;
+                    return item.dateTime.getMilliseconds() === query.selector.dateTime.$eq.getMilliseconds();
                 }
             } else {
                 return item._id === query.selector._id.$eq;
@@ -94,6 +102,7 @@ export class PouchDb {
     }
 
     remove(doc: any): Promise<IPouchDBRemoveResult> {
+        this.deleteFromStore(doc);
         return Promise.resolve({
             'ok': true,
             'id': doc._id,
@@ -107,7 +116,6 @@ export class PouchDb {
             total_rows: 0,
             rows: []
         };
-        console.log('this.store in allDocs', this.store);
         this.store.forEach((item) => {
             result.rows.push({
                 id: 'rowid',
@@ -120,6 +128,23 @@ export class PouchDb {
         });
 
         return Promise.resolve(result);
+    }
+
+    addToStore(item) {
+        this.store.push(item);
+        this.changes({}).listeners.forEach((listener) => {
+            listener();
+        });
+    }
+
+    deleteFromStore(item) {
+        const index = this.store.indexOf(item);
+        if (index > -1) {
+            this.store.splice(index, 1);
+        }
+        this.changes({}).listeners.forEach((listener) => {
+            listener();
+        });
     }
 }
 

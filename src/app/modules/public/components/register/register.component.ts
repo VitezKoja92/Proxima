@@ -36,8 +36,6 @@ export class RegisterComponent {
     .then((id: string): void => {
       // localStorage.setItem('currentUser', id);
       // login
-    }, (error: Error): void => {
-      console.log('Error: ', error);
     });
   }
 }

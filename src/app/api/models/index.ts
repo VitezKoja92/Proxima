@@ -280,20 +280,16 @@ export class Appointment {
     _rev: string;
     user: User;
     patient: Patient;
-    date: Date;
-    hour: number;
-    minute: number;
+    dateTime: Date;
     description: string;
 
     constructor(user: User, patient: Patient,
-        dateAndTime: Date, hour: number, minute: number, description: string, rev?: string) {
+        dateAndTime: Date, description: string, rev?: string) {
         this._id = 'appointment:' + new Date().getTime();
         this._rev = rev;
         this.user = user;
         this.patient = patient;
-        this.date = dateAndTime;
-        this.hour = hour;
-        this.minute = minute;
+        this.dateTime = dateAndTime;
         this.description = description;
     }
 }

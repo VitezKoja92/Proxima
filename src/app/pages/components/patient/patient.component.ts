@@ -143,8 +143,6 @@ export class PatientComponent {
       .then((patient: Patient): void => {
         this.form.reset();
         this.therapyVisible = false;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
       });
   }
 
@@ -155,8 +153,6 @@ export class PatientComponent {
     this.currentPatient.medicalHistory = newMedHistory;
     this.PatientAPIService.removeMedicalHistoryItem(item._id, newMedHistory)
       .then((patient: Patient): void => {
-      }, (error: Error) => {
-        console.log('Error: ', error);
       });
   }
 }
