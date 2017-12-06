@@ -1,0 +1,10 @@
+<div class="appointmentsStats">
+  <span class="statsTitle">{{appointmentsTodayTitle}}</span>
+  <p *ngIf="noAppointment">* No appointments today</p>
+  <span *ngFor="let appointment of appointmentsToday">
+      <span *ngIf="appointment?.dateTime.getHours() >= 10 && appointment?.dateTime.getMinutes() >= 10">{{appointment.dateTime.getHours()}}:{{appointment.dateTime.getMinutes()}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
+      <span *ngIf="appointment?.dateTime.getHours() < 10 && appointment?.dateTime.getMinutes() >= 10">0{{appointment.dateTime.getHours()}}:{{appointment.dateTime.getMinutes()}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
+      <span *ngIf="appointment?.dateTime.getHours() >= 10 && appointment?.dateTime.getMinutes() < 10">{{appointment.dateTime.getHours()}}:0{{appointment.dateTime.getMinutes()}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
+      <span *ngIf="appointment?.dateTime.getHours() < 10 && appointment?.dateTime.getMinutes() < 10">0{{appointment.dateTime.getHours()}}:0{{appointment.dateTime.getMinutes()}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
+  </span>
+</div>

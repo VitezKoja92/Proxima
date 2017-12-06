@@ -1,13 +1,12 @@
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
-
 import { Appointment } from '../../../api/models/index';
-import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,8 +17,11 @@ import { Subscription } from 'rxjs/Subscription';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   numberOfPatients = 0;
+  numberOfPatientsTitle = 'Total number of patients:';
   numberOfTherapies = 0;
+  numberOfTherapiesTitle = 'Total number of therapies:';
   appointmentsToday: Appointment[];
+  appointmentsTodayTitle = 'Appointments today:';
 
   noAppointment = true;
   subs: Subscription[] = [];

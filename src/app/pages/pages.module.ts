@@ -11,6 +11,8 @@ import { PatientComponent } from './components/patient/patient.component';
 import { EditPatientDialogComponent } from './components/edit-patient-dialog/edit-patient-dialog.component';
 import { AppointmentsListComponent } from './components/appointments-list/appointments-list.component';
 import { EditAppointmentDialogComponent } from './components/edit-appointment-dialog/edit-appointment-dialog.component';
+import { AppointmentsTodayComponent } from './components/dashboard/components/appointments-today/appointments-today.component';
+import { StatsNumberComponent } from './components/dashboard/components/stats-number/stats-number.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { EditAppointmentDialogComponent } from './components/edit-appointment-di
         PatientComponent,
         EditPatientDialogComponent,
         AppointmentsListComponent,
-        EditAppointmentDialogComponent
+        EditAppointmentDialogComponent,
+        AppointmentsTodayComponent,
+        StatsNumberComponent
     ],
     imports: [
       CommonModule,
@@ -38,7 +42,9 @@ import { EditAppointmentDialogComponent } from './components/edit-appointment-di
         PatientComponent,
         EditPatientDialogComponent,
         AppointmentsListComponent,
-        EditAppointmentDialogComponent
+        EditAppointmentDialogComponent,
+        AppointmentsTodayComponent,
+        StatsNumberComponent
     ],
     providers: [],
     entryComponents: [EditPatientDialogComponent, EditAppointmentDialogComponent]

@@ -1,0 +1,15 @@
+@import "~variables.scss";
+
+.appointmentsStats {
+    width: 20vw;
+    height: 28vh;
+    margin: 1rem;
+    border: $darkblue_border;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 1rem;
+}
+
+.statsTitle {
+    margin-bottom: 0.8rem;
+}
