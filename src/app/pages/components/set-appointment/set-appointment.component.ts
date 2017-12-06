@@ -16,7 +16,6 @@ export class SetAppointmentComponent implements OnInit {
 
   users: User[];
   patients: Patient[];
-  appointments: Appointment[];
   form: FormGroup;
 
   constructor(
@@ -26,8 +25,6 @@ export class SetAppointmentComponent implements OnInit {
     private Router: Router,
     private FormBuilder: FormBuilder
   ) {
-    this.getAllUsers();
-
     this.form = this.FormBuilder.group({
       'doctor': [null, Validators.required],
       'patient': [null, Validators.required],
@@ -39,40 +36,14 @@ export class SetAppointmentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAppointments()
-      .then((appointments: Appointment[]) => {
-        this.appointments  = appointments;
-      });
-    this.getAllPatients()
-      .then((patients: Patient[]) => {
-        this.patients = patients;
-      });
-    this.getAllUsers()
-      .then((users: User[]) => {
-        this.users = users;
-      });
-  }
-
-  getAppointments(): Promise<Appointment[]> {
-    const today = new Date();
-    return this.AppointmentAPIService.getAllAppointments()
-      .then((appointments: Appointment[]) => {
-        return appointments.sort(this.dateSort);
-      });
-  }
-
-  getAllPatients(): Promise<Patient[]> {
-    return this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]) => {
-        return patients;
-      });
-  }
-
-  getAllUsers(): Promise<User[]> {
-    return this.UserAPIService.getAllUsers()
-      .then((users: User[]) => {
-        return users;
-      });
+    this.PatientAPIService.getAllPatients()
+    .subscribe((patients: Patient[]) => {
+      this.patients = patients;
+    });
+    this.UserAPIService.getAllUsers()
+    .subscribe((users: User[]) => {
+      this.users = users;
+    });
   }
 
   dateSort(a: Appointment, b: Appointment) {
