@@ -18,8 +18,11 @@ import { Subscription } from 'rxjs/Subscription';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   numberOfPatients = 0;
+  numberOfPatientsTitle = 'Total number of patients:';
   numberOfTherapies = 0;
+  numberOfTherapiesTitle = 'Total number of therapies:';
   appointmentsToday: Appointment[];
+  appointmentsTodayTitle = 'Appointments today:';
 
   noAppointment = true;
   subs: Subscription[] = [];

@@ -1,28 +1,19 @@
 <div class="dashboardStatsScreen">
     <div class="wrapper">
         <div class="stats-wrapper">
-            <div class="stats">
-                <span class="statsTitle">Total number of patients: </span>
-                <span>
-                    <b id="numberInStats">{{numberOfPatients}}</b>
-                </span>
-            </div>
-            <div class="stats">
-                <span class="statsTitle">Total number of therapies: </span>
-                <span>
-                    <b id="numberInStats">{{numberOfTherapies}}</b>
-                </span>
-            </div>
-            <div class="appointmentsStats">
-                <span class="statsTitle">Appointments today:</span>
-                <p *ngIf="noAppointment">* No appointments today</p>
-                <span *ngFor="let appointment of appointmentsToday">
-                    <span *ngIf="appointment?.dateTime.getHours() >= 10 && appointment?.dateTime.getMinutes() >= 10">{{appointment.dateTime.getHours()}}:{{appointment.dateTime.getMinutes()}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
-                    <span *ngIf="appointment?.dateTime.getHours() < 10 && appointment?.dateTime.getMinutes() >= 10">0{{appointment.dateTime.getHours()}}:{{appointment.dateTime.getMinutes()}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
-                    <span *ngIf="appointment?.dateTime.getHours() >= 10 && appointment?.dateTime.getMinutes() < 10">{{appointment.dateTime.getHours()}}:0{{appointment.dateTime.getMinutes()}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
-                    <span *ngIf="appointment?.dateTime.getHours() < 10 && appointment?.dateTime.getMinutes() < 10">0{{appointment.dateTime.getHours()}}:0{{appointment.dateTime.getMinutes()}} - {{appointment.patient.personalInfo.name}} {{appointment.patient.personalInfo.surname}}</span>
-                </span>
-            </div>
+            <app-stats-number
+                [statsTitle]="numberOfPatientsTitle"
+                [stats]="numberOfPatients">
+            </app-stats-number>
+            <app-stats-number
+                [statsTitle]="numberOfTherapiesTitle"
+                [stats]="numberOfTherapies">
+            </app-stats-number>
+            <app-appointments-today
+                [appointmentsTodayTitle]="appointmentsTodayTitle"
+                [noAppointment]="noAppointment"
+                [appointmentsToday]="appointmentsToday">
+            </app-appointments-today>
         </div>
         <div class="page-buttons-wrapper">
             <div class="pageBtn" (click)="goToAddPatient()">
