@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/Rx';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
 import { IPouchDBPutResult, IPouchDBAllDocsResult, User, IPouchDBFindUsersResult } from './../models/index';
@@ -74,8 +76,8 @@ export class UserAPIService {
       });
   }
 
-  public getAllUsers(): Promise<User[]> {
-    const promise = this.db.allDocs({
+  public getAllUsers(): Observable<User[]> {
+    return Observable.fromPromise(this.db.allDocs({
       include_docs: true,
       startkey: 'user:'
     }).then((result: IPouchDBAllDocsResult): User[] => {
@@ -90,7 +92,6 @@ export class UserAPIService {
           phoneNr: row.doc.phoneNr
         });
       });
-    });
-    return promise;
+    }));
   }
 }

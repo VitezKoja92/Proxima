@@ -65,7 +65,7 @@ export class AppointmentAPIService {
 
   public todayAppointments(): Observable<Appointment[]> {
     return this.dbChange$.startWith({})
-    .switchMap(() => this.fetchAppointmentsToday(),
+      .switchMap(() => this.fetchAppointmentsToday(),
       (outer, inner) => {
         return inner;
       });
@@ -109,9 +109,16 @@ export class AppointmentAPIService {
       });
   }
 
-  public getAllAppointments(): Promise<Appointment[]> {
+  public allAppointments(): Observable<Appointment[]> {
+    return this.dbChange$.startWith({})
+      .switchMap(() => this.fetchAllAppointments(),
+    (outer, inner) => {
+      return inner;
+    });
+  }
 
-    const promise = this.db.allDocs({
+  public fetchAllAppointments(): Observable<Appointment[]> {
+    return Observable.fromPromise(this.db.allDocs({
       include_docs: true,
       startkey: 'appointment:'
     }).then((result: IPouchDBAllDocsResult): Appointment[] => {
@@ -125,8 +132,7 @@ export class AppointmentAPIService {
           description: row.doc.description
         });
       });
-    });
-    return promise;
+    }));
   }
 
   public addAppointment(appointment: Appointment): Observable<string> {

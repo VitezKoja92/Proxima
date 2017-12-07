@@ -164,8 +164,8 @@ export class PatientAPIService {
     );
   }
 
-  public getAllPatients(): Promise<Patient[]> {
-    return this.db.allDocs({
+  public getAllPatients(): Observable<Patient[]> {
+    return Observable.fromPromise(this.db.allDocs({
       include_docs: true,
       startkey: 'patient:'
     }).then((result: IPouchDBAllDocsResult): Patient[] => {
@@ -177,7 +177,7 @@ export class PatientAPIService {
           medicalHistory: row.doc.medicalHistory
         });
       });
-    });
+    }));
   }
 
   public therapiesCount(): Observable<number> {

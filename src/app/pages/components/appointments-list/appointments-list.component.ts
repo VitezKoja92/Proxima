@@ -1,7 +1,9 @@
+import { Subscription } from 'rxjs/Subscription';
 import { isNullOrUndefined } from 'util';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Sort, MatDialog } from '@angular/material';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { Appointment } from './../../../api/models/index';
@@ -10,19 +12,23 @@ import { EditAppointmentDialogComponent } from '../edit-appointment-dialog/edit-
 @Component({
   selector: 'app-appointments-list',
   templateUrl: './appointments-list.component.html',
-  styleUrls: ['./appointments-list.component.scss']
+  styleUrls: ['./appointments-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppointmentsListComponent {
+export class AppointmentsListComponent implements OnDestroy {
 
   appointments: Appointment[];
   sortedAppointments: Appointment[];
   selectedPeriod: string;
 
+  subs: Subscription[] = [];
+
   constructor(
     private AppointmentAPIService: AppointmentAPIService,
     private Router: Router,
     private dialog: MatDialog,
-    private ActivatedRoute: ActivatedRoute
+    private ActivatedRoute: ActivatedRoute,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.selectedPeriod = '';
     this.getAppointments();
@@ -32,8 +38,8 @@ export class AppointmentsListComponent {
 
   getAppointments(period?: string): void {
     const today = new Date();
-    this.AppointmentAPIService.getAllAppointments()
-      .then((appointments: Appointment[]): void => {
+    this.subs.push(this.AppointmentAPIService.allAppointments()
+      .subscribe((appointments: Appointment[]) => {
         if (isNullOrUndefined(period) || period === 'All') {
           this.appointments = appointments.sort(this.dateSort);
           this.sortedAppointments = this.appointments.slice();
@@ -61,9 +67,9 @@ export class AppointmentsListComponent {
           });
           this.sortedAppointments = this.appointments.slice();
         }
-      }, (error: Error): void => {
-        console.log('Error: ', error);
-      });
+
+        this.changeDetectorRef.detectChanges();
+      }));
   }
 
   deleteAppointment(appointment: Appointment): void {
@@ -122,6 +128,13 @@ export class AppointmentsListComponent {
 
   newAppointment() {
     this.Router.navigate(['/set-appointment']);
+  }
+
+  ngOnDestroy(): void {
+    this.changeDetectorRef.detach();
+    this.subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 }
 
