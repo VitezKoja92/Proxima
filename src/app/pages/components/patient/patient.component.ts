@@ -1,7 +1,9 @@
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Subscription } from 'rxjs/Subscription';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { isNullOrUndefined } from 'util';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
@@ -18,24 +20,32 @@ import { EditPatientDialogComponent } from './../edit-patient-dialog/edit-patien
 @Component({
   selector: 'app-patient',
   templateUrl: './patient.component.html',
-  styleUrls: ['./patient.component.scss']
+  styleUrls: ['./patient.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PatientComponent {
+export class PatientComponent implements OnDestroy{
 
   currentPatient: Patient;
   therapyVisible: boolean;
   form: FormGroup;
+
+  subs: Subscription[] = [];
 
   constructor(
     private PatientAPIService: PatientAPIService,
     private ActivatedRoute: ActivatedRoute,
     private dialog: MatDialog,
     private Router: Router,
-    private FormBuilder: FormBuilder
+    private FormBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.ActivatedRoute.params.subscribe(
       (params) => {
-        this.getPatient(params.id);
+        this.subs.push(this.PatientAPIService.getPatient(params.id)
+          .subscribe((patient: Patient) => {
+            this.currentPatient = patient;
+            this.changeDetectorRef.detectChanges();
+          }));
       }
     );
     this.therapyVisible = false;
@@ -73,15 +83,6 @@ export class PatientComponent {
     });
   }
 
-  getPatient(id: string): void {
-    this.PatientAPIService.getPatient(id)
-      .then((patient: Patient): void => {
-        this.currentPatient = patient;
-      }, (error: Error): void => {
-        console.log('Error: ', error);
-      });
-  }
-
   showTherapy() {
     if (!this.therapyVisible) {
       this.therapyVisible = true;
@@ -108,10 +109,10 @@ export class PatientComponent {
   }
 
   deletePatient() {
-    this.PatientAPIService.deletePatient(this.currentPatient._id, this.currentPatient._rev)
-    .then(() => {
+    this.subs.push(this.PatientAPIService.deletePatient(this.currentPatient._id, this.currentPatient._rev)
+    .subscribe(() => {
       this.Router.navigate(['/find-patient']);
-    });
+    }));
   }
 
   addTherapy(data: any): void {
@@ -154,5 +155,12 @@ export class PatientComponent {
     this.PatientAPIService.removeMedicalHistoryItem(item._id, newMedHistory)
       .then((patient: Patient): void => {
       });
+  }
+
+  ngOnDestroy(): void {
+    this.changeDetectorRef.detach();
+    this.subs.forEach((sub: Subscription) => {
+      sub.unsubscribe();
+    });
   }
 }

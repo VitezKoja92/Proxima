@@ -1,26 +1,32 @@
+import { Subscription } from 'rxjs/Subscription';
 import { isNullOrUndefined } from 'util';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Patient } from './../../../api/models/index';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-find-patient',
   templateUrl: './find-patient.component.html',
-  styleUrls: ['./find-patient.component.scss']
+  styleUrls: ['./find-patient.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FindPatientComponent implements OnInit {
+export class FindPatientComponent implements OnInit, OnDestroy {
 
   patients: Patient[];
   filteredPatients: Patient[];
   form: FormGroup;
 
+  subs: Subscription[] = [];
+
   constructor(
     private Router: Router,
     private PatientAPIService: PatientAPIService,
-    private FormBuilder: FormBuilder
+    private FormBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
       this.form = this.FormBuilder.group({
         'search': []
@@ -37,14 +43,23 @@ export class FindPatientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.PatientAPIService.getAllPatients()
+    this.subs.push(this.PatientAPIService.allPatients()
       .subscribe((patients: Patient[]) => {
         this.patients = patients;
         this.filteredPatients = patients;
-      });
+        this.changeDetectorRef.detectChanges();
+      }));
   }
 
   openPatient(id: string): void {
     this.Router.navigate(['/patient/' + id]);
+    this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this.changeDetectorRef.detach();
+    this.subs.forEach((sub: Subscription) => {
+      sub.unsubscribe();
+    });
   }
 }
