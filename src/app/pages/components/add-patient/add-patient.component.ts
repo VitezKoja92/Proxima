@@ -1,6 +1,8 @@
+import { Subscription } from 'rxjs/Subscription';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Address } from '../../../api/models/index';
@@ -10,17 +12,21 @@ import { UserAPIService } from './../../../api/pouchdb-service/user-api.service'
 @Component({
   selector: 'app-add-patient',
   templateUrl: './add-patient.component.html',
-  styleUrls: ['./add-patient.component.scss']
+  styleUrls: ['./add-patient.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddPatientComponent {
+export class AddPatientComponent implements OnDestroy {
 
   form: FormGroup;
+  subs: Subscription[] = [];
 
   constructor(
     private PatientAPIService: PatientAPIService,
     private UserAPIService: UserAPIService,
     private Router: Router,
-    private FormBuilder: FormBuilder) {
+    private FormBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
       this.form = FormBuilder.group({
         'name': [null, Validators.required],
         'surname': [null, Validators.required],
@@ -39,11 +45,17 @@ export class AddPatientComponent {
     const personalInfo: PatientPersonalInfo = new PatientPersonalInfo(data.name, data.surname, data.date, address, data.profession);
     const patient = new Patient(personalInfo);
 
-    this.PatientAPIService.addPatient(patient)
-      .then((id: string): void => {
+    this.subs.push(this.PatientAPIService.addPatient(patient)
+      .subscribe((id: string): void => {
         this.Router.navigate(['/patient/' + id]);
-      }, (error: Error): void => {
-        console.log('Error: ', error);
+        this.changeDetectorRef.detectChanges();
+      }));
+  }
+
+  ngOnDestroy(): void {
+    this.changeDetectorRef.detach();
+    this.subs.forEach((sub: Subscription) => {
+      sub.unsubscribe();
     });
   }
 }

@@ -23,7 +23,7 @@ import { EditPatientDialogComponent } from './../edit-patient-dialog/edit-patien
   styleUrls: ['./patient.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PatientComponent implements OnDestroy{
+export class PatientComponent implements OnDestroy {
 
   currentPatient: Patient;
   therapyVisible: boolean;
@@ -141,7 +141,7 @@ export class PatientComponent implements OnDestroy{
 
     this.PatientAPIService.addTherapy(this.currentPatient._id, this.currentPatient._rev,
       this.currentPatient.personalInfo, this.currentPatient.medicalHistory)
-      .then((patient: Patient): void => {
+      .subscribe((patient: Patient): void => {
         this.form.reset();
         this.therapyVisible = false;
       });
@@ -152,9 +152,10 @@ export class PatientComponent implements OnDestroy{
       return medHistoryItem !== item;
     });
     this.currentPatient.medicalHistory = newMedHistory;
-    this.PatientAPIService.removeMedicalHistoryItem(item._id, newMedHistory)
-      .then((patient: Patient): void => {
-      });
+    this.subs.push(this.PatientAPIService.removeMedicalHistoryItem(item._id, newMedHistory)
+      .subscribe((patient: Patient): void => {
+        this.changeDetectorRef.detectChanges();
+      }));
   }
 
   ngOnDestroy(): void {

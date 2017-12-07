@@ -44,11 +44,11 @@ export class UserAPIService {
     });
   }
 
-  public addUser(user: User): Promise<string> {
-    return this.db.put(user)
+  public addUser(user: User): Observable<string> {
+    return Observable.fromPromise(this.db.put(user)
       .then((result: IPouchDBPutResult): string => {
         return result.id;
-      });
+      }));
   }
 
   public getUser(username: string, password?: string): Promise<User> | null {

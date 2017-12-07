@@ -73,11 +73,12 @@ export class EditAppointmentDialogComponent implements OnInit, OnDestroy {
     const date: Date = data.date;
     date.setHours(data.hour);
     date.setMinutes(data.minute);
-    this.AppointmentAPIService.editAppointment(this.appointment._id, this.appointment._rev,
+    this.subs.push(this.AppointmentAPIService.editAppointment(this.appointment._id, this.appointment._rev,
       date, data.description, data.patient, data.doctor)
-      .then((appointment: Appointment): void => {
+      .subscribe((appointment: Appointment): void => {
         this.Router.navigate(['/appointments-list']);
-      });
+        this.changeDetectorRef.detectChanges();
+      }));
       this.dialogRef.close();
   }
 

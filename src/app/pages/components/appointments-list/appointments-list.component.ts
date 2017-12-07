@@ -73,10 +73,11 @@ export class AppointmentsListComponent implements OnDestroy {
   }
 
   deleteAppointment(appointment: Appointment): void {
-    this.AppointmentAPIService.deleteAppointment(appointment._id)
-      .then(() => {
+    this.subs.push(this.AppointmentAPIService.deleteAppointment(appointment._id)
+      .subscribe(() => {
         this.getAppointments();
-      });
+        this.changeDetectorRef.detectChanges();
+      }));
   }
 
   openDialog(appointment: Appointment): void {

@@ -67,11 +67,11 @@ export class PatientAPIService {
     });
   }
 
-  public addPatient(patient: Patient): Promise<string> {
-    return this.db.put(patient)
+  public addPatient(patient: Patient): Observable<string> {
+    return Observable.fromPromise(this.db.put(patient)
       .then((result: IPouchDBPutResult): string => {
         return result.id;
-      });
+      }));
   }
 
   public getPatient(id: string): Observable<Patient> {
@@ -93,14 +93,12 @@ export class PatientAPIService {
     return Observable.fromPromise(this.db.find(query)
       .then((result: IPouchDBFindPatientsResult): Patient => {
         return result.docs.length ? result.docs[0] : null;
-      }).catch((error: Error) => {
-        console.log('Error: ', error);
       }));
   }
 
   public editPatientInfo(id: string, rev: string, name: string, surname: string,
-    address: Address, profession: string, dateOfBirth: Date, medicalHistory: MedicalHistoryItem[]): Promise<Patient> {
-    return this.db.get(id)
+    address: Address, profession: string, dateOfBirth: Date, medicalHistory: MedicalHistoryItem[]): Observable<Patient> {
+    return Observable.fromPromise(this.db.get(id)
       .then((doc: Patient): IPouchDBPutResult => {
         return this.db.put({
           _id: id,
@@ -114,13 +112,11 @@ export class PatientAPIService {
           },
           medicalHistory: medicalHistory
         });
-      }).catch((error: Error): void => {
-        console.log('Error: ', error);
-      });
+      }));
   }
 
   public removeMedicalHistoryItem(id: string, medHistory: MedicalHistoryItem[]) {
-    return this.db.get(id)
+    return Observable.fromPromise(this.db.get(id)
       .then((doc: Patient): IPouchDBPutResult => {
         return this.db.put({
           _id: doc._id,
@@ -128,9 +124,7 @@ export class PatientAPIService {
           personalInfo: doc.personalInfo,
           medicalHistory: medHistory
         });
-      }).catch((error: Error) => {
-        console.log('Error: ', error);
-      });
+      }));
   }
 
   public deletePatient(id: string, rev: string): Observable<IPouchDBRemoveResult> {
@@ -140,8 +134,8 @@ export class PatientAPIService {
       }));
   }
 
-  public addTherapy(id: string, rev: string, personalInfo: PatientPersonalInfo, medicalHistory: MedicalHistoryItem[]): Promise<Patient> {
-    return this.db.get(id)
+  public addTherapy(id: string, rev: string, personalInfo: PatientPersonalInfo, medicalHistory: MedicalHistoryItem[]): Observable<Patient> {
+    return Observable.fromPromise(this.db.get(id)
       .then((doc: Patient): IPouchDBPutResult => {
         return this.db.put({
           _id: doc._id,
@@ -149,9 +143,7 @@ export class PatientAPIService {
           personalInfo: personalInfo,
           medicalHistory: medicalHistory
         });
-      }).catch((error: Error): void => {
-        console.log('Error: ', error);
-      });
+      }));
   }
 
   public fetchPatientCount(): Observable<number> {

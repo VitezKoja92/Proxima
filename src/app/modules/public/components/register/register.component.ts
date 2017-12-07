@@ -1,24 +1,29 @@
+import { Subscription } from 'rxjs/Subscription';
 import { isNullOrUndefined } from 'util';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { User } from '../../../../api/models/index';
 import { Router } from '@angular/router';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service';
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
 
   form: FormGroup;
+  subs: Subscription[] = [];
 
   constructor(
     private Router: Router,
     private UserAPIService: UserAPIService,
-    private FormBuilder: FormBuilder
+    private FormBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.form = this.FormBuilder.group({
       'username': [null, Validators.compose([Validators.required, Validators.minLength(5), Validators.maxLength(20)])],
@@ -32,10 +37,18 @@ export class RegisterComponent {
 
   addUser(data: any) {
     const newUser = new User(data.username, data.password, data.name, data.surname, data.email, data.phoneNr);
-    this.UserAPIService.addUser(newUser)
-    .then((id: string): void => {
+    this.subs.push(this.UserAPIService.addUser(newUser)
+    .subscribe((id: string): void => {
       // localStorage.setItem('currentUser', id);
       // login
+      this.changeDetectorRef.detectChanges();
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.changeDetectorRef.detach();
+    this.subs.forEach((sub: Subscription) => {
+      sub.unsubscribe();
     });
   }
 }

@@ -142,18 +142,18 @@ export class AppointmentAPIService {
       }));
   }
 
-  public deleteAppointment(id: string): Promise<IPouchDBRemoveResult> {
-    return this.db.get(id)
+  public deleteAppointment(id: string): Observable<IPouchDBRemoveResult> {
+    return Observable.fromPromise(this.db.get(id)
       .then((doc: Appointment) => {
         return this.db.remove(doc);
       }).catch((error: Error) => {
         console.log('Error: ', error);
-      });
+      }));
   }
 
   public editAppointment(id: string, rev: string, date: Date, description: string,
-    patient: Patient, doctor: User): Promise<Appointment> {
-    return this.db.get(id)
+    patient: Patient, doctor: User): Observable<Appointment> {
+    return Observable.fromPromise(this.db.get(id)
       .then((doc: Appointment): IPouchDBRemoveResult => {
         return this.db.put({
           _id: id,
@@ -165,7 +165,7 @@ export class AppointmentAPIService {
         });
       }).catch((error: Error): void => {
         console.log('Error: ', error);
-      });
+      }));
   }
 
   private dateSort(a: Appointment, b: Appointment) {

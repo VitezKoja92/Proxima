@@ -1,5 +1,7 @@
+import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { PatientComponent } from '../patient/patient.component';
@@ -10,17 +12,20 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-edit-patient-dialog',
   templateUrl: './edit-patient-dialog.component.html',
-  styleUrls: ['./edit-patient-dialog.component.scss']
+  styleUrls: ['./edit-patient-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditPatientDialogComponent {
+export class EditPatientDialogComponent implements OnDestroy {
 
   form: FormGroup;
+  subs: Subscription[] = [];
 
   currentPatient: Patient;
   constructor(
     private PatientAPIService: PatientAPIService,
     private Router: Router,
     private FormBuilder: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef,
     public dialogRef: MatDialogRef<PatientComponent>, @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.currentPatient = data.patient;
@@ -40,15 +45,23 @@ export class EditPatientDialogComponent {
 
     const address = new Address(data.country, data.city, data.postCode, data.street, data.number);
 
-    this.PatientAPIService.editPatientInfo(this.currentPatient._id, this.currentPatient._rev, data.name, data.surname,
+    this.subs.push(this.PatientAPIService.editPatientInfo(this.currentPatient._id, this.currentPatient._rev, data.name, data.surname,
       address, data.profession, this.currentPatient.personalInfo.dateOfBirth, this.currentPatient.medicalHistory)
-      .then((patient: Patient): void => {
+      .subscribe((patient: Patient): void => {
         this.currentPatient = patient;
-      });
+        this.changeDetectorRef.detectChanges();
+      }));
     this.dialogRef.close();
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    this.changeDetectorRef.detach();
+    this.subs.forEach((sub: Subscription) => {
+      sub.unsubscribe();
+    });
   }
 }
