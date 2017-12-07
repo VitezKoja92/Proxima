@@ -74,7 +74,15 @@ export class PatientAPIService {
       });
   }
 
-  public getPatient(id: string): Promise<Patient> {
+  public getPatient(id: string): Observable<Patient> {
+    return this.dbChange$.startWith({})
+      .switchMap(() => this.fetchPatient(id),
+      (outer, inner) => {
+        return inner;
+      });
+  }
+
+  public fetchPatient(id: string): Observable<Patient> {
 
     const query = {
       selector: {
@@ -82,12 +90,12 @@ export class PatientAPIService {
       }
     };
 
-    return this.db.find(query)
+    return Observable.fromPromise(this.db.find(query)
       .then((result: IPouchDBFindPatientsResult): Patient => {
         return result.docs.length ? result.docs[0] : null;
       }).catch((error: Error) => {
         console.log('Error: ', error);
-      });
+      }));
   }
 
   public editPatientInfo(id: string, rev: string, name: string, surname: string,
@@ -125,13 +133,11 @@ export class PatientAPIService {
       });
   }
 
-  public deletePatient(id: string, rev: string): Promise<IPouchDBRemoveResult> {
-    return this.db.get(id)
+  public deletePatient(id: string, rev: string): Observable<IPouchDBRemoveResult> {
+    return Observable.fromPromise(this.db.get(id)
       .then((doc: Patient) => {
         return this.db.remove(doc);
-      }).catch((error: Error) => {
-        console.log('Error: ', error);
-      });
+      }));
   }
 
   public addTherapy(id: string, rev: string, personalInfo: PatientPersonalInfo, medicalHistory: MedicalHistoryItem[]): Promise<Patient> {
@@ -164,7 +170,15 @@ export class PatientAPIService {
     );
   }
 
-  public getAllPatients(): Observable<Patient[]> {
+  public allPatients(): Observable<Patient[]> {
+    return this.dbChange$.startWith({})
+      .switchMap(() => this.fetchAllPatients(),
+      (outer, inner) => {
+        return inner;
+      });
+  }
+
+  public fetchAllPatients(): Observable<Patient[]> {
     return Observable.fromPromise(this.db.allDocs({
       include_docs: true,
       startkey: 'patient:'
