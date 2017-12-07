@@ -48,9 +48,9 @@ describe('AppointmentsListComponent', () => {
 
   it('should call getAllAppointments method from the AppointmentAPIService',
     inject([AppointmentAPIService], (AppointmentAPIService: AppointmentAPIService) => {
-      spyOn(AppointmentAPIService, 'getAllAppointments').and.callThrough();
+      spyOn(AppointmentAPIService, 'fetchAllAppointments').and.callThrough();
       component.getAppointments();
-      expect(AppointmentAPIService.getAllAppointments).toHaveBeenCalled();
+      expect(AppointmentAPIService.fetchAllAppointments).toHaveBeenCalled();
   }));
 
   it('should return -1 if dateA is before dateB', () => {
