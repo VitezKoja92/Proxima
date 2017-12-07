@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUsers()
-      .then((users: User[]) => {
+    this.UserAPIService.getAllUsers()
+      .subscribe((users: User[]) => {
         this.users = users;
       });
   }
@@ -46,12 +46,5 @@ export class LoginComponent implements OnInit {
     //   }).catch((error: Error) => {
     //     console.log('Error: ', error);
     //   });
-  }
-
-  getUsers(): Promise<User[]> {
-    return this.UserAPIService.getAllUsers()
-      .then((users: User[]) => {
-        return users;
-      });
   }
 }

@@ -34,14 +34,14 @@ export class EditAppointmentDialogComponent implements OnInit {
   ) {
     this.appointment = data.appointment;
     this.UserAPIService.getAllUsers()
-      .then((users: User[]) => {
+      .subscribe((users: User[]) => {
         this.users = users;
         this.selectedUser = users.find((user: User) => {
           return user._id === this.appointment.user._id;
         });
       });
     this.PatientAPIService.getAllPatients()
-      .then((patients: Patient[]) => {
+      .subscribe((patients: Patient[]) => {
         this.patients = patients;
         this.selectedPatient = patients.find((patient: Patient) => {
           return patient._id === this.appointment.patient._id;
