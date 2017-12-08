@@ -1,3 +1,4 @@
+import { PouchDbBootServiceMock } from './../../../../api/pouchdb-service/pouchdb-boot.service.mock';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
@@ -40,7 +41,8 @@ describe('RegisterComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: UserAPIService, useClass: UserAPIServiceMock }
+        UserAPIService,
+        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock }
       ],
       imports: [ReactiveFormsModule, MaterialModule, RouterTestingModule, BrowserAnimationsModule],
       declarations: [RegisterComponent]
@@ -52,9 +54,6 @@ describe('RegisterComponent', () => {
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
     userAPIServiceStub = TestBed.get(UserAPIService);
-
-    titleDe = fixture.debugElement.query(By.css('h3'));
-    titleEl = titleDe.nativeElement;
   });
 
   afterEach(() => {
@@ -62,6 +61,8 @@ describe('RegisterComponent', () => {
   });
 
   it('should display the title', () => {
+    titleDe = fixture.debugElement.query(By.css('h3'));
+    titleEl = titleDe.nativeElement;
     fixture.detectChanges();
     expect(titleEl.textContent).toContain('Register');
   });

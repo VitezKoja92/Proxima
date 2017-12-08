@@ -16,7 +16,7 @@ import { tick } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-fdescribe('DashboardComponent', () => {
+xdescribe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let patientAPIServiceStub;

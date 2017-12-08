@@ -43,10 +43,4 @@ describe('LoginComponent', () => {
   afterEach(() => {
     component = null;
   });
-
-  it('should call getAllUsers method from the UserAPIService', () => {
-    spyOn(userAPIServiceStub, 'getAllUsers').and.callThrough();
-    component.getUsers();
-    expect(userAPIServiceStub.getAllUsers).toHaveBeenCalled();
-  });
 });

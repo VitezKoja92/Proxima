@@ -18,7 +18,7 @@ describe('AppointmentApiService', () => {
       '_rev': undefined,
       'user': null,
       'patient': null,
-      'dateTime': new Date(),
+      'dateTime': new Date(2017, 11, 8),
       'description': 'description1'
     },
     {
@@ -50,7 +50,7 @@ describe('AppointmentApiService', () => {
     });
   });
 
-  // -------- fetchAppointmentsToday() --------
+  // -------- fetchAppointmentsToday --------
   it('should call the allDocs() function from db when fetchAppointmentsToday() is called', () => {
     spyOn(appointmentAPIServiceStub.db, 'allDocs').and.callThrough();
     appointmentAPIServiceStub.fetchAppointmentsToday();
@@ -65,16 +65,17 @@ describe('AppointmentApiService', () => {
             appointment.dateTime.getMonth() === new Date().getMonth() &&
             appointment.dateTime.getFullYear() === new Date().getFullYear();
         })
-        .forEach((appointment) => {
-          const myAppointment = new Appointment(appointment.user, appointment.patient,
-            appointment.dateTime, appointment.description, appointment._rev);
-          myAppointment._id = appointment._id;
-          expect(res).toContain(myAppointment);
-        });
+          .forEach((appointment) => {
+            const myAppointment = new Appointment(appointment.user, appointment.patient,
+              appointment.dateTime, appointment.description, appointment._rev);
+            myAppointment._id = appointment._id;
+            expect(res).toContain(myAppointment);
+          });
         done();
       });
   });
-  // -------- todayAppointments() --------
+
+  // -------- todayAppointments --------
   it('should return all today appointments', (done) => {
     appointmentAPIServiceStub.todayAppointments()
       .subscribe((res) => {
@@ -83,16 +84,17 @@ describe('AppointmentApiService', () => {
             appointment.dateTime.getMonth() === new Date().getMonth() &&
             appointment.dateTime.getFullYear() === new Date().getFullYear();
         })
-        .forEach((appointment) => {
-          const myAppointment = new Appointment(appointment.user, appointment.patient,
-            appointment.dateTime, appointment.description, appointment._rev);
-          myAppointment._id = appointment._id;
-          expect(res).toContain(myAppointment);
-        });
+          .forEach((appointment) => {
+            const myAppointment = new Appointment(appointment.user, appointment.patient,
+              appointment.dateTime, appointment.description, appointment._rev);
+            myAppointment._id = appointment._id;
+            expect(res).toContain(myAppointment);
+          });
         done();
       });
   });
 
+  // -------- createIndexes --------
   it('should log an error when the pouch is not able to create indices', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'createIndex').and.returnValue(Promise.reject('error'));
     appointmentAPIServiceStub.createIndexes().then(() => {
@@ -101,79 +103,91 @@ describe('AppointmentApiService', () => {
     });
   });
 
-  xit('should get the first appointment from the database', (done) => {
+  // -------- getAppointment --------
+  it('should get the first appointment from the database', (done) => {
     appointmentAPIServiceStub.getAppointment(appointmentsMock[0].dateTime)
-      .then((res: Appointment) => {
+      .subscribe((res: Appointment) => {
         expect(res).toEqual(appointmentsMock[0]);
         done();
       });
   });
 
-  it('should log an error when it tries to get a specific appointment from the database', (done) => {
-    spyOn(appointmentAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
-    appointmentAPIServiceStub.getAppointment(null).then(() => {
-      expect(console.log).toHaveBeenCalled();
-      done();
-    });
+  // -------- addAppointment --------
+  it('should return the id when the appointment is added in the database', (done) => {
+    appointmentAPIServiceStub.addAppointment(appointmentsMock[0])
+      .subscribe((res: string) => {
+        expect(res).toEqual('id1');
+        done();
+      });
   });
 
-  xit('should return the id when the appointment is added in the database', (done) => {
-    appointmentAPIServiceStub.addAppointment(appointmentsMock[0])
-        .then((res: string) => {
-          expect(res).toEqual('id1');
-          done();
-        });
-    });
-
+  // -------- deleteAppointment --------
   it('should return the id when the appointment is removed', (done) => {
     appointmentAPIServiceStub.deleteAppointment(appointmentsMock[0]._id)
-        .then((res: any) => {
-          expect(res.id).toEqual('id1');
-          done();
-        });
-    });
+      .subscribe((res: any) => {
+        expect(res.id).toEqual('id1');
+        done();
+      });
+  });
 
   it('should return the error if appointment was not able to be removed', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'get').and.returnValue(Promise.reject('error'));
-    appointmentAPIServiceStub.deleteAppointment('id3').then(() => {
+    appointmentAPIServiceStub.deleteAppointment('id3').subscribe(() => {
       expect(console.log).toHaveBeenCalled();
       done();
     });
   });
 
+  // -------- editAppointment --------
   it('should return the id when the appointment is edited in the database', (done) => {
-      appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].dateTime,
-        appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user)
-        .then((res: any) => {
-          expect(res.id).toEqual('id1');
-          done();
-        });
-    });
+    appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].dateTime,
+      appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user)
+      .subscribe((res: any) => {
+        expect(res.id).toEqual('id1');
+        done();
+      });
+  });
 
   it('should return the error if appointment was not able to be edited', (done) => {
     spyOn(appointmentAPIServiceStub.db, 'get').and.returnValue(Promise.reject('error'));
     appointmentAPIServiceStub.editAppointment(appointmentsMock[0]._id, appointmentsMock[0]._rev, appointmentsMock[0].dateTime,
-      appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user).then(() => {
+      appointmentsMock[0].description, appointmentsMock[0].patient, appointmentsMock[0].user).subscribe(() => {
         expect(console.log).toHaveBeenCalled();
         done();
       });
   });
 
-  xit('should get from the database the appointments scheduled for today', (done) => {
-    appointmentAPIServiceStub.fetchAppointmentsToday()
-    .subscribe((res: Appointment[]) => {
-      const appointment = new Appointment(appointmentsMock[0].user, appointmentsMock[0].patient,
-        appointmentsMock[0].dateTime, appointmentsMock[0].description);
-      expect(res[0]).toEqual(appointment);
-      done();
-    });
+  // -------- fetchAllAppointments --------
+  it('should call the allDocs() function from db when fetchAppointmentsToday() is called', () => {
+    spyOn(appointmentAPIServiceStub.db, 'allDocs').and.callThrough();
+    appointmentAPIServiceStub.fetchAllAppointments();
+    expect(appointmentAPIServiceStub.db.allDocs).toHaveBeenCalled();
   });
 
-  xit('should call on(type, callback) when we add appointment in db', () => {
-    spyOn(appointmentAPIServiceStub.db, 'changes');
-    const appointment = new Appointment(appointmentsMock[0].user, appointmentsMock[0].patient,
-      appointmentsMock[0].dateTime, appointmentsMock[0].description);
-    appointmentAPIServiceStub.addAppointment(appointment);
-    expect(appointmentAPIServiceStub.db.changes).toHaveBeenCalled();
+  it('should get all appointments from the database', (done) => {
+    appointmentAPIServiceStub.fetchAllAppointments()
+      .subscribe((res) => {
+        appointmentsMock.forEach((appointment) => {
+          expect(res).toContain(appointment);
+        });
+        done();
+      });
+  });
+
+  // -------- allAppointments --------
+  it('should return all appointments', (done) => {
+    appointmentAPIServiceStub.allAppointments()
+      .subscribe((res) => {
+          appointmentsMock.forEach((appointment) => {
+            expect(res).toContain(appointment);
+          });
+        done();
+      });
+  });
+
+  // -------- dateSort() --------
+  it('should sort the date in dateSort function', () => {
+    expect(appointmentAPIServiceStub.dateSort(appointmentsMock[0], appointmentsMock[1])).toEqual(1);
+    expect(appointmentAPIServiceStub.dateSort(appointmentsMock[1], appointmentsMock[0])).toEqual(-1);
   });
 });

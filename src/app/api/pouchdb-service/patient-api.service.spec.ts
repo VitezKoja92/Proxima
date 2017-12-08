@@ -97,28 +97,29 @@ describe('PatientApiService', () => {
     });
   });
 
-  // -------- patientsCount() --------
-    it('should get the number of patients from the database', (done) => {
-      patientAPIServiceStub.patientsCount()
+  // -------- patientsCount --------
+  it('should get the number of patients from the database', (done) => {
+    patientAPIServiceStub.patientsCount()
       .subscribe((res: number) => {
         expect(res + 1).toEqual(patientsMock.length);
         done();
       });
-    });
+  });
 
-  // -------- therapiesCount() --------
-    it('should get the number of therapies from the database', (done) => {
-      let count = 0;
-      patientsMock.forEach((patient) => {
-        count += patient.medicalHistory.length;
-      });
-      patientAPIServiceStub.therapiesCount()
+  // -------- therapiesCount --------
+  it('should get the number of therapies from the database', (done) => {
+    let count = 0;
+    patientsMock.forEach((patient) => {
+      count += patient.medicalHistory.length;
+    });
+    patientAPIServiceStub.therapiesCount()
       .subscribe((res: number) => {
         expect(res).toEqual(count);
         done();
       });
-    });
+  });
 
+  // -------- createIndexes --------
   it('should log an error when the pouch is not able to create indices', (done) => {
     spyOn(patientAPIServiceStub.db, 'createIndex').and.returnValue(Promise.reject('error'));
     patientAPIServiceStub.createIndexes().then(() => {
@@ -127,27 +128,88 @@ describe('PatientApiService', () => {
     });
   });
 
+  // -------- addPatient --------
   it('should return the id when the patient is added in the database', (done) => {
     patientAPIServiceStub.addPatient(patientsMock[0])
-      .then((res: string) => {
+      .subscribe((res: string) => {
         expect(res).toEqual('id1');
         done();
       });
   });
 
+  // -------- getPatient --------
   it('should get the first patient from the database', (done) => {
     patientAPIServiceStub.getPatient(patientsMock[0]._id)
-      .then((res: Patient) => {
+      .subscribe((res: Patient) => {
         expect(res).toEqual(patientsMock[0]);
         done();
       });
   });
 
-  it('should log an error when it tries to get a specific patient from the database', (done) => {
-    spyOn(patientAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
-    patientAPIServiceStub.getPatient('someId').then(() => {
-      expect(console.log).toHaveBeenCalled();
-      done();
-    });
+  // -------- editPatientInfo --------
+  it('should return the id when the patient is edited in the database', (done) => {
+    patientAPIServiceStub.editPatientInfo(patientsMock[0]._id, patientsMock[0]._rev, patientsMock[0].personalInfo.name,
+      patientsMock[0].personalInfo.surname, patientsMock[0].personalInfo.address, patientsMock[0].personalInfo.profession,
+      patientsMock[0].personalInfo.dateOfBirth, patientsMock[0].medicalHistory)
+      .subscribe((res: any) => {
+        expect(res.id).toEqual('id1');
+        done();
+      });
+  });
+
+  // -------- removeMedicalHistoryItem --------
+  it('should return the id when the patient\'s medical history is edited in the database', (done) => {
+    patientAPIServiceStub.removeMedicalHistoryItem(patientsMock[0]._id, patientsMock[0].medicalHistory)
+      .subscribe((res: any) => {
+        expect(res.id).toEqual('id1');
+        done();
+      });
+  });
+
+  // -------- deletePatient --------
+  it('should return the id when the patient is removed', (done) => {
+    patientAPIServiceStub.deletePatient(patientsMock[0]._id, patientsMock[0]._rev)
+      .subscribe((res: any) => {
+        expect(res.id).toEqual('id1');
+        done();
+      });
+  });
+
+  // -------- addTherapy --------
+  it('should return the id when the patient\'s therapy is added in the database', (done) => {
+    patientAPIServiceStub.addTherapy(patientsMock[0]._id, patientsMock[0]._rev, patientsMock[0].personalInfo,
+      patientsMock[0].medicalHistory)
+      .subscribe((res: any) => {
+        expect(res.id).toEqual('id1');
+        done();
+      });
+  });
+
+  // -------- allPatients --------
+  it('should return all patients', (done) => {
+    patientAPIServiceStub.allPatients()
+      .subscribe((res) => {
+        patientsMock.forEach((patient) => {
+          expect(res).toContain(patient);
+        });
+        done();
+      });
+  });
+
+  // -------- fetchAllPatients --------
+  it('should call the allDocs() function from db when fetchAllPatients() is called', () => {
+    spyOn(patientAPIServiceStub.db, 'allDocs').and.callThrough();
+    patientAPIServiceStub.fetchAllPatients();
+    expect(patientAPIServiceStub.db.allDocs).toHaveBeenCalled();
+  });
+
+  it('should get all patients from the database', (done) => {
+    patientAPIServiceStub.fetchAllPatients()
+      .subscribe((res) => {
+        patientsMock.forEach((patient) => {
+          expect(res).toContain(patient);
+        });
+        done();
+      });
   });
 });

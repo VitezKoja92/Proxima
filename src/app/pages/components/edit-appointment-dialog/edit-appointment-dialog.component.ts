@@ -15,7 +15,7 @@ import { Appointment, Patient, User } from './../../../api/models/index';
   selector: 'app-edit-appointment-dialog',
   templateUrl: './edit-appointment-dialog.component.html',
   styleUrls: ['./edit-appointment-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class EditAppointmentDialogComponent implements OnInit, OnDestroy {
 
@@ -37,15 +37,18 @@ export class EditAppointmentDialogComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     public dialogRef: MatDialogRef<AppointmentsListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    this.appointment = data.appointment;
+  ) {}
+
+  ngOnInit(): void {
+
+    this.appointment = this.data.appointment;
     this.subs.push(this.UserAPIService.getAllUsers()
       .subscribe((users: User[]) => {
         this.users = users;
         this.selectedUser = users.find((user: User) => {
           return user._id === this.appointment.user._id;
         });
-        changeDetectorRef.detectChanges();
+        // this.changeDetectorRef.detectChanges();
       }));
     this.subs.push(this.PatientAPIService.allPatients()
       .subscribe((patients: Patient[]) => {
@@ -53,11 +56,8 @@ export class EditAppointmentDialogComponent implements OnInit, OnDestroy {
         this.selectedPatient = patients.find((patient: Patient) => {
           return patient._id === this.appointment.patient._id;
         });
-        changeDetectorRef.detectChanges();
+        // this.changeDetectorRef.detectChanges();
       }));
-  }
-
-  ngOnInit(): void {
 
     this.form = this.FormBuilder.group({
       'doctor': [null, Validators.required],

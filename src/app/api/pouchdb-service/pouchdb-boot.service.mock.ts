@@ -59,9 +59,7 @@ export class PouchDb {
         let temp = [];
         temp = this.store.filter((item) => {
             if (isNullOrUndefined(query.selector._id)) {
-                if (isNullOrUndefined(query.selector.date)
-                    || isNullOrUndefined(query.selector.hour)
-                    || isNullOrUndefined(query.selector.minute)) {
+                if (isNullOrUndefined(query.selector.dateTime)) {
                     if (isNullOrUndefined(query.selector.password)) {
                         return query.selector.username.$eq === item.username;
                     } else {

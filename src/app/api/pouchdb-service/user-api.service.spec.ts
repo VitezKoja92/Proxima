@@ -52,6 +52,16 @@ describe('UserAPIService', () => {
     spyOn(console, 'log').and.callThrough();
   });
 
+  // -------- createIndexes --------
+  it('should log an error when the pouch is not able to create indices', (done) => {
+    spyOn(userAPIServiceStub.db, 'createIndex').and.returnValue(Promise.reject('error'));
+    userAPIServiceStub.createIndexes().then(() => {
+      expect(console.log).toHaveBeenCalled();
+      done();
+    });
+  });
+
+  // -------- getUser --------
   it('should get the first user from the database', (done) => {
     userAPIServiceStub.getUser(userMock[0].username)
       .then((res: User) => {
@@ -60,22 +70,20 @@ describe('UserAPIService', () => {
       });
   });
 
-  it('should return the id when the user is added in the database', (done) => {
-    userAPIServiceStub.addUser(userMock[0])
-      .then((res: string) => {
-        expect(res).toEqual('id1');
-        done();
-      });
-  });
-
-
-
   it('should get the first user from the database (when both username and password are provided)', (done) => {
     userAPIServiceStub.getUser(userMock[0].username, userMock[0].password)
       .then((res: User) => {
         expect(res).toEqual(userMock[0]);
         done();
       });
+  });
+
+  it('should log an error when it tries to get a specific user', (done) => {
+    spyOn(userAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
+    userAPIServiceStub.getUser('username', 'password').then(() => {
+      expect(console.log).toHaveBeenCalled();
+      done();
+    });
   });
 
   it('should get the second user from the database', (done) => {
@@ -94,25 +102,19 @@ describe('UserAPIService', () => {
       });
   });
 
-  it('should log an error when it tries to get a specific user', (done) => {
-    spyOn(userAPIServiceStub.db, 'find').and.returnValue(Promise.reject('error'));
-    userAPIServiceStub.getUser('username', 'password').then(() => {
-      expect(console.log).toHaveBeenCalled();
-      done();
-    });
+  // -------- addUser --------
+  it('should return the id when the user is added in the database', (done) => {
+    userAPIServiceStub.addUser(userMock[0])
+      .subscribe((res: string) => {
+        expect(res).toEqual('id1');
+        done();
+      });
   });
 
-  it('should log an error when the pouch is not able to create indices', (done) => {
-    spyOn(userAPIServiceStub.db, 'createIndex').and.returnValue(Promise.reject('error'));
-    userAPIServiceStub.createIndexes().then(() => {
-      expect(console.log).toHaveBeenCalled();
-      done();
-    });
-  });
-
+  // -------- getAllUsers --------
   it('should get all users from the database', (done) => {
     userAPIServiceStub.getAllUsers()
-      .then((res: User[]) => {
+      .subscribe((res: User[]) => {
         expect(res).toEqual(userMock);
         done();
       });

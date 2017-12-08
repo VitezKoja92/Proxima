@@ -93,7 +93,7 @@ export class AppointmentAPIService {
     });
   }
 
-  public getAppointment(date: Date): Promise<Appointment> {
+  public getAppointment(date: Date): Observable<Appointment> {
     const query = {
       selector: {
         'dateTime': {
@@ -101,12 +101,10 @@ export class AppointmentAPIService {
         }
       }
     };
-    return this.db.find(query)
+    return Observable.fromPromise(this.db.find(query)
       .then((result): Appointment => {
         return result.docs.length ? result.docs[0] : null;
-      }).catch((error: Error) => {
-        console.log('Error: ', error);
-      });
+      }));
   }
 
   public allAppointments(): Observable<Appointment[]> {

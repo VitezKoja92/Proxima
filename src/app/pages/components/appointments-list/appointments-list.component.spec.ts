@@ -46,25 +46,12 @@ describe('AppointmentsListComponent', () => {
     date2 = null;
   });
 
-  it('should call getAllAppointments method from the AppointmentAPIService',
+  xit('should call getAllAppointments method from the AppointmentAPIService',
     inject([AppointmentAPIService], (AppointmentAPIService: AppointmentAPIService) => {
       spyOn(AppointmentAPIService, 'fetchAllAppointments').and.callThrough();
       component.getAppointments();
       expect(AppointmentAPIService.fetchAllAppointments).toHaveBeenCalled();
   }));
 
-  it('should return -1 if dateA is before dateB', () => {
-    date1 = new Date(2016, 10, 10);
-    date2 = new Date(2017, 10, 10);
-    expect(dateSortMock(date1, date2)).toEqual(-1);
-  });
 });
 
-// Mock functions
-function dateSortMock(date1: Date, date2: Date): number {
-  if (date1 < date2) {
-    return -1;
-  } else {
-    return 1;
-  }
-}

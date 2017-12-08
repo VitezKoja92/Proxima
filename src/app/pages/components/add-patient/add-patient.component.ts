@@ -53,9 +53,12 @@ export class AddPatientComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    debugger;
     this.changeDetectorRef.detach();
-    this.subs.forEach((sub: Subscription) => {
-      sub.unsubscribe();
-    });
+    if (this.subs.length !== 0) {
+      this.subs.forEach((sub: Subscription) => {
+        sub.unsubscribe();
+      });
+    }
   }
 }

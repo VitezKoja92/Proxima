@@ -81,21 +81,22 @@ export class AppointmentsListComponent implements OnDestroy {
   }
 
   openDialog(appointment: Appointment): void {
-    const selectedAppointment = this.AppointmentAPIService.getAppointment(appointment.dateTime)
-      .then((app: Appointment) => {
+    this.subs.push(this.AppointmentAPIService.getAppointment(appointment.dateTime)
+      .subscribe((app: Appointment) => {
         const dialogRef = this.dialog.open(EditAppointmentDialogComponent, {
           width: '60%',
           data: {
             appointment: app
           }
         });
+        this.changeDetectorRef.detectChanges();
         dialogRef.afterClosed().subscribe((result) => {
             this.ActivatedRoute.params.subscribe(() => {
                 this.getAppointments();
               }
             );
           });
-      });
+      }));
   }
 
   dateSort(a: Appointment, b: Appointment) {

@@ -1,3 +1,4 @@
+import { PouchDbBootServiceMock } from './../../../api/pouchdb-service/pouchdb-boot.service.mock';
 import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,25 +27,17 @@ describe('AddPatientComponent', () => {
     profession: 'profession'
   };
 
-  class PatientAPIServiceMock {
-    public addPatient() {
-      return {
-        then: () => null
-      };
-    }
-  }
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers : [
-        { provide: PatientAPIService, useClass: PatientAPIServiceMock},
+      providers: [
+        PatientAPIService,
         UserAPIService,
-        PouchDbBootService
+        { provide: PouchDbBootService, useClass: PouchDbBootServiceMock }
       ],
       imports: [ReactiveFormsModule, MaterialModule, RouterTestingModule, BrowserAnimationsModule],
-      declarations: [ AddPatientComponent ]
+      declarations: [AddPatientComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -57,9 +50,22 @@ describe('AddPatientComponent', () => {
     component = null;
   });
 
+  // -------- addPatient --------
   it('should call getAllPatients method from the PatientAPIService', () => {
     spyOn(patientAPIServiceStub, 'addPatient').and.callThrough();
     component.addPatient(data);
     expect(patientAPIServiceStub.addPatient).toHaveBeenCalled();
+  });
+
+  it('should call add the subscription if the addPatient is called', () => {
+    component.addPatient(data);
+    expect(component.subs.length).not.toEqual(0);
+  });
+
+  // -------- ngOnDestroy --------
+  xit('should unsubscribe in ngOnDestroy if there is a subscription in subs', () => {
+    component.addPatient(data);
+    component.ngOnDestroy();
+    expect(component.subs.length).toEqual(0);
   });
 });
