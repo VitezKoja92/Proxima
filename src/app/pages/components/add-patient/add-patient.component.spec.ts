@@ -1,5 +1,4 @@
-import { PouchDbBootServiceMock } from './../../../api/pouchdb-service/pouchdb-boot.service.mock';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -9,6 +8,7 @@ import { MaterialModule } from '../../../modules/material.module';
 import { UserAPIService } from './../../../api/pouchdb-service/user-api.service';
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.service';
+import { PouchDbBootServiceMock } from './../../../api/pouchdb-service/pouchdb-boot.service.mock';
 
 describe('AddPatientComponent', () => {
   let component: AddPatientComponent;

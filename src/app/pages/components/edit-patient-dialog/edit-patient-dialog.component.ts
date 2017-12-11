@@ -1,13 +1,12 @@
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
-import { Component, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { PatientComponent } from '../patient/patient.component';
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Patient, Address } from '../../../api/models/index';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-patient-dialog',

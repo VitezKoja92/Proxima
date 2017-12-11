@@ -1,17 +1,18 @@
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { isNullOrUndefined } from 'util';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Patient } from '../../../api/models/index';
 import {
   LaserTherapyChoices,
-  Anamnesis, Diagnostics,
-  ElectroTherapy, PhysicalTherapy,
+  Anamnesis,
+  Diagnostics,
+  ElectroTherapy,
+  PhysicalTherapy,
   Therapy,
   MedicalHistoryItem
 } from './../../../api/models/index';
@@ -28,7 +29,6 @@ export class PatientComponent implements OnDestroy {
   currentPatient: Patient;
   therapyVisible: boolean;
   form: FormGroup;
-
   subs: Subscription[] = [];
 
   constructor(

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 import { User } from '../../../../api/models/index';
 import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service';
 import { AuthenticationService } from '../../../../services/authentication.service';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-login',

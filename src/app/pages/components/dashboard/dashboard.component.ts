@@ -2,7 +2,6 @@ import { Router } from '@angular/router';
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';

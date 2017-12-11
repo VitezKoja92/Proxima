@@ -1,5 +1,8 @@
 import { isNullOrUndefined } from 'util';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
 
 import { PouchDbBootService } from './pouchdb-boot.service';
 import { environment } from './../../../environments/environment';
@@ -14,12 +17,6 @@ import {
   PatientPersonalInfo,
   MedicalHistoryItem
 } from './../models/index';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/switchMap';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class PatientAPIService {

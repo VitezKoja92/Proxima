@@ -11,7 +11,6 @@ import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.
 import { MaterialModule } from '../../../modules/material.module';
 import { Patient } from '../../../api/models/index';
 
-
 describe('EditPatientDialogComponent', () => {
   let component: EditPatientDialogComponent;
   let fixture: ComponentFixture<EditPatientDialogComponent>;

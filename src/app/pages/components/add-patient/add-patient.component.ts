@@ -1,8 +1,7 @@
 import { Subscription } from 'rxjs/Subscription';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Address } from '../../../api/models/index';
@@ -53,7 +52,6 @@ export class AddPatientComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    debugger;
     this.changeDetectorRef.detach();
     if (this.subs.length !== 0) {
       this.subs.forEach((sub: Subscription) => {

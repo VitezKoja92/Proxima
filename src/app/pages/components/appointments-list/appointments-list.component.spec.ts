@@ -52,6 +52,4 @@ describe('AppointmentsListComponent', () => {
       component.getAppointments();
       expect(AppointmentAPIService.fetchAllAppointments).toHaveBeenCalled();
   }));
-
 });
-

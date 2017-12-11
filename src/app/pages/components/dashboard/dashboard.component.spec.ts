@@ -1,9 +1,10 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { async, ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
+import 'rxjs/Rx';
 
 import { DashboardComponent } from './dashboard.component';
 import { PouchDbBootServiceMock } from './../../../api/pouchdb-service/pouchdb-boot.service.mock';
@@ -11,10 +12,6 @@ import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.se
 import { MaterialModule } from '../../../modules/material.module';
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.service';
-import { Appointment } from '../../../api/models/index';
-import { tick } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/Rx';
 
 xdescribe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -96,10 +93,12 @@ xdescribe('DashboardComponent', () => {
     component.goToAddPatient();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/add-patient']);
   });
+
   it('should open find-patients page when goToFindPatients() is called', () => {
     component.goToFindPatients();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/find-patient']);
   });
+
   it('should open set-appointment page when goToSetAppointment() is called', () => {
     component.goToSetAppointment();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/set-appointment']);

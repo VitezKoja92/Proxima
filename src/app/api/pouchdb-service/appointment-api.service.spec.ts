@@ -1,4 +1,4 @@
-import { TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { AppointmentAPIService } from './appointment-api.service';
 import { PouchDbBootService } from './pouchdb-boot.service';

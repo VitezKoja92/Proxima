@@ -31,5 +31,4 @@ export class AuthenticationService {
   isSessionValid(): boolean {
     return !isNullOrUndefined(this.currentUser) ;
   }
-
 }

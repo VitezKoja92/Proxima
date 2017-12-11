@@ -48,7 +48,6 @@ export class PouchDb {
         return this.changeDB;
     }
 
-
     createIndex(): Promise<IPouchDBCreateIndexResult> {
         return Promise.resolve({
             result: 'result'

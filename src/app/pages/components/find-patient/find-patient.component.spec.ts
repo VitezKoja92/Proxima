@@ -1,14 +1,13 @@
-import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.service';
-import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
-import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
-import { ComponentFixtureAutoDetect } from '@angular/core/testing';
-
-import { FindPatientComponent } from './find-patient.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MaterialModule } from '../../../modules/material.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
+import { async, ComponentFixture, TestBed, fakeAsync, tick, ComponentFixtureAutoDetect } from '@angular/core/testing';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+import { FindPatientComponent } from './find-patient.component';
+import { MaterialModule } from '../../../modules/material.module';
+import { PouchDbBootService } from './../../../api/pouchdb-service/pouchdb-boot.service';
+import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 
 describe('FindPatientComponent', () => {
   let component: FindPatientComponent;

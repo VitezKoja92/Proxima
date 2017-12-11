@@ -1,8 +1,7 @@
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Subscription } from 'rxjs/Subscription';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { UserAPIService } from './../../../api/pouchdb-service/user-api.service';
@@ -20,7 +19,6 @@ export class SetAppointmentComponent implements OnInit, OnDestroy {
   users: User[];
   patients: Patient[];
   form: FormGroup;
-
   subs: Subscription[] = [];
 
   constructor(

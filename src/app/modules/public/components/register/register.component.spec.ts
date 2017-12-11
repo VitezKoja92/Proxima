@@ -1,7 +1,6 @@
-import { PouchDbBootServiceMock } from './../../../../api/pouchdb-service/pouchdb-boot.service.mock';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,6 +10,7 @@ import { MaterialModule } from './../../../material.module';
 import { PouchDbBootService } from './../../../../api/pouchdb-service/pouchdb-boot.service';
 import { UserAPIService } from './../../../../api/pouchdb-service/user-api.service';
 import { User } from '../../../../api/models/index';
+import { PouchDbBootServiceMock } from './../../../../api/pouchdb-service/pouchdb-boot.service.mock';
 
 describe('RegisterComponent', () => {
 

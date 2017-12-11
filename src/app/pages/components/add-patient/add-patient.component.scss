@@ -64,8 +64,6 @@ mat-expansion-panel-header{
     border: $darkblue_button_border;
 }
 
-
-
 .addPatient-btn:hover, .clear-btn:hover{
     cursor: pointer;
     background-color:white;
@@ -89,7 +87,6 @@ mat-expansion-panel-header{
     justify-content: center;
     margin-top: 1.5rem;
 }
-
 
 .addTherapyBtn {
     background-color: $lightgreen;

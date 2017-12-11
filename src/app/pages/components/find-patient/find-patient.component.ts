@@ -2,11 +2,10 @@ import { Subscription } from 'rxjs/Subscription';
 import { isNullOrUndefined } from 'util';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 
 import { PatientAPIService } from './../../../api/pouchdb-service/patient-api.service';
 import { Patient } from './../../../api/models/index';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-find-patient',

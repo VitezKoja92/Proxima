@@ -1,9 +1,8 @@
 import { Subscription } from 'rxjs/Subscription';
 import { isNullOrUndefined } from 'util';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Sort, MatDialog } from '@angular/material';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 
 import { AppointmentAPIService } from './../../../api/pouchdb-service/appointment-api.service';
 import { Appointment } from './../../../api/models/index';

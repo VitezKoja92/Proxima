@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { isNullOrUndefined } from 'util';
 
 import { User } from '../api/models/index';
 import { UserAPIService } from '../api/pouchdb-service/user-api.service';
-import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class AuthenticationServiceMock {

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { SideMenuComponent } from './side-menu.component';

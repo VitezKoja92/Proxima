@@ -1,12 +1,10 @@
 import { Subscription } from 'rxjs/Subscription';
-import { isNullOrUndefined } from 'util';
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { User } from '../../../../api/models/index';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { UserAPIService } from '../../../../api/pouchdb-service/user-api.service';
-import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { User } from '../../../../api/models/index';
 
 @Component({
   selector: 'app-register',
