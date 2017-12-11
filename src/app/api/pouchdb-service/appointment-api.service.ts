@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 
 import { environment } from '../../../environments/environment';
@@ -14,9 +13,6 @@ import {
   Patient,
   IPouchDBDocsResult
 } from './../models/index';
-
-
-
 
 @Injectable()
 export class AppointmentAPIService {
